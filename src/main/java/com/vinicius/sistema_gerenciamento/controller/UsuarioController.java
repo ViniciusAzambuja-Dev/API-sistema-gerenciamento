@@ -2,6 +2,8 @@ package com.vinicius.sistema_gerenciamento.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.vinicius.sistema_gerenciamento.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.UsuarioRequestDTO;
 import com.vinicius.sistema_gerenciamento.service.UsuarioService;
 
@@ -21,6 +23,13 @@ public class UsuarioController {
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }   
+
+    @PostMapping("/auth/login")
+    public ResponseEntity login(@RequestBody @Valid LoginRequestDTO data) {
+        usuarioService.realizarLogin(data);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
     @PostMapping("/registrar")
     public ResponseEntity registrar(@RequestBody @Valid UsuarioRequestDTO data) {
