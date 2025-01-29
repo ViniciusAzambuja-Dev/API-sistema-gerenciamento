@@ -30,6 +30,7 @@ public class SegurancaConfiguracao {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(HttpMethod.POST, "api/usuarios/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.GET, "api/usuarios/listar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.POST, "api/usuarios/registrar").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 )

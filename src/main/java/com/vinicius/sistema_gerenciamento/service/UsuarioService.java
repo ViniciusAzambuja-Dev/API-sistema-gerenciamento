@@ -1,6 +1,8 @@
 package com.vinicius.sistema_gerenciamento.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.UsuarioRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.UsuarioMapper;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.TokenService;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
@@ -58,5 +61,12 @@ public class UsuarioService {
         this.usuarioRepository.save(novoUsuario);
 
         return true;
+    }
+
+    public List<UsuarioResponseDTO> listarUsuarios() {
+        return usuarioRepository.findAll()
+                                .stream()
+                                .map(usuario -> mapper.paraDTO(usuario))
+                                .collect(Collectors.toList());
     }
 }
