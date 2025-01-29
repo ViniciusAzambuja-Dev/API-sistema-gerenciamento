@@ -11,10 +11,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SegurancaConfiguracao {
+
+    private final SegurancaFiltro segurancaFiltro;
+
+    public SegurancaConfiguracao(SegurancaFiltro segurancaFiltro) {
+        this.segurancaFiltro = segurancaFiltro;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
@@ -26,6 +33,7 @@ public class SegurancaConfiguracao {
                     .requestMatchers(HttpMethod.POST, "api/usuarios/registrar").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 )
+                .addFilterBefore(segurancaFiltro, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

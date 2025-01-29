@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.LoginRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.LoginResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.UsuarioRequestDTO;
 import com.vinicius.sistema_gerenciamento.service.UsuarioService;
 
@@ -26,9 +27,9 @@ public class UsuarioController {
 
     @PostMapping("/auth/login")
     public ResponseEntity login(@RequestBody @Valid LoginRequestDTO data) {
-        usuarioService.realizarLogin(data);
+        var token = usuarioService.realizarLogin(data);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDTO(token));
     }
 
     @PostMapping("/registrar")

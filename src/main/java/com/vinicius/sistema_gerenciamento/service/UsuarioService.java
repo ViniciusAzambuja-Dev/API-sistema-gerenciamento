@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.vinicius.sistema_gerenciamento.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.UsuarioRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.UsuarioMapper;
+import com.vinicius.sistema_gerenciamento.infra.seguranca.TokenService;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.UsuarioRepository;
 
@@ -19,16 +20,31 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper mapper;
     private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
-    public UsuarioService( UsuarioRepository usuarioRepository, UsuarioMapper mapper, AuthenticationManager authenticationManager) {
+    public UsuarioService(
+        UsuarioRepository usuarioRepository, 
+        TokenService tokenService, 
+        AuthenticationManager authenticationManager,
+        UsuarioMapper mapper
+    ) {
         this.usuarioRepository = usuarioRepository;
         this.mapper = mapper;
         this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
     }
 
-    public void realizarLogin(LoginRequestDTO data) {
+    public String realizarLogin(LoginRequestDTO data) {
         var usuarioSenha = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usuarioSenha);
+
+        Usuario usuario = (Usuario)auth.getPrincipal();
+        usuario.setUltimo_login(LocalDateTime.now());
+        usuarioRepository.save(usuario);
+
+        var token = tokenService.gerarToken(usuario);
+
+        return token;
     }
 
     public boolean registrarUsuario(UsuarioRequestDTO data) {
