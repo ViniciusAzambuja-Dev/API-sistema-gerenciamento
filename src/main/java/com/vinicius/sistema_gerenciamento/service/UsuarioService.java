@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.LoginRequestDTO;
@@ -30,7 +31,16 @@ public class UsuarioService {
         var auth = this.authenticationManager.authenticate(usuarioSenha);
     }
 
-    public Usuario registrarUsuario(UsuarioRequestDTO data) {
-       return this.usuarioRepository.save(mapper.paraEntity(data));
+    public boolean registrarUsuario(UsuarioRequestDTO data) {
+        if (this.usuarioRepository.findByEmail(data.email()) != null) {
+            return false;
+        }
+
+        String hashSenha = new BCryptPasswordEncoder().encode(data.senha());
+        Usuario novoUsuario = mapper.paraEntity(data, hashSenha);
+        
+        this.usuarioRepository.save(novoUsuario);
+
+        return true;
     }
 }
