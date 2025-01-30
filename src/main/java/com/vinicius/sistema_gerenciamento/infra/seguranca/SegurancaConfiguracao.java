@@ -30,8 +30,9 @@ public class SegurancaConfiguracao {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(HttpMethod.POST, "api/usuarios/auth/login").permitAll()
-                    .requestMatchers(HttpMethod.GET, "api/usuarios/listar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.POST, "api/usuarios/registrar").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "api/usuarios/listar").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "api/usuarios/deletar/{id}").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 )
                 .addFilterBefore(segurancaFiltro, UsernamePasswordAuthenticationFilter.class)

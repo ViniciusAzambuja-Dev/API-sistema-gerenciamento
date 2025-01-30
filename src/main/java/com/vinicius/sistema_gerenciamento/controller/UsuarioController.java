@@ -10,6 +10,7 @@ import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.UsuarioService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
@@ -17,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("api/usuarios")
@@ -50,5 +53,12 @@ public class UsuarioController {
     @GetMapping("/listar")
     public ResponseEntity<List<UsuarioResponseDTO>> listar() {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarUsuarios());
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
+        usuarioService.deletarUsuario(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
