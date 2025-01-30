@@ -73,13 +73,26 @@ public class UsuarioService {
                                 .collect(Collectors.toList());
     }
 
+    public void atualizaUsuario(int id, UsuarioRequestDTO data) {
+        usuarioRepository.findById(id)
+            .map(usuario -> {
+                String hashSenha = new BCryptPasswordEncoder().encode(data.senha());
+                usuario.setNome(data.nome());
+                usuario.setSenha(hashSenha);
+                usuario.setPerfil(data.perfil());
+                
+                usuarioRepository.save(usuario);
+                return true;
+            }).orElseThrow(() -> new RecordNotFoundException(id));
+    }
+
     public void deletarUsuario(int id) {
         try {
             if (!usuarioRepository.existsById(id)) {
                 throw new RecordNotFoundException(id);
             }
             usuarioRepository.deleteById(id);
-            
+
         } catch (DataIntegrityViolationException exception) {
             throw new DataBaseException();
         }
