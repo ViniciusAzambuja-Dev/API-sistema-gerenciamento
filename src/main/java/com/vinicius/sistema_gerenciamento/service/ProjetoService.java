@@ -3,12 +3,14 @@ package com.vinicius.sistema_gerenciamento.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.Projeto.ProjetoRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.ProjetoMapper;
+import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
@@ -45,5 +47,17 @@ public class ProjetoService {
                                             projeto.getUsuario_responsavel().getPerfil()
                                         )))
                                 .collect(Collectors.toList());
+    }
+
+    public void deletarProjeto(int id) {
+         try {
+            if (!projetoRepository.existsById(id)) {
+                throw new RecordNotFoundException(id);
+            }
+            projetoRepository.deleteById(id);
+
+        } catch (DataIntegrityViolationException exception) {
+            throw new DataBaseException();
+        }
     }
 }
