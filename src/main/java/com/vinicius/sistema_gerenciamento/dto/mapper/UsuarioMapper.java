@@ -24,4 +24,12 @@ public class UsuarioMapper {
 
         return new Usuario(data.nome(), data.email(),  hashSenha, data.perfil());
     }
+    
+    public Usuario atualizaParaEntity(Usuario usuario, UsuarioRequestDTO data, String hashSenha) {
+        usuario.setNome(data.nome());
+        usuario.setSenha(hashSenha);
+        usuario.setPerfil(data.perfil());
+
+        return usuario;
+    }
 }

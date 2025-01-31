@@ -15,6 +15,7 @@ import com.vinicius.sistema_gerenciamento.dto.UsuarioRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.UsuarioMapper;
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
+import com.vinicius.sistema_gerenciamento.exception.EmailAlreadyExistsException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.TokenService;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
@@ -53,17 +54,15 @@ public class UsuarioService {
         return token;
     }
 
-    public boolean registrarUsuario(UsuarioRequestDTO data) {
+    public void registrarUsuario(UsuarioRequestDTO data) {
         if (this.usuarioRepository.findByEmail(data.email()) != null) {
-            return false;
+            throw new EmailAlreadyExistsException();
         }
 
         String hashSenha = new BCryptPasswordEncoder().encode(data.senha());
         Usuario novoUsuario = mapper.paraEntity(data, hashSenha);
         
         this.usuarioRepository.save(novoUsuario);
-
-        return true;
     }
 
     public List<UsuarioResponseDTO> listarUsuarios() {
@@ -76,12 +75,16 @@ public class UsuarioService {
     public void atualizaUsuario(int id, UsuarioRequestDTO data) {
         usuarioRepository.findById(id)
             .map(usuario -> {
+
+                if (!data.email().equals(usuario.getEmail())) {
+                    if (usuarioRepository.findByEmail(data.email()) != null) {
+                        throw new EmailAlreadyExistsException();   
+                    }
+                    usuario.setEmail(data.email());
+                }
+    
                 String hashSenha = new BCryptPasswordEncoder().encode(data.senha());
-                usuario.setNome(data.nome());
-                usuario.setSenha(hashSenha);
-                usuario.setPerfil(data.perfil());
-                
-                usuarioRepository.save(usuario);
+                usuarioRepository.save(mapper.atualizaParaEntity(usuario, data, hashSenha));
                 return true;
             }).orElseThrow(() -> new RecordNotFoundException(id));
     }

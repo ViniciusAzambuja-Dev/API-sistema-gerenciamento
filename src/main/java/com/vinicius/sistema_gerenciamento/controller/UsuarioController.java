@@ -42,13 +42,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity registrar(@RequestBody @Valid UsuarioRequestDTO data) {
-        boolean autorizado = usuarioService.registrarUsuario(data);
+    public ResponseEntity<Void> registrar(@RequestBody @Valid UsuarioRequestDTO data) {
+        usuarioService.registrarUsuario(data);
 
-        if (!autorizado) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email em uso!");
-        }
-       
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
