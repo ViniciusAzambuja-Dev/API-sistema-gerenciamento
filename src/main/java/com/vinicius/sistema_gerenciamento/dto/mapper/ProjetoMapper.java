@@ -2,13 +2,30 @@ package com.vinicius.sistema_gerenciamento.dto.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.Projeto.ProjetoRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.model.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
 
 @Component
 public class ProjetoMapper {
     
+    public ProjetoResponseDTO paraDTO(Projeto projeto, UsuarioResponseDTO usuarioResponseDTO) {
+        if (projeto == null) {
+            return null;
+        }
+
+        return new ProjetoResponseDTO(
+            projeto.getNome(), 
+            projeto.getDescricao(), 
+            projeto.getData_inicio(), 
+            projeto.getData_fim(), 
+            projeto.getStatus(), 
+            projeto.getPrioridade(), 
+            usuarioResponseDTO);
+    }
+
     public Projeto paraEntity(ProjetoRequestDTO data, Usuario usuario) {
         if (data == null) {
             return null;

@@ -35,6 +35,7 @@ public class SegurancaConfiguracao {
                     .requestMatchers(HttpMethod.DELETE, "api/usuarios/deletar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "api/usuarios/atualizar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.POST, "api/projetos/registrar").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "api/projetos/listar").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 )
                 .addFilterBefore(segurancaFiltro, UsernamePasswordAuthenticationFilter.class)
