@@ -60,4 +60,18 @@ public class ProjetoService {
             throw new DataBaseException();
         }
     }
+
+    public void atualizarProjeto(int id, ProjetoRequestDTO data) {
+        projetoRepository.findById(id)
+            .map(projeto -> {
+                if (projeto.getUsuario_responsavel().getId() != data.usuario_responsavel_id()) {
+                    Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
+                                                        .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));
+                    projeto.setUsuario_responsavel(usuario);
+                }
+
+                projetoRepository.save(mapper.atualizaParaEntity(projeto, data));
+                return true;
+            }).orElseThrow(() -> new RecordNotFoundException(id));
+    }
 }

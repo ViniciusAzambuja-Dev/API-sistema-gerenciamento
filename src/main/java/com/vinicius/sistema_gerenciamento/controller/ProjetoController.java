@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -40,6 +41,13 @@ public class ProjetoController {
     @GetMapping("/listar")
     public ResponseEntity<List<ProjetoResponseDTO>> listar() {
        return ResponseEntity.status(HttpStatus.OK).body(projetoService.listarProjetos());
+    }
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable @Positive int id, @RequestBody @Valid ProjetoRequestDTO data) {
+        projetoService.atualizarProjeto(id, data);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/deletar/{id}")

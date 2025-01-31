@@ -33,4 +33,15 @@ public class ProjetoMapper {
 
         return new Projeto(data.nome(), data.descricao(), data.data_inicio(), data.data_fim(), data.status(), data.prioridade(), usuario);
     }
+
+    public Projeto atualizaParaEntity(Projeto projeto, ProjetoRequestDTO data) {
+        projeto.setNome(data.nome());
+        projeto.setDescricao(data.descricao());
+        projeto.setData_inicio(data.data_inicio());
+        projeto.setData_fim(data.data_fim());
+        projeto.setPrioridade(data.prioridade());
+        projeto.setStatus(data.status());
+
+        return projeto;
+    }
 }
