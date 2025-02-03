@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.controller;
+package com.vinicius.sistema_gerenciamento.controller.Horas;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
