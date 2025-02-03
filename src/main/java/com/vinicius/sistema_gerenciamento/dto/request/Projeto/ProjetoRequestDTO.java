@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.dto.Projeto;
+package com.vinicius.sistema_gerenciamento.dto.request.Projeto;
 
 import java.time.LocalDate;
 

@@ -3,8 +3,8 @@ package com.vinicius.sistema_gerenciamento.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.AtividadeService;
 
 import jakarta.validation.Valid;

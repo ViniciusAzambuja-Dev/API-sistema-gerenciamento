@@ -3,8 +3,8 @@ package com.vinicius.sistema_gerenciamento.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vinicius.sistema_gerenciamento.dto.Projeto.ProjetoRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.Projeto.ProjetoResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.ProjetoService;
 
 import jakarta.validation.Valid;

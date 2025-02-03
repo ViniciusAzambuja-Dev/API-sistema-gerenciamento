@@ -1,8 +1,8 @@
-package com.vinicius.sistema_gerenciamento.dto.Atividade;
+package com.vinicius.sistema_gerenciamento.dto.response.Atividade;
 
 import java.time.LocalDate;
 
-import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 
 public record AtividadeResponseDTO(
     String nome,

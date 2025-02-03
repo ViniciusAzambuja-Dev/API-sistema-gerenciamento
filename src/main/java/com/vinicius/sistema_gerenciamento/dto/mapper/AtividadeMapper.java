@@ -2,9 +2,9 @@ package com.vinicius.sistema_gerenciamento.dto.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
-import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.model.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario;

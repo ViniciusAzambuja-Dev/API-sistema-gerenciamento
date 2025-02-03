@@ -2,8 +2,8 @@ package com.vinicius.sistema_gerenciamento.dto.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.vinicius.sistema_gerenciamento.dto.Horas.HorasRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.Horas.HorasResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.model.Atividade;
 import com.vinicius.sistema_gerenciamento.model.LancamentoHora;
 import com.vinicius.sistema_gerenciamento.model.Usuario;

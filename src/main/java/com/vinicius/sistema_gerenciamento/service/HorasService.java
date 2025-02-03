@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.vinicius.sistema_gerenciamento.dto.Horas.HorasRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.HorasMapper;
+import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade;

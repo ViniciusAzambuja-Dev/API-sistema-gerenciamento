@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.dto.Horas;
+package com.vinicius.sistema_gerenciamento.dto.request.Horas;
 
 import java.time.LocalDate;
 

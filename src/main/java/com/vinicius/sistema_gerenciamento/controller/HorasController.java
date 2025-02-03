@@ -3,8 +3,8 @@ package com.vinicius.sistema_gerenciamento.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vinicius.sistema_gerenciamento.dto.Horas.HorasRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.Horas.HorasResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.HorasService;
 
 import jakarta.validation.Valid;

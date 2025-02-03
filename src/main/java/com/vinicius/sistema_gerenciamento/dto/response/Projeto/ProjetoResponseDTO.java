@@ -1,8 +1,8 @@
-package com.vinicius.sistema_gerenciamento.dto.Projeto;
+package com.vinicius.sistema_gerenciamento.dto.response.Projeto;
 
 import java.time.LocalDate;
 
-import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 
 public record ProjetoResponseDTO(
     String nome, 

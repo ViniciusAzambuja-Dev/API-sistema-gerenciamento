@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.dto.Atividade;
+package com.vinicius.sistema_gerenciamento.dto.request.Atividade;
 
 import java.time.LocalDate;
 

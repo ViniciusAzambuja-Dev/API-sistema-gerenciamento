@@ -10,14 +10,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.vinicius.sistema_gerenciamento.dto.LoginRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.UsuarioRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.UsuarioMapper;
+import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.EmailAlreadyExistsException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.TokenService;
+import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.UsuarioRepository;
 

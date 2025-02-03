@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
-import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
+import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Projeto;

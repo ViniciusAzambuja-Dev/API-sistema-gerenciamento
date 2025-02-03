@@ -3,10 +3,10 @@ package com.vinicius.sistema_gerenciamento.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vinicius.sistema_gerenciamento.dto.LoginRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.LoginResponseDTO;
-import com.vinicius.sistema_gerenciamento.dto.UsuarioRequestDTO;
-import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
+import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
+import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.UsuarioService;
 
 import jakarta.validation.Valid;
