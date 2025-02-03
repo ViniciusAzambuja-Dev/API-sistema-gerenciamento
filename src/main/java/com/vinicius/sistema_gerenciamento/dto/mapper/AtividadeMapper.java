@@ -2,7 +2,9 @@ package com.vinicius.sistema_gerenciamento.dto.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.model.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
@@ -16,5 +18,20 @@ public class AtividadeMapper {
         }
 
         return new Atividade(data.nome(), data.descricao(), data.data_inicio(), data.data_fim(), data.status(), projeto, usuario);
+    }
+
+    public AtividadeResponseDTO paraDTO(Atividade atividade, UsuarioResponseDTO usuario) {
+        if (atividade == null) {
+            return null;
+        }
+
+        return new AtividadeResponseDTO(
+            atividade.getNome(),
+            atividade.getDescricao(), 
+            atividade.getData_inicio(), 
+            atividade.getData_fim(), 
+            atividade.getStatus(),
+            usuario
+        );
     }
 }

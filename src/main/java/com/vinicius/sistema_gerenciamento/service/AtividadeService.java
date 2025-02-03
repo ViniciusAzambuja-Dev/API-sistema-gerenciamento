@@ -1,8 +1,13 @@
 package com.vinicius.sistema_gerenciamento.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
+import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Projeto;
@@ -33,5 +38,17 @@ public class AtividadeService {
                                             .orElseThrow(() -> new RecordNotFoundException(data.projeto_id()));
 
         atividadeRepository.save(mapper.paraEntity(data, usuario, projeto));                             
+    }
+
+    public List<AtividadeResponseDTO> listarAtividades() {
+        return atividadeRepository.findAll()
+                            .stream()
+                            .map(atividade -> 
+                                    mapper.paraDTO(atividade,
+                                        new UsuarioResponseDTO(
+                                        atividade.getUsuario_responsavel().getNome(),
+                                        atividade.getUsuario_responsavel().getPerfil()
+                                        )))
+                                .collect(Collectors.toList());
     }
 }
