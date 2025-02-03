@@ -28,4 +28,12 @@ public class HorasMapper {
             horaLancada.getUsuario_responsavel().getNome(), 
             horaLancada.getAtividade().getNome());
     }
+
+    public LancamentoHora atualizaParaEntity(LancamentoHora horaLancada, HorasRequestDTO data) {
+        horaLancada.setDescricao(data.descricao());
+        horaLancada.setData_inicio(data.data_inicio());
+        horaLancada.setData_fim(data.data_fim());
+
+        return horaLancada;
+    }
 }

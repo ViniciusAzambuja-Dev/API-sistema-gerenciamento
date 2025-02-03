@@ -67,4 +67,25 @@ public class HorasService {
             throw new DataBaseException();
         }
     }
+
+    public void atualizarHoras(int id, HorasRequestDTO data) {
+        horasRepository.findById(id)
+            .map(horaLancada -> {
+                if (horaLancada.getUsuario_responsavel().getId() != data.usuario_responsavel_id()) {
+                    Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
+                        .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));
+
+                    horaLancada.setUsuario_responsavel(usuario);
+                }
+                if (horaLancada.getAtividade().getId() != data.atividade_id()) {
+                    Atividade atividade = atividadeRepository.findById(data.atividade_id())
+                        .orElseThrow(() -> new RecordNotFoundException(data.atividade_id()));
+
+                    horaLancada.setAtividade(atividade);
+                }
+                
+                horasRepository.save(mapper.atualizaParaEntity(horaLancada, data));
+                return true;
+            }).orElseThrow(() -> new RecordNotFoundException(id));
+    }
 }
