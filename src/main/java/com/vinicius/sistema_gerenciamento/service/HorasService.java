@@ -1,8 +1,12 @@
 package com.vinicius.sistema_gerenciamento.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.Horas.HorasRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.HorasMapper;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade;
@@ -40,5 +44,14 @@ public class HorasService {
             .orElseThrow(() -> new RecordNotFoundException(data.atividade_id()));
 
         horasRepository.save(mapper.paraEntity(data, usuario, atividade));
+    }
+
+    public List<HorasResponseDTO> listarHoras() {
+        return horasRepository.findAll()
+                                .stream()
+                                .map(horaLancada -> 
+                                        mapper.paraDTO(horaLancada)
+                                )
+                                .collect(Collectors.toList());
     }
 }
