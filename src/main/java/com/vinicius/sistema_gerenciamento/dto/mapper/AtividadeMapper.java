@@ -34,4 +34,14 @@ public class AtividadeMapper {
             usuario
         );
     }
+
+    public Atividade atualizaParaEntity(Atividade atividade, AtividadeRequestDTO data) {
+        atividade.setNome(data.nome());
+        atividade.setDescricao(data.descricao());
+        atividade.setData_inicio(data.data_inicio());
+        atividade.setData_fim(data.data_fim());
+        atividade.setStatus(data.status());
+
+        return atividade;
+    }
 }

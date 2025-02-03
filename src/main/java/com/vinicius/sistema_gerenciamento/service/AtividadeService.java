@@ -54,6 +54,20 @@ public class AtividadeService {
                                 .collect(Collectors.toList());
     }
 
+    public void atualizarAtividades(int id, AtividadeRequestDTO data) {
+        atividadeRepository.findById(id)
+            .map(atividade -> {
+                if (atividade.getUsuario_responsavel().getId() != data.usuario_responsavel_id()) {
+                    Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
+                    .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));  
+
+                    atividade.setUsuario_responsavel(usuario);
+                }
+                atividadeRepository.save(mapper.atualizaParaEntity(atividade, data));
+                return true;
+            }).orElseThrow(() -> new RecordNotFoundException(id));
+    }
+
     public void deletarAtividade(int id) {
         try {
             if (!atividadeRepository.existsById(id)) {
