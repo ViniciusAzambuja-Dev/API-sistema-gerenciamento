@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
-import com.vinicius.sistema_gerenciamento.model.Usuario;
+import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 
 @Component
 public class UsuarioMapper {

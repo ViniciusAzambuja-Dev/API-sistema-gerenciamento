@@ -1,9 +1,11 @@
-package com.vinicius.sistema_gerenciamento.model;
+package com.vinicius.sistema_gerenciamento.model.Projeto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
-import com.vinicius.sistema_gerenciamento.model.Atividade;
-import com.vinicius.sistema_gerenciamento.model.Projeto;
-import com.vinicius.sistema_gerenciamento.model.Usuario;
+import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
+import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
+import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 
 @Component
 public class AtividadeMapper {

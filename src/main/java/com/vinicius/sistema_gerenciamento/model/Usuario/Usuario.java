@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.model;
+package com.vinicius.sistema_gerenciamento.model.Usuario;
 
 import java.time.LocalDateTime;
 import java.util.Collection;

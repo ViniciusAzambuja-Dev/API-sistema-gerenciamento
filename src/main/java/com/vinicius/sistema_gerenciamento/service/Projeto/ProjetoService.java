@@ -12,8 +12,7 @@ import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDT
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
-import com.vinicius.sistema_gerenciamento.model.Projeto;
-import com.vinicius.sistema_gerenciamento.model.Usuario;
+import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
 
