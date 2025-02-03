@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +54,7 @@ public class Atividade {
 
     @NotNull
     @NotBlank
+    @Pattern(regexp = "ABERTA|EM_ANDAMENTO|CONCLUIDA|PAUSADA")
     @Column(length = 15, nullable = false)
     private String status;
 
@@ -67,8 +69,9 @@ public class Atividade {
     public Atividade(){
     }
 
-    public Atividade(String nome, LocalDate data_inicio, LocalDate data_fim, String status, Projeto projeto, Usuario usuario_responsavel) {
+    public Atividade(String nome, String descricao, LocalDate data_inicio, LocalDate data_fim, String status, Projeto projeto, Usuario usuario_responsavel) {
         this.nome = nome;
+        this.descricao = (descricao == null || descricao.isBlank()) ? null : descricao;
         this.data_inicio = data_inicio;
         this.data_fim = data_fim;
         this.status = status;
