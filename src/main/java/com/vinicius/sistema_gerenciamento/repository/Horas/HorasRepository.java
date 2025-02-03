@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.repository;
+package com.vinicius.sistema_gerenciamento.repository.Horas;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

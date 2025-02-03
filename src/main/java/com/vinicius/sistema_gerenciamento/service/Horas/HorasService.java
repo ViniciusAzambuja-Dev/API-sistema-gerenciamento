@@ -13,9 +13,9 @@ import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
-import com.vinicius.sistema_gerenciamento.repository.AtividadeRepository;
-import com.vinicius.sistema_gerenciamento.repository.HorasRepository;
-import com.vinicius.sistema_gerenciamento.repository.UsuarioRepository;
+import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
+import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
+import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
 
 @Service
 public class HorasService {

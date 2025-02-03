@@ -18,7 +18,7 @@ import com.vinicius.sistema_gerenciamento.exception.EmailAlreadyExistsException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
-import com.vinicius.sistema_gerenciamento.repository.UsuarioRepository;
+import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
 import com.vinicius.sistema_gerenciamento.service.Autenticacao.TokenService;
 
 @Service
