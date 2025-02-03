@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
-import com.vinicius.sistema_gerenciamento.service.AtividadeService;
+import com.vinicius.sistema_gerenciamento.service.Atividade.AtividadeService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;

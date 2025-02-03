@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.service;
+package com.vinicius.sistema_gerenciamento.service.Usuario;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,10 +16,10 @@ import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDT
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.EmailAlreadyExistsException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
-import com.vinicius.sistema_gerenciamento.infra.seguranca.TokenService;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.UsuarioRepository;
+import com.vinicius.sistema_gerenciamento.service.Autenticacao.TokenService;
 
 @Service
 public class UsuarioService {

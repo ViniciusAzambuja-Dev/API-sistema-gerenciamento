@@ -7,7 +7,7 @@ import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginResponseDTO;
-import com.vinicius.sistema_gerenciamento.service.UsuarioService;
+import com.vinicius.sistema_gerenciamento.service.Usuario.UsuarioService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;

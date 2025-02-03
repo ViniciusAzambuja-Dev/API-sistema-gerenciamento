@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.vinicius.sistema_gerenciamento.repository.UsuarioRepository;
+import com.vinicius.sistema_gerenciamento.service.Autenticacao.TokenService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

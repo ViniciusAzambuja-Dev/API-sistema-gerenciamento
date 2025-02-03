@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
-import com.vinicius.sistema_gerenciamento.service.HorasService;
+import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
 
 import jakarta.validation.Valid;
 

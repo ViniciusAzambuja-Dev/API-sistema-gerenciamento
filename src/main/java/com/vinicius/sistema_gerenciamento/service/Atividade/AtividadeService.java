@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.service;
+package com.vinicius.sistema_gerenciamento.service.Atividade;
 
 import java.util.List;
 import java.util.stream.Collectors;

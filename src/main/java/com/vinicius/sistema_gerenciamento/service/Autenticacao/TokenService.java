@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.infra.seguranca;
+package com.vinicius.sistema_gerenciamento.service.Autenticacao;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

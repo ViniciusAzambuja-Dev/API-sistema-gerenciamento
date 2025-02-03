@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.service;
+package com.vinicius.sistema_gerenciamento.service.Autenticacao;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
