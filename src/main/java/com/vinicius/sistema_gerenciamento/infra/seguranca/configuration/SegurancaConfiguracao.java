@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.infra.seguranca;
+package com.vinicius.sistema_gerenciamento.infra.seguranca.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,23 +29,34 @@ public class SegurancaConfiguracao {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+
+                    //Rota de Login
                     .requestMatchers(HttpMethod.POST, "api/usuarios/auth/login").permitAll()
+                    
+                    //Rotas protegidas de requisições para Usuario
                     .requestMatchers(HttpMethod.POST, "api/usuarios/registrar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "api/usuarios/listar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "api/usuarios/deletar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "api/usuarios/atualizar/{id}").hasRole("ADMIN")
+
+                     //Rotas protegidas de requisições para Projetos
                     .requestMatchers(HttpMethod.POST, "api/projetos/registrar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "api/projetos/listar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "api/projetos/deletar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "api/projetos/atualizar/{id}").hasRole("ADMIN")
+
+                    //Rotas protegidas de requisições para Atividades
                     .requestMatchers(HttpMethod.POST, "api/atividades/registrar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "api/atividades/listar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "api/atividades/deletar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "api/atividades/atualizar/{id}").hasRole("ADMIN")
+
+                    //Rotas protegidas de requisições para Horas lançadas
                     .requestMatchers(HttpMethod.POST, "api/horas/registrar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "api/horas/listar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "api/horas/deletar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "api/horas/atualizar/{id}").hasRole("ADMIN")
+
                     .anyRequest().authenticated()
                 )
                 .addFilterBefore(segurancaFiltro, UsernamePasswordAuthenticationFilter.class)

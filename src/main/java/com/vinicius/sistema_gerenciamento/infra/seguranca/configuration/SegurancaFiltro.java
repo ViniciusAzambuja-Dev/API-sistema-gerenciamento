@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.infra.seguranca;
+package com.vinicius.sistema_gerenciamento.infra.seguranca.configuration;
 
 import java.io.IOException;
 
