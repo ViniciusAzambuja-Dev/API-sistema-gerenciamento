@@ -15,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/horas")
@@ -37,5 +39,12 @@ public class HorasController {
     @GetMapping("/listar")
     public ResponseEntity<List<HorasResponseDTO>> listar() {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarHoras());
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable int id) {
+        horasService.deletarHoras(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
