@@ -3,12 +3,14 @@ package com.vinicius.sistema_gerenciamento.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
+import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario;
@@ -50,5 +52,16 @@ public class AtividadeService {
                                         atividade.getUsuario_responsavel().getPerfil()
                                         )))
                                 .collect(Collectors.toList());
+    }
+
+    public void deletarAtividade(int id) {
+        try {
+            if (!atividadeRepository.existsById(id)) {
+                throw new RecordNotFoundException(id);
+            }
+            atividadeRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException();
+        }
     }
 }
