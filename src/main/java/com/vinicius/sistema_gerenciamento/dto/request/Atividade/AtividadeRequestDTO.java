@@ -2,6 +2,8 @@ package com.vinicius.sistema_gerenciamento.dto.request.Atividade;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -15,12 +17,15 @@ public record AtividadeRequestDTO(
     @NotBlank
     String nome,
 
+    @Size(max = 100)
     String descricao, 
 
     @NotNull
+    @JsonFormat(pattern = "dd/MM/yyyy")
     LocalDate data_inicio, 
 
     @NotNull
+    @JsonFormat(pattern = "dd/MM/yyyy")
     LocalDate data_fim, 
 
     @NotNull

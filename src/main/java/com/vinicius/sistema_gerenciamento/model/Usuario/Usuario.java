@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +40,7 @@ public class Usuario implements UserDetails {
 
     @NotNull
     @NotBlank
-    @Column(length = 255, nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @NotNull
@@ -49,6 +50,7 @@ public class Usuario implements UserDetails {
 
     @NotNull
     @NotBlank
+    @Pattern(regexp = "ADMIN|USUARIO")
     @Column(length = 10, nullable = false)
     private String perfil;
 
@@ -56,6 +58,7 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private LocalDateTime data_criacao;
 
+    @Column(nullable = true)
     private LocalDateTime ultimo_login;
 
     public Usuario(){
