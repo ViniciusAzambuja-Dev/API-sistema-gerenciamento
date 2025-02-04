@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -31,6 +32,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getBindingResult().getFieldErrors().stream()
         .map(error -> error.getField() + " " + error.getDefaultMessage())
         .reduce("", (acc, error) -> acc + error + "\n"));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getConstraintViolations().stream()
+                .map(error -> error.getPropertyPath() + " " + error.getMessage())
+                .reduce("", (acc, error) -> acc + error + "\n"));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
