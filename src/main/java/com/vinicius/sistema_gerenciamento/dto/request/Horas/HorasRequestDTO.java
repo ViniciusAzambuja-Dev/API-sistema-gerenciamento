@@ -33,4 +33,7 @@ public record HorasRequestDTO(
     int usuario_responsavel_id
 
 ) {
+    public HorasRequestDTO {
+        descricao = (descricao == null || descricao.isBlank()) ? descricao : descricao.trim();
+    }
 }

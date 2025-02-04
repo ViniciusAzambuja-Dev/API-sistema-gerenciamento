@@ -23,4 +23,10 @@ public record UsuarioRequestDTO(
     @NotNull 
     @NotBlank
     String perfil) {
+        
+        public UsuarioRequestDTO {
+            nome = (nome == null || nome.isBlank()) ? nome : nome.trim();
+            email = (email == null || email.isBlank()) ? email : email.trim();
+            senha = (senha == null || senha.isBlank()) ? senha : senha.trim();
+        }
 }

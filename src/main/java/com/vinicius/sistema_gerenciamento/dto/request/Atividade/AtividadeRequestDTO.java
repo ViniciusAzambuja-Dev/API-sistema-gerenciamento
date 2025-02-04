@@ -41,4 +41,9 @@ public record AtividadeRequestDTO(
     @Positive
     int usuario_responsavel_id
 ) {
+
+    public AtividadeRequestDTO {
+        nome = (nome == null || nome.isBlank()) ? nome : nome.trim();
+        descricao = (descricao == null || descricao.isBlank()) ? null : descricao.trim();
+    }
 }

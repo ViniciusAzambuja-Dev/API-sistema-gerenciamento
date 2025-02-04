@@ -81,7 +81,7 @@ public class Projeto {
 
     public Projeto(String nome, String descricao, LocalDate data_inicio, LocalDate data_fim, String status, String prioridade, Usuario usuario_responsavel) {
         this.nome = nome;
-        this.descricao = (descricao == null || descricao.isBlank()) ? null : descricao;
+        this.descricao = descricao;
         this.data_inicio = data_inicio;
         this.data_fim = data_fim;
         this.status = status;

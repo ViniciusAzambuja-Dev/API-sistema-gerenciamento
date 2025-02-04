@@ -41,4 +41,9 @@ public record ProjetoRequestDTO(
     @NotNull
     @Positive
     int usuario_responsavel_id) {
+
+        public ProjetoRequestDTO {
+            nome = (nome == null || nome.isBlank()) ? nome : nome.trim();
+            descricao = (descricao == null || descricao.isBlank()) ? null : descricao.trim();
+        }
 }
