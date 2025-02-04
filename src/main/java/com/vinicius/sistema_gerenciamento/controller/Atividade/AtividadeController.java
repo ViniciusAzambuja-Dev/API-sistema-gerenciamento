@@ -35,6 +35,8 @@ public class AtividadeController {
     
     @PostMapping("/registrar")
     public ResponseEntity<Void> registrar(@RequestBody @Valid AtividadeRequestDTO data) {
+        atividadeService.registrarAtividade(data);
+
        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

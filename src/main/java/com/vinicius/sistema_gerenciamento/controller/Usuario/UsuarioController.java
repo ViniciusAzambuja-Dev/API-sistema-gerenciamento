@@ -36,7 +36,7 @@ public class UsuarioController {
     }   
 
     @PostMapping("/auth/login")
-    public ResponseEntity login(@RequestBody @Valid LoginRequestDTO data) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO data) {
         var token = usuarioService.realizarLogin(data);
 
         return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDTO(token));
