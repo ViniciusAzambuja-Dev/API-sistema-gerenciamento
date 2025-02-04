@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+@Validated
 @RestController
 @RequestMapping("/api/atividades")
 public class AtividadeController {
@@ -43,7 +44,7 @@ public class AtividadeController {
     }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable int id, @RequestBody @Valid AtividadeRequestDTO data) {
+    public ResponseEntity<Void> atualizar(@PathVariable @Positive int id, @RequestBody @Valid AtividadeRequestDTO data) {
         atividadeService.atualizarAtividades(id, data);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

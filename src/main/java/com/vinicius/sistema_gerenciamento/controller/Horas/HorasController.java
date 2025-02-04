@@ -8,11 +8,13 @@ import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
+@Validated
 @RestController
 @RequestMapping("/api/horas")
 public class HorasController {
@@ -44,14 +46,14 @@ public class HorasController {
     }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable int id, @RequestBody HorasRequestDTO data) {
+    public ResponseEntity<Void> atualizar(@PathVariable @Positive int id, @RequestBody @Valid HorasRequestDTO data) {
         horasService.atualizarHoras(id, data);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable int id) {
+    public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
         horasService.deletarHoras(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
