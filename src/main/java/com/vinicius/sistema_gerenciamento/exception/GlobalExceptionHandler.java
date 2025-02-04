@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -29,5 +31,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getBindingResult().getFieldErrors().stream()
         .map(error -> error.getField() + " " + error.getDefaultMessage())
         .reduce("", (acc, error) -> acc + error + "\n"));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
+        String type = exception.getRequiredType().getName();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getName() + " deve ser do tipo " + type);
     }
 }
