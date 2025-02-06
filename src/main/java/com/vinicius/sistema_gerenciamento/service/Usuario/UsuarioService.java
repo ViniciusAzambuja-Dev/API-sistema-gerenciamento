@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDT
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.EmailAlreadyExistsException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
+import com.vinicius.sistema_gerenciamento.exception.UnauthorizedException;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
@@ -42,16 +45,19 @@ public class UsuarioService {
     }
 
     public String realizarLogin(LoginRequestDTO data) {
-        var usuarioSenha = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        var auth = this.authenticationManager.authenticate(usuarioSenha);
+        try {
+            var usuarioSenha = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
+            var auth = this.authenticationManager.authenticate(usuarioSenha);
 
-        Usuario usuario = (Usuario)auth.getPrincipal();
-        usuario.setUltimo_login(LocalDateTime.now());
-        usuarioRepository.save(usuario);
+            Usuario usuario = (Usuario)auth.getPrincipal();
+            usuario.setUltimo_login(LocalDateTime.now());
+            usuarioRepository.save(usuario);
 
-        var token = tokenService.gerarToken(usuario);
-
-        return token;
+            var token = tokenService.gerarToken(usuario);
+            return token;
+        } catch (AuthenticationException exception) {
+            throw new UnauthorizedException();
+        }
     }
 
     public void registrarUsuario(UsuarioRequestDTO data) {
