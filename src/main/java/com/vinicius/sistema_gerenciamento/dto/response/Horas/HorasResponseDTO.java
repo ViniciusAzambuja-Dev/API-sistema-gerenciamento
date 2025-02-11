@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record HorasResponseDTO(
+    int id,
     String descricao,
     LocalDate data_inicio,
     LocalDate data_fim,

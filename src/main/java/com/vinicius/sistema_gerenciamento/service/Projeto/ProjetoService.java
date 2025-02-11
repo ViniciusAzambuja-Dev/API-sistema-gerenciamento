@@ -42,6 +42,7 @@ public class ProjetoService {
                                 .map(projeto -> 
                                         mapper.paraDTO(projeto, 
                                         new UsuarioResponseDTO(
+                                            projeto.getUsuario_responsavel().getId(),
                                             projeto.getUsuario_responsavel().getNome(),
                                             projeto.getUsuario_responsavel().getPerfil()
                                         )))

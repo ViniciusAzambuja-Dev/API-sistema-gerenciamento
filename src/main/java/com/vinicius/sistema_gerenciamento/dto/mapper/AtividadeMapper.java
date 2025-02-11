@@ -26,6 +26,7 @@ public class AtividadeMapper {
         }
 
         return new AtividadeResponseDTO(
+            atividade.getId(),
             atividade.getNome(),
             atividade.getDescricao(), 
             atividade.getData_inicio(), 

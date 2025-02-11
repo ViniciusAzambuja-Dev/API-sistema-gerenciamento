@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 
 public record AtividadeResponseDTO(
+    int id, 
+    
     String nome,
 
     String descricao, 

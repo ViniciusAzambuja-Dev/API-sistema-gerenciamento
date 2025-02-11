@@ -21,6 +21,7 @@ public class HorasMapper {
 
     public HorasResponseDTO paraDTO(LancamentoHora horaLancada) {
         return new HorasResponseDTO(
+            horaLancada.getId(),
             horaLancada.getDescricao(), 
             horaLancada.getData_inicio(), 
             horaLancada.getData_fim(), 

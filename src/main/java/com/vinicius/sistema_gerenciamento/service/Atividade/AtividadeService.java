@@ -48,6 +48,7 @@ public class AtividadeService {
                             .map(atividade -> 
                                     mapper.paraDTO(atividade,
                                         new UsuarioResponseDTO(
+                                        atividade.getUsuario_responsavel().getId(),
                                         atividade.getUsuario_responsavel().getNome(),
                                         atividade.getUsuario_responsavel().getPerfil()
                                         )))

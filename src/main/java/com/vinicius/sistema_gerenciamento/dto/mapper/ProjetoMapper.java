@@ -17,6 +17,7 @@ public class ProjetoMapper {
         }
 
         return new ProjetoResponseDTO(
+            projeto.getId(),
             projeto.getNome(), 
             projeto.getDescricao(), 
             projeto.getData_inicio(), 
