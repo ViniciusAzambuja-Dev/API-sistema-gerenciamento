@@ -4,14 +4,13 @@ import org.springframework.stereotype.Component;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
-import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 
 @Component
 public class ProjetoMapper {
     
-    public ProjetoResponseDTO paraDTO(Projeto projeto, UsuarioResponseDTO usuarioResponseDTO) {
+    public ProjetoResponseDTO paraDTO(Projeto projeto) {
         if (projeto == null) {
             return null;
         }
@@ -24,7 +23,7 @@ public class ProjetoMapper {
             projeto.getData_fim(), 
             projeto.getStatus(), 
             projeto.getPrioridade(), 
-            usuarioResponseDTO);
+            projeto.getUsuario_responsavel().getNome());
     }
 
     public Projeto paraEntity(ProjetoRequestDTO data, Usuario usuario) {

@@ -2,7 +2,6 @@ package com.vinicius.sistema_gerenciamento.dto.response.Atividade;
 
 import java.time.LocalDate;
 
-import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 
 public record AtividadeResponseDTO(
     int id, 
@@ -17,6 +16,6 @@ public record AtividadeResponseDTO(
 
     String status,
 
-    UsuarioResponseDTO usuario
+    String nomeUsuario
 ) {
 }

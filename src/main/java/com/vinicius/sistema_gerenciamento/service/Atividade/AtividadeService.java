@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
-import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
@@ -46,12 +45,8 @@ public class AtividadeService {
         return atividadeRepository.findAll()
                             .stream()
                             .map(atividade -> 
-                                    mapper.paraDTO(atividade,
-                                        new UsuarioResponseDTO(
-                                        atividade.getUsuario_responsavel().getId(),
-                                        atividade.getUsuario_responsavel().getNome(),
-                                        atividade.getUsuario_responsavel().getPerfil()
-                                        )))
+                                    mapper.paraDTO(
+                                        atividade))
                                 .collect(Collectors.toList());
     }
 

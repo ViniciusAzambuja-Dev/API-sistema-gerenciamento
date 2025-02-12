@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Projeto.ProjetoService;
 
@@ -57,4 +58,10 @@ public class ProjetoController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @GetMapping("/{id}/atividades")
+    public ResponseEntity<List<AtividadeResponseDTO>> listarAtividadesPorProjeto(@PathVariable @Positive int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(projetoService.listarAtividades(id));
+    }
+    
 }

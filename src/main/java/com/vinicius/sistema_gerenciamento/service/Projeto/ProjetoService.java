@@ -6,47 +6,54 @@ import java.util.stream.Collectors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
+import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.ProjetoMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
-import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
+import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 
 @Service
 public class ProjetoService {
     
     private final ProjetoRepository projetoRepository;
     private final UsuarioRepository usuarioRepository;
-    private final ProjetoMapper mapper;
+    private final AtividadeRepository atividadeRepository;
+    private final ProjetoMapper projetoMapper;
+    private final AtividadeMapper atividadeMapper;
 
-    public ProjetoService(ProjetoRepository projetoRepository, UsuarioRepository usuarioRepository, ProjetoMapper mapper) {
+    public ProjetoService(ProjetoRepository projetoRepository, UsuarioRepository usuarioRepository, ProjetoMapper projetoMapper, AtividadeMapper atividadeMapper, AtividadeRepository atividadeRepository) {
         this.projetoRepository = projetoRepository;
         this.usuarioRepository = usuarioRepository;
-        this.mapper = mapper;
+        this.atividadeRepository = atividadeRepository;
+        this.projetoMapper = projetoMapper;
+        this.atividadeMapper = atividadeMapper;
     }
 
     public void registrarProjeto(ProjetoRequestDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
                                         .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));
 
-        projetoRepository.save(mapper.paraEntity(data, usuario));
+        projetoRepository.save(projetoMapper.paraEntity(data, usuario));
     }
 
      public List<ProjetoResponseDTO> listarProjetos() {
         return projetoRepository.findAll()
-                                .stream()
-                                .map(projeto -> 
-                                        mapper.paraDTO(projeto, 
-                                        new UsuarioResponseDTO(
-                                            projeto.getUsuario_responsavel().getId(),
-                                            projeto.getUsuario_responsavel().getNome(),
-                                            projeto.getUsuario_responsavel().getPerfil()
-                                        )))
-                                .collect(Collectors.toList());
+            .stream()
+            .map(projeto -> projetoMapper.paraDTO(projeto))
+            .collect(Collectors.toList());
+    }
+
+    public List<AtividadeResponseDTO> listarAtividades(int id) {
+        return atividadeRepository.findByProjetoId(id)
+            .stream()
+            .map(atividade -> atividadeMapper.paraDTO(atividade))
+            .collect(Collectors.toList());
     }
 
     public void deletarProjeto(int id) {
@@ -70,7 +77,7 @@ public class ProjetoService {
                     projeto.setUsuario_responsavel(usuario);
                 }
 
-                projetoRepository.save(mapper.atualizaParaEntity(projeto, data));
+                projetoRepository.save(projetoMapper.atualizaParaEntity(projeto, data));
                 return true;
             }).orElseThrow(() -> new RecordNotFoundException(id));
     }
