@@ -25,7 +25,6 @@ public class HorasMapper {
             horaLancada.getDescricao(), 
             horaLancada.getData_inicio(), 
             horaLancada.getData_fim(), 
-            horaLancada.getData_registro(),
             horaLancada.getUsuario_responsavel().getNome(), 
             horaLancada.getAtividade().getNome());
     }

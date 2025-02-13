@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Atividade.AtividadeService;
 
 import jakarta.validation.Valid;
@@ -57,5 +58,10 @@ public class AtividadeController {
         atividadeService.deletarAtividade(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/{id}/horas")
+    public ResponseEntity<List<HorasResponseDTO>> listarHorasPorAtividade(@PathVariable @Positive int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(atividadeService.listarHoras(id));
     }
 }

@@ -51,6 +51,7 @@ public class SegurancaConfiguracao {
                     .requestMatchers(HttpMethod.GET, "api/atividades/listar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "api/atividades/deletar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "api/atividades/atualizar/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "api/atividades/{id}/horas").hasRole("ADMIN")
 
                     //Rotas protegidas de requisições para Horas lançadas
                     .requestMatchers(HttpMethod.POST, "api/horas/registrar").hasRole("ADMIN")
