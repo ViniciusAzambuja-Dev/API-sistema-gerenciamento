@@ -13,33 +13,45 @@ import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
+import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
+import com.vinicius.sistema_gerenciamento.service.UsuarioProjeto.UsuarioProjetoService;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 
 @Service
 public class ProjetoService {
     
+    private final UsuarioProjetoService usuarioProjetoService;
     private final ProjetoRepository projetoRepository;
     private final UsuarioRepository usuarioRepository;
     private final AtividadeRepository atividadeRepository;
     private final ProjetoMapper projetoMapper;
     private final AtividadeMapper atividadeMapper;
 
-    public ProjetoService(ProjetoRepository projetoRepository, UsuarioRepository usuarioRepository, ProjetoMapper projetoMapper, AtividadeMapper atividadeMapper, AtividadeRepository atividadeRepository) {
+    public ProjetoService(
+        ProjetoRepository projetoRepository,
+        UsuarioRepository usuarioRepository,
+        ProjetoMapper projetoMapper,
+        AtividadeMapper atividadeMapper, 
+        AtividadeRepository atividadeRepository,
+        UsuarioProjetoService usuarioProjetoService 
+        ) {
         this.projetoRepository = projetoRepository;
         this.usuarioRepository = usuarioRepository;
         this.atividadeRepository = atividadeRepository;
         this.projetoMapper = projetoMapper;
         this.atividadeMapper = atividadeMapper;
+        this.usuarioProjetoService  = usuarioProjetoService ;
     }
 
     public void registrarProjeto(ProjetoRequestDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
                                         .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));
 
-        projetoRepository.save(projetoMapper.paraEntity(data, usuario));
+        Projeto projeto = projetoRepository.save(projetoMapper.paraEntity(data, usuario));
+        usuarioProjetoService.registrar(projeto, data.usuariosIds());
     }
 
      public List<ProjetoResponseDTO> listarProjetos() {
