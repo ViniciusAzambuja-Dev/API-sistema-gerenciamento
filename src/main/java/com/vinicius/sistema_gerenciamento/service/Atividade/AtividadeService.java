@@ -13,12 +13,14 @@ import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeRespon
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
+import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
+import com.vinicius.sistema_gerenciamento.service.UsuarioAtividade.UsuarioAtividadeService;
 
 @Service
 public class AtividadeService {
@@ -26,10 +28,20 @@ public class AtividadeService {
     private final UsuarioRepository usuarioRepository;
     private final ProjetoRepository projetoRepository;
     private final HorasRepository horaRepository;
+    private final UsuarioAtividadeService usuarioAtividadeService;
     private final HorasMapper horasMapper;
     private final AtividadeMapper mapper;
 
-    public AtividadeService(AtividadeRepository atividadeRepository, AtividadeMapper mapper, UsuarioRepository usuarioRepository, ProjetoRepository projetoRepository, HorasRepository horaRepository, HorasMapper horasMapper) {
+    public AtividadeService(
+        UsuarioAtividadeService usuarioAtividadeService,
+        AtividadeRepository atividadeRepository, 
+        AtividadeMapper mapper, 
+        UsuarioRepository usuarioRepository, 
+        ProjetoRepository projetoRepository, 
+        HorasRepository horaRepository, 
+        HorasMapper horasMapper
+    ) {
+        this.usuarioAtividadeService = usuarioAtividadeService;
         this.atividadeRepository = atividadeRepository;
         this.usuarioRepository = usuarioRepository;
         this.projetoRepository = projetoRepository;
@@ -40,12 +52,13 @@ public class AtividadeService {
 
     public void registrarAtividade(AtividadeRequestDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuarioId())
-                                            .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
+            .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
 
         Projeto projeto = projetoRepository.findById(data.projetoId())
-                                            .orElseThrow(() -> new RecordNotFoundException(data.projetoId()));
+            .orElseThrow(() -> new RecordNotFoundException(data.projetoId()));
 
-        atividadeRepository.save(mapper.paraEntity(data, usuario, projeto));                             
+        Atividade atividade = atividadeRepository.save(mapper.paraEntity(data, usuario, projeto));  
+        usuarioAtividadeService.registrar(atividade, data.integrantesIds());
     }
 
     public List<AtividadeResponseDTO> listarAtividades() {
