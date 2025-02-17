@@ -14,7 +14,7 @@ public class UsuarioMapper {
             return null;
         }
 
-        return new UsuarioResponseDTO(usuario.getId(), usuario.getNome(), usuario.getPerfil());
+        return new UsuarioResponseDTO(usuario.getId(), usuario.getNome());
     }
 
     public Usuario paraEntity(UsuarioRequestDTO data, String hashSenha) {

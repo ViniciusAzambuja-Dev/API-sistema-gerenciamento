@@ -47,11 +47,11 @@ public class ProjetoService {
     }
 
     public void registrarProjeto(ProjetoRequestDTO data) {
-        Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
-                                        .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));
+        Usuario usuario = usuarioRepository.findById(data.usuarioId())
+            .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
 
         Projeto projeto = projetoRepository.save(projetoMapper.paraEntity(data, usuario));
-        usuarioProjetoService.registrar(projeto, data.usuariosIds());
+        usuarioProjetoService.registrar(projeto, data.integrantesIds());
     }
 
      public List<ProjetoResponseDTO> listarProjetos() {
@@ -83,9 +83,9 @@ public class ProjetoService {
     public void atualizarProjeto(int id, ProjetoRequestDTO data) {
         projetoRepository.findById(id)
             .map(projeto -> {
-                if (projeto.getUsuario_responsavel().getId() != data.usuario_responsavel_id()) {
-                    Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
-                                                        .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));
+                if (projeto.getUsuario_responsavel().getId() != data.usuarioId()) {
+                    Usuario usuario = usuarioRepository.findById(data.usuarioId())
+                                                        .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
                     projeto.setUsuario_responsavel(usuario);
                 }
 

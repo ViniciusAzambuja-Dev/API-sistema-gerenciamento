@@ -41,7 +41,7 @@ public class Projeto {
     private String nome;
 
     @Lob
-    @Size(max = 100)
+    @Size(max = 200)
     @Column(nullable = true)
     private String descricao;
 

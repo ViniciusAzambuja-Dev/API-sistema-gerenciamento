@@ -19,7 +19,7 @@ public record ProjetoRequestDTO(
     @NotBlank
     String nome, 
 
-    @Size(max = 100)
+    @Size(max = 200)
     String descricao,
 
     @NotNull
@@ -42,11 +42,11 @@ public record ProjetoRequestDTO(
 
     @NotNull
     @Positive
-    int usuario_responsavel_id,
+    int usuarioId,
 
     @NotNull
     @NotEmpty
-    List<Integer> usuariosIds) {
+    List<Integer> integrantesIds) {
 
         public ProjetoRequestDTO {
             nome = (nome == null || nome.isBlank()) ? nome : nome.trim();
