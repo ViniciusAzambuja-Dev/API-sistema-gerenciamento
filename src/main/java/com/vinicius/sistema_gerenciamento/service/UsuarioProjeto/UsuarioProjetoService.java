@@ -21,15 +21,12 @@ public class UsuarioProjetoService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void registrar(Projeto projeto, List<Integer> usuariosIds) {
-        for(int id : usuariosIds) {
-            Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException(id));
+    public void registrar(Projeto projeto, List<Integer> integrantesIds) {
+        for(int integranteId : integrantesIds) {
+            Usuario usuario = usuarioRepository.findById(integranteId)
+                .orElseThrow(() -> new RecordNotFoundException(integranteId));
 
-            UsuarioProjeto usuarioProjeto = new UsuarioProjeto();
-            usuarioProjeto.setProjeto(projeto);
-            usuarioProjeto.setUsuario(usuario);
-
+            UsuarioProjeto usuarioProjeto = new UsuarioProjeto(usuario, projeto);
             repository.save(usuarioProjeto);
         }
     }
