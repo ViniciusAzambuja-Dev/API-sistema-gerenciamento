@@ -39,11 +39,11 @@ public class AtividadeService {
     }
 
     public void registrarAtividade(AtividadeRequestDTO data) {
-        Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
-                                            .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));
+        Usuario usuario = usuarioRepository.findById(data.usuarioId())
+                                            .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
 
-        Projeto projeto = projetoRepository.findById(data.projeto_id())
-                                            .orElseThrow(() -> new RecordNotFoundException(data.projeto_id()));
+        Projeto projeto = projetoRepository.findById(data.projetoId())
+                                            .orElseThrow(() -> new RecordNotFoundException(data.projetoId()));
 
         atividadeRepository.save(mapper.paraEntity(data, usuario, projeto));                             
     }
@@ -67,9 +67,9 @@ public class AtividadeService {
     public void atualizarAtividades(int id, AtividadeRequestDTO data) {
         atividadeRepository.findById(id)
             .map(atividade -> {
-                if (atividade.getUsuario_responsavel().getId() != data.usuario_responsavel_id()) {
-                    Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
-                    .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));  
+                if (atividade.getUsuario_responsavel().getId() != data.usuarioId()) {
+                    Usuario usuario = usuarioRepository.findById(data.usuarioId())
+                    .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));  
 
                     atividade.setUsuario_responsavel(usuario);
                 }

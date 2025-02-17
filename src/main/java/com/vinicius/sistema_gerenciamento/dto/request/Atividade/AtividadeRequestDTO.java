@@ -17,7 +17,7 @@ public record AtividadeRequestDTO(
     @NotBlank
     String nome,
 
-    @Size(max = 100)
+    @Size(max = 200)
     String descricao, 
 
     @NotNull
@@ -35,11 +35,11 @@ public record AtividadeRequestDTO(
 
     @NotNull
     @Positive
-    int projeto_id,
+    int projetoId,
 
     @NotNull
     @Positive
-    int usuario_responsavel_id
+    int usuarioId
 ) {
 
     public AtividadeRequestDTO {
