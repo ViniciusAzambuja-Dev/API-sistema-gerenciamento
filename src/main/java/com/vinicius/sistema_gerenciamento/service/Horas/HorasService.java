@@ -3,13 +3,11 @@ package com.vinicius.sistema_gerenciamento.service.Horas;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.mapper.HorasMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
-import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Horas.LancamentoHora;
@@ -58,14 +56,10 @@ public class HorasService {
     }
 
     public void deletarHoras(int id) {
-        try {
-            if (!horasRepository.existsById(id)) {
-                throw new RecordNotFoundException(id);
-            }
-            horasRepository.deleteById(id);
-        } catch (DataIntegrityViolationException exception) {
-            throw new DataBaseException();
+        if (!horasRepository.existsById(id)) {
+            throw new RecordNotFoundException(id);
         }
+        horasRepository.deleteById(id);
     }
 
     public void atualizarHoras(int id, HorasRequestDTO data) {

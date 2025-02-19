@@ -3,7 +3,6 @@ package com.vinicius.sistema_gerenciamento.service.Atividade;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
@@ -11,7 +10,6 @@ import com.vinicius.sistema_gerenciamento.dto.mapper.HorasMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
-import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
@@ -95,17 +93,13 @@ public class AtividadeService {
     }
 
     public void deletarAtividade(int id) {
-        try {
-            Atividade atividade = atividadeRepository.findById(id)
-            .orElseThrow(() -> new RecordNotFoundException(id));
+        Atividade atividade = atividadeRepository.findById(id)
+        .orElseThrow(() -> new RecordNotFoundException(id));
+        
+            atividade.getHorasLancadas().forEach(horaLancada -> 
+                horasService.deletarHoras(horaLancada.getId())
+            );
             
-                atividade.getHorasLancadas().forEach(horaLancada -> 
-                    horasService.deletarHoras(horaLancada.getId())
-                );
-                
-            atividadeRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataBaseException();
-        }
+        atividadeRepository.deleteById(id);
     }
 }

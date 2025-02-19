@@ -17,11 +17,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
-    @ExceptionHandler(DataBaseException.class)
-    public ResponseEntity<String> handleDataBaseException(DataBaseException exception){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-    }
-
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<String> handleEmailAlreadyExistsException(EmailAlreadyExistsException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());

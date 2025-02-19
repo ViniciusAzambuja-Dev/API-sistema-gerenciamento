@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.vinicius.sistema_gerenciamento.dto.mapper.UsuarioMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
-import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.EmailAlreadyExistsException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.exception.UnauthorizedException;
@@ -98,14 +96,9 @@ public class UsuarioService {
     }
 
     public void deletarUsuario(int id) {
-        try {
-            if (!usuarioRepository.existsById(id)) {
-                throw new RecordNotFoundException(id);
-            }
-            usuarioRepository.deleteById(id);
-
-        } catch (DataIntegrityViolationException exception) {
-            throw new DataBaseException();
+        if (!usuarioRepository.existsById(id)) {
+            throw new RecordNotFoundException(id);
         }
+        usuarioRepository.deleteById(id);
     }
 }

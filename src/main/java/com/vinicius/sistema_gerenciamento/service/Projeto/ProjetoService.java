@@ -3,7 +3,6 @@ package com.vinicius.sistema_gerenciamento.service.Projeto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
@@ -11,7 +10,6 @@ import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeRespon
 import com.vinicius.sistema_gerenciamento.dto.mapper.ProjetoMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
-import com.vinicius.sistema_gerenciamento.exception.DataBaseException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
@@ -77,21 +75,16 @@ public class ProjetoService {
     }
 
     public void deletarProjeto(int id) {
-         try {
-            Projeto projeto = projetoRepository.findById(id)
-            .orElseThrow(() -> new RecordNotFoundException(id));
+        Projeto projeto = projetoRepository.findById(id)
+        .orElseThrow(() -> new RecordNotFoundException(id));
 
-            projeto.getAtividades().forEach(atividade -> {
-                atividade.getHorasLancadas().forEach(horaLancada -> 
-                    horasService.deletarHoras(horaLancada.getId())
-                );
-                atividadeService.deletarAtividade(atividade.getId());
-            });
-            projetoRepository.deleteById(id);
-
-        } catch (DataIntegrityViolationException exception) {
-            throw new DataBaseException();
-        }
+        projeto.getAtividades().forEach(atividade -> {
+            atividade.getHorasLancadas().forEach(horaLancada -> 
+                horasService.deletarHoras(horaLancada.getId())
+            );
+            atividadeService.deletarAtividade(atividade.getId());
+        });
+        projetoRepository.deleteById(id);
     }
 
     public void atualizarProjeto(int id, ProjetoRequestDTO data) {
