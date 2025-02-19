@@ -55,7 +55,7 @@ public class ProjetoService {
     }
 
      public List<ProjetoResponseDTO> listarProjetos() {
-        return projetoRepository.findAll()
+        return projetoRepository.findAllAtivado()
             .stream()
             .map(projeto -> projetoMapper.paraDTO(projeto))
             .collect(Collectors.toList());

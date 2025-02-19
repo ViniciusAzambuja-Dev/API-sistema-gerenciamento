@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
@@ -28,6 +29,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "projetos")
+@SQLDelete(sql = "UPDATE projetos SET desativado = true WHERE id=?")
 public class Projeto {
 
     @Id
@@ -75,6 +77,8 @@ public class Projeto {
     @ManyToOne
     @JoinColumn(name = "id_usuario_responsavel", nullable = false)
     private Usuario usuario_responsavel;
+
+    private boolean desativado = false;
 
     public Projeto() {
     }
