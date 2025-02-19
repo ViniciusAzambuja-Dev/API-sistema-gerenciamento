@@ -49,12 +49,10 @@ public class HorasService {
     }
 
     public List<HorasResponseDTO> listarHoras() {
-        return horasRepository.findAll()
-                                .stream()
-                                .map(horaLancada -> 
-                                        mapper.paraDTO(horaLancada)
-                                )
-                                .collect(Collectors.toList());
+        return horasRepository.findAllAtivado()
+            .stream()
+            .map(horaLancada -> mapper.paraDTO(horaLancada))
+            .collect(Collectors.toList());
     }
 
     public void deletarHoras(int id) {
