@@ -20,6 +20,7 @@ import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeReposito
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
+import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
 import com.vinicius.sistema_gerenciamento.service.UsuarioAtividade.UsuarioAtividadeService;
 
 @Service
@@ -28,6 +29,7 @@ public class AtividadeService {
     private final UsuarioRepository usuarioRepository;
     private final ProjetoRepository projetoRepository;
     private final HorasRepository horaRepository;
+    private final HorasService horasService;
     private final UsuarioAtividadeService usuarioAtividadeService;
     private final HorasMapper horasMapper;
     private final AtividadeMapper mapper;
@@ -39,13 +41,15 @@ public class AtividadeService {
         UsuarioRepository usuarioRepository, 
         ProjetoRepository projetoRepository, 
         HorasRepository horaRepository, 
-        HorasMapper horasMapper
+        HorasMapper horasMapper,
+        HorasService horasService
     ) {
         this.usuarioAtividadeService = usuarioAtividadeService;
         this.atividadeRepository = atividadeRepository;
         this.usuarioRepository = usuarioRepository;
         this.projetoRepository = projetoRepository;
         this.horaRepository = horaRepository;
+        this.horasService = horasService;
         this.horasMapper = horasMapper;
         this.mapper = mapper;
     }
@@ -92,9 +96,13 @@ public class AtividadeService {
 
     public void deletarAtividade(int id) {
         try {
-            if (!atividadeRepository.existsById(id)) {
-                throw new RecordNotFoundException(id);
-            }
+            Atividade atividade = atividadeRepository.findById(id)
+            .orElseThrow(() -> new RecordNotFoundException(id));
+            
+                atividade.getHorasLancadas().forEach(horaLancada -> 
+                    horasService.deletarHoras(horaLancada.getId())
+                );
+                
             atividadeRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataBaseException();
