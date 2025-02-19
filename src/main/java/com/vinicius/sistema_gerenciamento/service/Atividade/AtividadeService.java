@@ -62,12 +62,10 @@ public class AtividadeService {
     }
 
     public List<AtividadeResponseDTO> listarAtividades() {
-        return atividadeRepository.findAll()
-                            .stream()
-                            .map(atividade -> 
-                                    mapper.paraDTO(
-                                        atividade))
-                                .collect(Collectors.toList());
+        return atividadeRepository.findAllAtivado()
+            .stream()
+            .map(atividade -> mapper.paraDTO(atividade))
+            .collect(Collectors.toList());
     }
 
     public List<HorasResponseDTO> listarHoras(int id) {
