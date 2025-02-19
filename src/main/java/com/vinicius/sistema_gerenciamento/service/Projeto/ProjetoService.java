@@ -17,6 +17,8 @@ import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
+import com.vinicius.sistema_gerenciamento.service.Atividade.AtividadeService;
+import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
 import com.vinicius.sistema_gerenciamento.service.UsuarioProjeto.UsuarioProjetoService;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 
@@ -29,6 +31,8 @@ public class ProjetoService {
     private final AtividadeRepository atividadeRepository;
     private final ProjetoMapper projetoMapper;
     private final AtividadeMapper atividadeMapper;
+    private final AtividadeService atividadeService;
+    private final HorasService horasService;
 
     public ProjetoService(
         ProjetoRepository projetoRepository,
@@ -36,7 +40,9 @@ public class ProjetoService {
         ProjetoMapper projetoMapper,
         AtividadeMapper atividadeMapper, 
         AtividadeRepository atividadeRepository,
-        UsuarioProjetoService usuarioProjetoService 
+        UsuarioProjetoService usuarioProjetoService,
+        AtividadeService atividadeService,
+        HorasService horasService
         ) {
         this.projetoRepository = projetoRepository;
         this.usuarioRepository = usuarioRepository;
@@ -44,6 +50,8 @@ public class ProjetoService {
         this.projetoMapper = projetoMapper;
         this.atividadeMapper = atividadeMapper;
         this.usuarioProjetoService  = usuarioProjetoService ;
+        this.atividadeService = atividadeService;
+        this.horasService = horasService;
     }
 
     public void registrarProjeto(ProjetoRequestDTO data) {
@@ -70,9 +78,15 @@ public class ProjetoService {
 
     public void deletarProjeto(int id) {
          try {
-            if (!projetoRepository.existsById(id)) {
-                throw new RecordNotFoundException(id);
-            }
+            Projeto projeto = projetoRepository.findById(id)
+            .orElseThrow(() -> new RecordNotFoundException(id));
+
+            projeto.getAtividades().forEach(atividade -> {
+                atividade.getHorasLancadas().forEach(horaLancada -> 
+                    horasService.deletarHoras(horaLancada.getId())
+                );
+                atividadeService.deletarAtividade(atividade.getId());
+            });
             projetoRepository.deleteById(id);
 
         } catch (DataIntegrityViolationException exception) {

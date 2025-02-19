@@ -59,6 +59,7 @@ public class AtividadeService {
 
         Atividade atividade = atividadeRepository.save(mapper.paraEntity(data, usuario, projeto));  
         usuarioAtividadeService.registrar(atividade, data.integrantesIds());
+        projeto.getAtividades().add(atividade);
     }
 
     public List<AtividadeResponseDTO> listarAtividades() {

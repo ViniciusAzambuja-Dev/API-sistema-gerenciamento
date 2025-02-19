@@ -12,6 +12,7 @@ import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -55,11 +56,11 @@ public class LancamentoHora {
     @Column(nullable = false)
     private LocalDateTime data_registro;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_atividade", nullable = false)
     private Atividade atividade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario_responsavel;
 
