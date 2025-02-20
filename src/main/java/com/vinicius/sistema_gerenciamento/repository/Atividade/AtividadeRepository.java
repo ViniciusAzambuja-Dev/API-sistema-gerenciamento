@@ -10,6 +10,6 @@ import java.util.List;
 public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
     List<Atividade> findByProjetoId(int id);
 
-    @Query("SELECT a FROM Atividade a WHERE a.desativado = false")
+    @Query("SELECT obj FROM Atividade obj JOIN FETCH obj.usuario_responsavel WHERE obj.desativado = false")
     List<Atividade> findAllAtivado();
 }

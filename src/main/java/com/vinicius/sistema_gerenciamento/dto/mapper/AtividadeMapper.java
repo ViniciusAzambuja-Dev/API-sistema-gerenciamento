@@ -24,10 +24,6 @@ public class AtividadeMapper {
             return null;
         }
 
-        if (atividade.getUsuario_responsavel().isDesativado()) {
-            atividade.getUsuario_responsavel().setNome("Desativado");
-        }
-
         return new AtividadeResponseDTO(
             atividade.getId(),
             atividade.getNome(),
