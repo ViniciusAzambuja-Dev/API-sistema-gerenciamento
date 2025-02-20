@@ -1,10 +1,10 @@
 package com.vinicius.sistema_gerenciamento.service.UsuarioAtividade;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.model.UsuarioAtividade.UsuarioAtividade;
@@ -22,12 +22,12 @@ public class UsuarioAtividadeService {
     }
 
     public void registrar(Atividade atividade, List<Integer> integrantesIds) {
-        for(int integranteId : integrantesIds) {
-            Usuario usuario = usuarioRepository.findById(integranteId)
-                .orElseThrow(() -> new RecordNotFoundException(integranteId));
-            
-            UsuarioAtividade usuarioAtividade = new UsuarioAtividade(usuario, atividade);
-            repository.save(usuarioAtividade);
-        }
+        List<Usuario> integrantes = usuarioRepository.findAllById(integrantesIds);
+
+        List<UsuarioAtividade> associacoes = integrantes.stream().map(integrante ->
+            new UsuarioAtividade(integrante, atividade)
+        ).collect(Collectors.toList());
+
+        repository.saveAll(associacoes);
     }
 }
