@@ -9,6 +9,6 @@ import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 
 public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
 
-    @Query("SELECT p FROM Projeto p WHERE p.desativado = false")
+    @Query("SELECT obj FROM Projeto obj JOIN FETCH obj.usuario_responsavel WHERE obj.desativado = false")
     List<Projeto> findAllAtivado();
 }

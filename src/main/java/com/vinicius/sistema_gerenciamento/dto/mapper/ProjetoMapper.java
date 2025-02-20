@@ -15,10 +15,6 @@ public class ProjetoMapper {
             return null;
         }
 
-        if (projeto.getUsuario_responsavel().isDesativado()) {
-            projeto.getUsuario_responsavel().setNome("Desativado");
-        }
-
         return new ProjetoResponseDTO(
             projeto.getId(),
             projeto.getNome(), 
