@@ -10,7 +10,6 @@ import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
-import com.vinicius.sistema_gerenciamento.model.Horas.LancamentoHora;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
@@ -44,8 +43,7 @@ public class HorasService {
         Atividade atividade = atividadeRepository.findById(data.atividade_id())
             .orElseThrow(() -> new RecordNotFoundException(data.atividade_id()));
 
-        LancamentoHora horaLancada = horasRepository.save(mapper.paraEntity(data, usuario, atividade));
-        atividade.getHorasLancadas().add(horaLancada);
+        horasRepository.save(mapper.paraEntity(data, usuario, atividade));
     }
 
     public List<HorasResponseDTO> listarHoras() {
