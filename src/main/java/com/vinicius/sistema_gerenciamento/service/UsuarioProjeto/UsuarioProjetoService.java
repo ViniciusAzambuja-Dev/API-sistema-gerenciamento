@@ -1,6 +1,7 @@
 package com.vinicius.sistema_gerenciamento.service.UsuarioProjeto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,13 @@ public class UsuarioProjetoService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void registrar(Projeto projeto, List<Integer> integrantesIds) {
-        for(int integranteId : integrantesIds) {
-            Usuario usuario = usuarioRepository.findById(integranteId)
-                .orElseThrow(() -> new RecordNotFoundException(integranteId));
+    public void registrar(Projeto projeto, List<Integer> integrantesIds) { 
+        List<Usuario> integrantes = usuarioRepository.findAllById(integrantesIds);
 
-            UsuarioProjeto usuarioProjeto = new UsuarioProjeto(usuario, projeto);
-            repository.save(usuarioProjeto);
-        }
+        List<UsuarioProjeto> associacoes = integrantes.stream().map(integrante ->
+            new UsuarioProjeto(integrante, projeto)
+        ).collect(Collectors.toList());
+
+        repository.saveAll(associacoes);
     }
 }
