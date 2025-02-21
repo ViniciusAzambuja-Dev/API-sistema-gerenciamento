@@ -20,6 +20,9 @@ import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
 import com.vinicius.sistema_gerenciamento.service.Autenticacao.TokenService;
+import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioService {
@@ -28,17 +31,20 @@ public class UsuarioService {
     private final UsuarioMapper mapper;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
+    private final HorasService horasService;
 
     public UsuarioService(
         UsuarioRepository usuarioRepository, 
         TokenService tokenService, 
         AuthenticationManager authenticationManager,
-        UsuarioMapper mapper
+        UsuarioMapper mapper,
+        HorasService horasService
     ) {
         this.usuarioRepository = usuarioRepository;
         this.mapper = mapper;
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
+        this.horasService = horasService;
     }
 
     public String realizarLogin(LoginRequestDTO data) {
@@ -95,10 +101,12 @@ public class UsuarioService {
             }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public void deletarUsuario(int id) {
-        if (!usuarioRepository.existsById(id)) {
+    @Transactional
+    public void softDeleteUsuario(int id) {
+        if (!usuarioRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);
         }
-        usuarioRepository.deleteById(id);
+        horasService.softDeleteByUsuarioId(id);
+        usuarioRepository.deleteUsuarioById(id);
     }
 }

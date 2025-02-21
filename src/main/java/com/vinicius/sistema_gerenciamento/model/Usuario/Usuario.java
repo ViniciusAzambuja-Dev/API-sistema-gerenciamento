@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +26,6 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "usuarios")
-@SQLDelete(sql = "UPDATE usuarios SET desativado = true WHERE id=?")
 public class Usuario implements UserDetails {
     
     @Id

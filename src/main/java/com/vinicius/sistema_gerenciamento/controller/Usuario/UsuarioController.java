@@ -63,7 +63,7 @@ public class UsuarioController {
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
-        usuarioService.deletarUsuario(id);
+        usuarioService.softDeleteUsuario(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

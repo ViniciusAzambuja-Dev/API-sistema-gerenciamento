@@ -70,7 +70,11 @@ public class HorasService {
     public void softDeleteByAtividadeId(int atividadeId) {
         horasRepository.deleteByAtividadeId(atividadeId);
     }
-    
+
+    public void softDeleteByUsuarioId(int usuarioId) {
+        horasRepository.deleteByUsuarioId(usuarioId);
+    }
+      
     public void atualizarHoras(int id, HorasRequestDTO data) {
         horasRepository.findById(id)
             .map(horaLancada -> {
