@@ -9,6 +9,7 @@ import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.ProjetoMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
@@ -78,17 +79,16 @@ public class ProjetoService {
         softDeleteService.softDeleteProjeto(id);
     }
 
-    public void atualizarProjeto(int id, ProjetoRequestDTO data) {
-        projetoRepository.findById(id)
-            .map(projeto -> {
-                if (projeto.getUsuario_responsavel().getId() != data.usuarioId()) {
-                    Usuario usuario = usuarioRepository.findById(data.usuarioId())
-                                                        .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
-                    projeto.setUsuario_responsavel(usuario);
-                }
+    public void atualizarProjeto(ProjetoUpdateDTO data) {
+        Projeto projeto = projetoRepository.findById(data.projetoId())
+            .orElseThrow(() -> new RecordNotFoundException(data.projetoId()));
 
-                projetoRepository.save(projetoMapper.atualizaParaEntity(projeto, data));
-                return true;
-            }).orElseThrow(() -> new RecordNotFoundException(id));
+        if (projeto.getUsuario_responsavel().getId() != data.usuarioId()) {
+            Usuario usuario = usuarioRepository.findById(data.usuarioId())
+                .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
+            projeto.setUsuario_responsavel(usuario);
+        }
+
+        projetoRepository.save(projetoMapper.atualizaParaEntity(projeto, data));
     }
 }
