@@ -15,6 +15,13 @@ public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{
     @Query("SELECT lh FROM LancamentoHora lh WHERE lh.desativado = false")
     List<LancamentoHora> findAllAtivado();
 
+    @Query("SELECT COUNT(obj) > 0 FROM LancamentoHora obj WHERE obj.id = :id AND obj.desativado = false")
+    Boolean existsByIdAndAtivado(@Param("id") int horaLancadaId);
+
+    @Modifying
+    @Query("UPDATE LancamentoHora obj SET obj.desativado = true WHERE obj.id = :id")
+    void deleteHoraById(@Param("id") int horaLancadaId);
+
     @Modifying
     @Query("UPDATE LancamentoHora obj SET obj.desativado = true WHERE obj.atividade.id IN (SELECT a.id FROM Atividade a WHERE a.projeto.id = :id)")
     void deleteByProjetoId(@Param("id") int projetoId);

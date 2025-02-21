@@ -15,6 +15,8 @@ import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeReposito
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class HorasService {
 
@@ -53,11 +55,12 @@ public class HorasService {
             .collect(Collectors.toList());
     }
 
-    public void deletarHoras(int id) {
-        if (!horasRepository.existsById(id)) {
+    @Transactional
+    public void softDeleteHora(int id) {
+        if (!horasRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);
         }
-        horasRepository.deleteById(id);
+        horasRepository.deleteHoraById(id);
     }
 
     public void softDeleteByProjetoId(int projetoId) {

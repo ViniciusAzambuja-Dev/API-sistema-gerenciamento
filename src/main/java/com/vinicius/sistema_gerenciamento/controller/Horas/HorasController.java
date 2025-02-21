@@ -54,7 +54,7 @@ public class HorasController {
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
-        horasService.deletarHoras(id);
+        horasService.softDeleteHora(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
