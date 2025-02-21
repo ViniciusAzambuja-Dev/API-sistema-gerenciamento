@@ -16,12 +16,15 @@ public class ProjetoMapper {
             return null;
         }
 
+        String dataInicioFormatada = projeto.formataData(projeto.getData_inicio());
+        String dataFimFormatada = projeto.formataData(projeto.getData_fim());
+
         return new ProjetoResponseDTO(
             projeto.getId(),
             projeto.getNome(), 
             projeto.getDescricao(), 
-            projeto.getData_inicio(), 
-            projeto.getData_fim(), 
+            dataInicioFormatada,
+            dataFimFormatada,
             projeto.getStatus(), 
             projeto.getPrioridade(), 
             projeto.getUsuario_responsavel().getNome());
