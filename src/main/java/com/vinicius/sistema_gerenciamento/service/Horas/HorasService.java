@@ -14,8 +14,7 @@ import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
-
-import jakarta.transaction.Transactional;
+import com.vinicius.sistema_gerenciamento.service.SoftDelete.SoftDeleteService;
 
 @Service
 public class HorasService {
@@ -24,18 +23,21 @@ public class HorasService {
     private final UsuarioRepository usuarioRepository;
     private final AtividadeRepository atividadeRepository;
     private final HorasMapper mapper;
+    private final SoftDeleteService softDeleteService;
 
     public HorasService(
         HorasRepository horasRepository, 
         UsuarioRepository usuarioRepository, 
         AtividadeRepository atividadeRepository, 
-        HorasMapper mapper
+        HorasMapper mapper,
+        SoftDeleteService softDeleteService
     ) {
 
         this.horasRepository = horasRepository;
         this.usuarioRepository = usuarioRepository;
         this.atividadeRepository = atividadeRepository;
         this.mapper = mapper;
+        this.softDeleteService = softDeleteService;
     }
     
     public void registrarHoras(HorasRequestDTO data) {
@@ -55,24 +57,11 @@ public class HorasService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
     public void softDeleteHora(int id) {
         if (!horasRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);
         }
-        horasRepository.deleteHoraById(id);
-    }
-
-    public void softDeleteByProjetoId(int projetoId) {
-        horasRepository.deleteByProjetoId(projetoId);
-    }
-
-    public void softDeleteByAtividadeId(int atividadeId) {
-        horasRepository.deleteByAtividadeId(atividadeId);
-    }
-
-    public void softDeleteByUsuarioId(int usuarioId) {
-        horasRepository.deleteByUsuarioId(usuarioId);
+        softDeleteService.softDeleteHora(id);
     }
       
     public void atualizarHoras(int id, HorasRequestDTO data) {

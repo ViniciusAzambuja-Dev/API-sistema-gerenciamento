@@ -18,10 +18,8 @@ import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeReposito
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
-import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
+import com.vinicius.sistema_gerenciamento.service.SoftDelete.SoftDeleteService;
 import com.vinicius.sistema_gerenciamento.service.UsuarioAtividade.UsuarioAtividadeService;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class AtividadeService {
@@ -29,10 +27,10 @@ public class AtividadeService {
     private final UsuarioRepository usuarioRepository;
     private final ProjetoRepository projetoRepository;
     private final HorasRepository horaRepository;
-    private final HorasService horasService;
     private final UsuarioAtividadeService usuarioAtividadeService;
     private final HorasMapper horasMapper;
     private final AtividadeMapper mapper;
+    private final SoftDeleteService softDeleteService;
 
     public AtividadeService(
         UsuarioAtividadeService usuarioAtividadeService,
@@ -42,14 +40,14 @@ public class AtividadeService {
         ProjetoRepository projetoRepository, 
         HorasRepository horaRepository, 
         HorasMapper horasMapper,
-        HorasService horasService
+        SoftDeleteService softDeleteService
     ) {
         this.usuarioAtividadeService = usuarioAtividadeService;
         this.atividadeRepository = atividadeRepository;
         this.usuarioRepository = usuarioRepository;
         this.projetoRepository = projetoRepository;
         this.horaRepository = horaRepository;
-        this.horasService = horasService;
+        this.softDeleteService = softDeleteService;
         this.horasMapper = horasMapper;
         this.mapper = mapper;
     }
@@ -93,17 +91,10 @@ public class AtividadeService {
             }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    @Transactional
     public void softDeleteAtividade(int id) {
         if (!atividadeRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);
         }
-        
-        horasService.softDeleteByAtividadeId(id);    
-        atividadeRepository.deleteAtividadeById(id);
-    }
-
-    public void softDeleteByProjetoId(int projetoId) {            
-        atividadeRepository.deleteByProjetoId(projetoId);
+        softDeleteService.softDeleteAtividade(id);
     }
 }

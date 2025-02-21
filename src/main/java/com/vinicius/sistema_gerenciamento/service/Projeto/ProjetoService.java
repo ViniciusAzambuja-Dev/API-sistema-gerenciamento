@@ -15,11 +15,8 @@ import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
-import com.vinicius.sistema_gerenciamento.service.Atividade.AtividadeService;
-import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
+import com.vinicius.sistema_gerenciamento.service.SoftDelete.SoftDeleteService;
 import com.vinicius.sistema_gerenciamento.service.UsuarioProjeto.UsuarioProjetoService;
-
-import jakarta.transaction.Transactional;
 
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 
@@ -32,8 +29,7 @@ public class ProjetoService {
     private final AtividadeRepository atividadeRepository;
     private final ProjetoMapper projetoMapper;
     private final AtividadeMapper atividadeMapper;
-    private final AtividadeService atividadeService;
-    private final HorasService horasService;
+    private final SoftDeleteService softDeleteService;
 
     public ProjetoService(
         ProjetoRepository projetoRepository,
@@ -42,17 +38,15 @@ public class ProjetoService {
         AtividadeMapper atividadeMapper, 
         AtividadeRepository atividadeRepository,
         UsuarioProjetoService usuarioProjetoService,
-        AtividadeService atividadeService,
-        HorasService horasService
-        ) {
+        SoftDeleteService softDeleteService
+    ) {
         this.projetoRepository = projetoRepository;
         this.usuarioRepository = usuarioRepository;
         this.atividadeRepository = atividadeRepository;
         this.projetoMapper = projetoMapper;
         this.atividadeMapper = atividadeMapper;
-        this.usuarioProjetoService  = usuarioProjetoService ;
-        this.atividadeService = atividadeService;
-        this.horasService = horasService;
+        this.usuarioProjetoService  = usuarioProjetoService;
+        this.softDeleteService = softDeleteService;
     }
 
     public void registrarProjeto(ProjetoRequestDTO data) {
@@ -77,15 +71,11 @@ public class ProjetoService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
     public void softDeleteProjeto(int id) {
         if (!projetoRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);
         }
-
-        horasService.softDeleteByProjetoId(id);
-        atividadeService.softDeleteByProjetoId(id);
-        projetoRepository.deleteProjetoById(id);
+        softDeleteService.softDeleteProjeto(id);
     }
 
     public void atualizarProjeto(int id, ProjetoRequestDTO data) {

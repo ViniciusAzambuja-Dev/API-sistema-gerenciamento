@@ -20,9 +20,8 @@ import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
 import com.vinicius.sistema_gerenciamento.service.Autenticacao.TokenService;
-import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
+import com.vinicius.sistema_gerenciamento.service.SoftDelete.SoftDeleteService;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioService {
@@ -31,20 +30,20 @@ public class UsuarioService {
     private final UsuarioMapper mapper;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
-    private final HorasService horasService;
+    private final SoftDeleteService softDeleteService;
 
     public UsuarioService(
         UsuarioRepository usuarioRepository, 
         TokenService tokenService, 
         AuthenticationManager authenticationManager,
         UsuarioMapper mapper,
-        HorasService horasService
+        SoftDeleteService softDeleteService
     ) {
         this.usuarioRepository = usuarioRepository;
         this.mapper = mapper;
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
-        this.horasService = horasService;
+        this.softDeleteService = softDeleteService;
     }
 
     public String realizarLogin(LoginRequestDTO data) {
@@ -101,12 +100,10 @@ public class UsuarioService {
             }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    @Transactional
     public void softDeleteUsuario(int id) {
         if (!usuarioRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);
         }
-        horasService.softDeleteByUsuarioId(id);
-        usuarioRepository.deleteUsuarioById(id);
+        softDeleteService.softDeleteUsuario(id);
     }
 }
