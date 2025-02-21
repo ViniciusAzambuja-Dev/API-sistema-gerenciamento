@@ -1,7 +1,9 @@
 package com.vinicius.sistema_gerenciamento.repository.Atividade;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 
@@ -12,4 +14,8 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
 
     @Query("SELECT obj FROM Atividade obj JOIN FETCH obj.usuario_responsavel WHERE obj.desativado = false")
     List<Atividade> findAllAtivado();
+
+    @Modifying
+    @Query("UPDATE Atividade obj SET obj.desativado = true WHERE obj.projeto.id = :id")
+    void deleteByProjetoId(@Param("id") int projetoId);
 }

@@ -60,6 +60,10 @@ public class HorasService {
         horasRepository.deleteById(id);
     }
 
+    public void softDeleteByProjetoId(int projetoId) {
+        horasRepository.deleteByProjetoId(projetoId);
+    }
+
     public void atualizarHoras(int id, HorasRequestDTO data) {
         horasRepository.findById(id)
             .map(horaLancada -> {

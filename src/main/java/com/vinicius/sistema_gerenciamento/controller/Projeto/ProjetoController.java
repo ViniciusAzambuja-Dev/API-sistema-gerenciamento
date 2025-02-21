@@ -54,7 +54,7 @@ public class ProjetoController {
 
     @DeleteMapping("/deletar/{id}")
      public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
-        projetoService.deletarProjeto(id);
+        projetoService.softDeleteProjeto(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
@@ -34,7 +33,6 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "projetos")
-@SQLDelete(sql = "UPDATE projetos SET desativado = true WHERE id=?")
 public class Projeto {
 
     @Id

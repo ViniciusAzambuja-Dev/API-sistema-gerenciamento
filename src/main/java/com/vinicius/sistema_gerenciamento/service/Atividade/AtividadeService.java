@@ -101,4 +101,8 @@ public class AtividadeService {
             
         atividadeRepository.deleteById(id);
     }
+
+    public void softDeleteByProjetoId(int projetoId) {            
+        atividadeRepository.deleteByProjetoId(projetoId);
+    }
 }
