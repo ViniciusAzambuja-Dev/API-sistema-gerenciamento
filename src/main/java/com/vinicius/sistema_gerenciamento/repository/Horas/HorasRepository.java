@@ -18,4 +18,8 @@ public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{
     @Modifying
     @Query("UPDATE LancamentoHora obj SET obj.desativado = true WHERE obj.atividade.id IN (SELECT a.id FROM Atividade a WHERE a.projeto.id = :id)")
     void deleteByProjetoId(@Param("id") int projetoId);
+
+    @Modifying
+    @Query("UPDATE LancamentoHora obj SET obj.desativado = true WHERE obj.atividade.id = :id")
+    void deleteByAtividadeId(@Param("id") int atividadeId);
 } 

@@ -21,6 +21,8 @@ import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
 import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
 import com.vinicius.sistema_gerenciamento.service.UsuarioAtividade.UsuarioAtividadeService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AtividadeService {
     private final AtividadeRepository atividadeRepository;
@@ -91,15 +93,14 @@ public class AtividadeService {
             }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public void deletarAtividade(int id) {
-        Atividade atividade = atividadeRepository.findById(id)
-        .orElseThrow(() -> new RecordNotFoundException(id));
+    @Transactional
+    public void softDeleteAtividade(int id) {
+        if (!atividadeRepository.existsByIdAndAtivado(id)) {
+            throw new RecordNotFoundException(id);
+        }
         
-            atividade.getHorasLancadas().forEach(horaLancada -> 
-                horasService.deletarHoras(horaLancada.getId())
-            );
-            
-        atividadeRepository.deleteById(id);
+        horasService.softDeleteByAtividadeId(id);    
+        atividadeRepository.deleteAtividadeById(id);
     }
 
     public void softDeleteByProjetoId(int projetoId) {            

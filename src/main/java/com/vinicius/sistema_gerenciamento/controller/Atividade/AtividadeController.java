@@ -55,7 +55,7 @@ public class AtividadeController {
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
-        atividadeService.deletarAtividade(id);
+        atividadeService.softDeleteAtividade(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
