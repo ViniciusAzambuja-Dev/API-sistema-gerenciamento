@@ -1,7 +1,5 @@
 package com.vinicius.sistema_gerenciamento.dto.response.Atividade;
 
-import java.time.LocalDate;
-
 
 public record AtividadeResponseDTO(
     int id, 
@@ -10,9 +8,9 @@ public record AtividadeResponseDTO(
 
     String descricao, 
 
-    LocalDate data_inicio, 
+    String data_inicio, 
 
-    LocalDate data_fim, 
+    String data_fim, 
 
     String status,
 
