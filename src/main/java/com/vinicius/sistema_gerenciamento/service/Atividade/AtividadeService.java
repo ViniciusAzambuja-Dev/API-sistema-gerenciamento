@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
 import com.vinicius.sistema_gerenciamento.dto.mapper.HorasMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
@@ -77,18 +78,23 @@ public class AtividadeService {
             .collect(Collectors.toList());
     }
 
-    public void atualizarAtividades(int id, AtividadeRequestDTO data) {
-        atividadeRepository.findById(id)
-            .map(atividade -> {
-                if (atividade.getUsuario_responsavel().getId() != data.usuarioId()) {
-                    Usuario usuario = usuarioRepository.findById(data.usuarioId())
-                    .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));  
+    public void atualizarAtividades(AtividadeUpdateDTO data) {
+        Atividade atividade = atividadeRepository.findById(data.atividadeId())
+            .orElseThrow(() -> new RecordNotFoundException(data.atividadeId()));
 
-                    atividade.setUsuario_responsavel(usuario);
-                }
-                atividadeRepository.save(mapper.atualizaParaEntity(atividade, data));
-                return true;
-            }).orElseThrow(() -> new RecordNotFoundException(id));
+        if (atividade.getUsuario_responsavel().getId() != data.usuarioId()) {
+            Usuario usuario = usuarioRepository.findById(data.usuarioId())
+                .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));  
+
+            atividade.setUsuario_responsavel(usuario);
+        }
+        if (atividade.getProjeto().getId() != data.projetoId()) {
+            Projeto projeto = projetoRepository.findById(data.atividadeId())
+                .orElseThrow(() -> new RecordNotFoundException(data.atividadeId()));
+            
+            atividade.setProjeto(projeto);
+        }
+        atividadeRepository.save(mapper.atualizaParaEntity(atividade, data));
     }
 
     public void softDeleteAtividade(int id) {

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Atividade.AtividadeService;
@@ -46,9 +47,9 @@ public class AtividadeController {
         return ResponseEntity.status(HttpStatus.OK).body(atividadeService.listarAtividades());
     }
 
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable @Positive int id, @RequestBody @Valid AtividadeRequestDTO data) {
-        atividadeService.atualizarAtividades(id, data);
+    @PutMapping("/atualizar")
+    public ResponseEntity<Void> atualizar(@RequestBody @Valid AtividadeUpdateDTO data) {
+        atividadeService.atualizarAtividades(data);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

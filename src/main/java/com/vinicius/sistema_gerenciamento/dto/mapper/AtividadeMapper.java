@@ -3,6 +3,7 @@ package com.vinicius.sistema_gerenciamento.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
@@ -35,7 +36,7 @@ public class AtividadeMapper {
         );
     }
 
-    public Atividade atualizaParaEntity(Atividade atividade, AtividadeRequestDTO data) {
+    public Atividade atualizaParaEntity(Atividade atividade, AtividadeUpdateDTO data) {
         atividade.setNome(data.nome());
         atividade.setDescricao(data.descricao());
         atividade.setData_inicio(data.data_inicio());
