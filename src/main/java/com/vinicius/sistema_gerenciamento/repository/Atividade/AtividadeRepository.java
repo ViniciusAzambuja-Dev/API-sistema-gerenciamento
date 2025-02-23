@@ -12,7 +12,10 @@ import java.util.List;
 public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
     List<Atividade> findByProjetoId(int id);
 
-    @Query("SELECT obj FROM Atividade obj JOIN FETCH obj.usuario_responsavel WHERE obj.desativado = false")
+    @Query("SELECT obj FROM Atividade obj " +
+       "JOIN FETCH obj.usuario_responsavel " +
+       "JOIN FETCH obj.projeto " +
+       "WHERE obj.desativado = false")
     List<Atividade> findAllAtivado();
 
     

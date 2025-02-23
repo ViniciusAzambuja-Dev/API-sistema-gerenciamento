@@ -35,6 +35,7 @@ public class AtividadeMapper {
             dataInicioFormatada, 
             dataFimFormatada, 
             atividade.getStatus(),
+            atividade.getProjeto().getNome(),
             atividade.getUsuario_responsavel().getNome()
         );
     }

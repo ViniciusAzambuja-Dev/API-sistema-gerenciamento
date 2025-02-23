@@ -14,6 +14,8 @@ public record AtividadeResponseDTO(
 
     String status,
 
+    String nomeProjeto,
+
     String nomeUsuario
 ) {
 }
