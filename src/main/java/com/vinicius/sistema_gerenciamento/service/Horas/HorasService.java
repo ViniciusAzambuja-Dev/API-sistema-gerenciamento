@@ -41,11 +41,11 @@ public class HorasService {
     }
     
     public void registrarHoras(HorasRequestDTO data) {
-        Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
-            .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));
+        Usuario usuario = usuarioRepository.findById(data.usuarioId())
+            .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
 
-        Atividade atividade = atividadeRepository.findById(data.atividade_id())
-            .orElseThrow(() -> new RecordNotFoundException(data.atividade_id()));
+        Atividade atividade = atividadeRepository.findById(data.atividadeId())
+            .orElseThrow(() -> new RecordNotFoundException(data.atividadeId()));
 
         horasRepository.save(mapper.paraEntity(data, usuario, atividade));
     }
@@ -67,15 +67,15 @@ public class HorasService {
     public void atualizarHoras(int id, HorasRequestDTO data) {
         horasRepository.findById(id)
             .map(horaLancada -> {
-                if (horaLancada.getUsuario_responsavel().getId() != data.usuario_responsavel_id()) {
-                    Usuario usuario = usuarioRepository.findById(data.usuario_responsavel_id())
-                        .orElseThrow(() -> new RecordNotFoundException(data.usuario_responsavel_id()));
+                if (horaLancada.getUsuario_responsavel().getId() != data.usuarioId()) {
+                    Usuario usuario = usuarioRepository.findById(data.usuarioId())
+                        .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
 
                     horaLancada.setUsuario_responsavel(usuario);
                 }
-                if (horaLancada.getAtividade().getId() != data.atividade_id()) {
-                    Atividade atividade = atividadeRepository.findById(data.atividade_id())
-                        .orElseThrow(() -> new RecordNotFoundException(data.atividade_id()));
+                if (horaLancada.getAtividade().getId() != data.atividadeId()) {
+                    Atividade atividade = atividadeRepository.findById(data.atividadeId())
+                        .orElseThrow(() -> new RecordNotFoundException(data.atividadeId()));
 
                     horaLancada.setAtividade(atividade);
                 }

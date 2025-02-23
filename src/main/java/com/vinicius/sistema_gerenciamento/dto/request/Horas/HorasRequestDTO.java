@@ -26,11 +26,11 @@ public record HorasRequestDTO(
 
     @NotNull
     @Positive
-    int atividade_id, 
+    int atividadeId, 
 
     @NotNull
     @Positive
-    int usuario_responsavel_id
+    int usuarioId
 
 ) {
     public HorasRequestDTO {
