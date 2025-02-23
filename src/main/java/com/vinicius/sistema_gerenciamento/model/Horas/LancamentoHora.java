@@ -1,7 +1,9 @@
 package com.vinicius.sistema_gerenciamento.model.Horas;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -73,5 +75,10 @@ public class LancamentoHora {
         this.data_fim = data_fim;
         this.atividade = atividade;
         this.usuario_responsavel = usuario_responsavel;
+    }
+
+    public String formataData(LocalTime dataHora) {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");
+        return formato.format(dataHora);
     }
 }
