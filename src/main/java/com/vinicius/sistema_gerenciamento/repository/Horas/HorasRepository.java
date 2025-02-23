@@ -12,7 +12,10 @@ import com.vinicius.sistema_gerenciamento.model.Horas.LancamentoHora;
 public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{  
     List<LancamentoHora> findByAtividadeId(int id); 
 
-    @Query("SELECT lh FROM LancamentoHora lh WHERE lh.desativado = false")
+    @Query("SELECT obj FROM LancamentoHora obj " +
+    "JOIN FETCH obj.usuario_responsavel " +
+    "JOIN FETCH obj.atividade " +
+    "WHERE obj.desativado = false")
     List<LancamentoHora> findAllAtivado();
 
     @Query("SELECT COUNT(obj) > 0 FROM LancamentoHora obj WHERE obj.id = :id AND obj.desativado = false")
