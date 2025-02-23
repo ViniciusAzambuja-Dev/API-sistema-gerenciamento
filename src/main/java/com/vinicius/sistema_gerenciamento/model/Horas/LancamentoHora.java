@@ -1,7 +1,7 @@
 package com.vinicius.sistema_gerenciamento.model.Horas;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -34,21 +34,21 @@ public class LancamentoHora {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @NotBlank
-    @Column(length = 100, nullable = false)
+    @Column(length = 200, nullable = false)
     private String descricao;
 
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "HH:mm")
     @Column(nullable = false)
-    private LocalDate data_inicio;
+    private LocalTime data_inicio;
 
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "HH:mm")
     @Column(nullable = false)
-    private LocalDate data_fim;
+    private LocalTime data_fim;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -67,7 +67,7 @@ public class LancamentoHora {
     public LancamentoHora() {
     }
 
-    public LancamentoHora(String descricao, LocalDate data_inicio, LocalDate data_fim, Atividade atividade, Usuario usuario_responsavel) {
+    public LancamentoHora(String descricao, LocalTime data_inicio, LocalTime data_fim, Atividade atividade, Usuario usuario_responsavel) {
         this.descricao = descricao;
         this.data_inicio = data_inicio;
         this.data_fim = data_fim;

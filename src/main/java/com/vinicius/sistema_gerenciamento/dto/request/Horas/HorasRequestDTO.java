@@ -1,6 +1,6 @@
 package com.vinicius.sistema_gerenciamento.dto.request.Horas;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -11,18 +11,18 @@ import jakarta.validation.constraints.Size;
 
 public record HorasRequestDTO(
     
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @NotBlank
     String descricao, 
 
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    LocalDate data_inicio, 
+    @JsonFormat(pattern = "HH:mm")
+    LocalTime data_inicio, 
 
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    LocalDate data_fim, 
+    @JsonFormat(pattern = "HH:mm")
+    LocalTime data_fim, 
 
     @NotNull
     @Positive

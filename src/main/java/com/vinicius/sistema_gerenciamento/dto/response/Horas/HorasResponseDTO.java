@@ -1,12 +1,12 @@
 package com.vinicius.sistema_gerenciamento.dto.response.Horas;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record HorasResponseDTO(
     int id,
     String descricao,
-    LocalDate data_inicio,
-    LocalDate data_fim,
+    LocalTime data_inicio,
+    LocalTime data_fim,
     String nomeUsuario,
     String nomeAtividade
 ) {
