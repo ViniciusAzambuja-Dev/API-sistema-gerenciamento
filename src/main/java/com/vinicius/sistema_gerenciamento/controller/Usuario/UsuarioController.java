@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginResponseDTO;
@@ -54,9 +55,9 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarUsuarios());
     }
 
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable @Positive int id, @RequestBody @Valid UsuarioRequestDTO data) {
-        usuarioService.atualizaUsuario(id, data);
+    @PutMapping("/atualizar")
+    public ResponseEntity<Void> atualizar(@RequestBody @Valid UsuarioUpdateDTO data) {
+        usuarioService.atualizaUsuario(data);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

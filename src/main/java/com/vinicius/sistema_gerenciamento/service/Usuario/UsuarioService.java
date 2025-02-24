@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.mapper.UsuarioMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.EmailAlreadyExistsException;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
@@ -83,21 +84,19 @@ public class UsuarioService {
                                 .collect(Collectors.toList());
     }
 
-    public void atualizaUsuario(int id, UsuarioRequestDTO data) {
-        usuarioRepository.findById(id)
-            .map(usuario -> {
+    public void atualizaUsuario(UsuarioUpdateDTO data) {
+        Usuario usuario = usuarioRepository.findById(data.usuarioId())
+            .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
 
-                if (!data.email().equals(usuario.getEmail())) {
-                    if (usuarioRepository.findByEmail(data.email()) != null) {
-                        throw new EmailAlreadyExistsException();   
-                    }
-                    usuario.setEmail(data.email());
+            if (!data.email().equals(usuario.getEmail())) {
+                if (usuarioRepository.findByEmail(data.email()) != null) {
+                    throw new EmailAlreadyExistsException();   
                 }
-    
-                String hashSenha = new BCryptPasswordEncoder().encode(data.senha());
-                usuarioRepository.save(mapper.atualizaParaEntity(usuario, data, hashSenha));
-                return true;
-            }).orElseThrow(() -> new RecordNotFoundException(id));
+                usuario.setEmail(data.email());
+            }
+
+        String hashSenha = new BCryptPasswordEncoder().encode(data.senha());
+        usuarioRepository.save(mapper.atualizaParaEntity(usuario, data, hashSenha));
     }
 
     public void softDeleteUsuario(int id) {

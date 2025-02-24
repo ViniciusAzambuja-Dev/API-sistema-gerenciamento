@@ -3,6 +3,7 @@ package com.vinicius.sistema_gerenciamento.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 
@@ -32,7 +33,7 @@ public class UsuarioMapper {
         return new Usuario(data.nome(), data.email(),  hashSenha, data.perfil());
     }
     
-    public Usuario atualizaParaEntity(Usuario usuario, UsuarioRequestDTO data, String hashSenha) {
+    public Usuario atualizaParaEntity(Usuario usuario, UsuarioUpdateDTO data, String hashSenha) {
         usuario.setNome(data.nome());
         usuario.setSenha(hashSenha);
         usuario.setPerfil(data.perfil());
