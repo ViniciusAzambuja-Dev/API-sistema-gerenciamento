@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.mapper.HorasMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
+import com.vinicius.sistema_gerenciamento.model.Horas.LancamentoHora;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
@@ -64,24 +66,17 @@ public class HorasService {
         softDeleteService.softDeleteHora(id);
     }
       
-    public void atualizarHoras(int id, HorasRequestDTO data) {
-        horasRepository.findById(id)
-            .map(horaLancada -> {
-                if (horaLancada.getUsuario_responsavel().getId() != data.usuarioId()) {
-                    Usuario usuario = usuarioRepository.findById(data.usuarioId())
-                        .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
+    public void atualizarHoras(HorasUpdateDTO data) {
+        LancamentoHora horaLancada = horasRepository.findById(data.horaId())
+            .orElseThrow(() -> new RecordNotFoundException(data.horaId()));
 
-                    horaLancada.setUsuario_responsavel(usuario);
-                }
-                if (horaLancada.getAtividade().getId() != data.atividadeId()) {
-                    Atividade atividade = atividadeRepository.findById(data.atividadeId())
-                        .orElseThrow(() -> new RecordNotFoundException(data.atividadeId()));
+        if (horaLancada.getAtividade().getId() != data.atividadeId()) {
+            Atividade atividade = atividadeRepository.findById(data.atividadeId())
+                .orElseThrow(() -> new RecordNotFoundException(data.atividadeId()));
 
-                    horaLancada.setAtividade(atividade);
-                }
+            horaLancada.setAtividade(atividade);
+        }
                 
-                horasRepository.save(mapper.atualizaParaEntity(horaLancada, data));
-                return true;
-            }).orElseThrow(() -> new RecordNotFoundException(id));
+        horasRepository.save(mapper.atualizaParaEntity(horaLancada, data));
     }
 }

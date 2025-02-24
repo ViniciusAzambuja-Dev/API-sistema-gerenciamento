@@ -1,6 +1,5 @@
 package com.vinicius.sistema_gerenciamento.model.Horas;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

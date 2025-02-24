@@ -3,6 +3,7 @@ package com.vinicius.sistema_gerenciamento.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Horas.LancamentoHora;
@@ -33,7 +34,7 @@ public class HorasMapper {
             horaLancada.getAtividade().getNome());
     }
 
-    public LancamentoHora atualizaParaEntity(LancamentoHora horaLancada, HorasRequestDTO data) {
+    public LancamentoHora atualizaParaEntity(LancamentoHora horaLancada, HorasUpdateDTO data) {
         horaLancada.setDescricao(data.descricao());
         horaLancada.setData_inicio(data.data_inicio());
         horaLancada.setData_fim(data.data_fim());

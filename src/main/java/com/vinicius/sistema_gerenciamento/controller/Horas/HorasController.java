@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
+import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
 
@@ -45,9 +46,9 @@ public class HorasController {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarHoras());
     }
 
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable @Positive int id, @RequestBody @Valid HorasRequestDTO data) {
-        horasService.atualizarHoras(id, data);
+    @PutMapping("/atualizar")
+    public ResponseEntity<Void> atualizar(@RequestBody @Valid HorasUpdateDTO data) {
+        horasService.atualizarHoras(data);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
