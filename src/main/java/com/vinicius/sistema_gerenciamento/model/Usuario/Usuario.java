@@ -1,6 +1,7 @@
 package com.vinicius.sistema_gerenciamento.model.Usuario;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 
@@ -88,5 +89,13 @@ public class Usuario implements UserDetails {
     @Override
     public String getUsername() {
        return email;
+    }
+
+    public String formataData() {
+        if (ultimo_login == null) {
+            return "N/A";
+        }
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return formato.format(ultimo_login);
     }
 }
