@@ -55,6 +55,11 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarUsuarios());
     }
 
+    @GetMapping("/listar/integrantes/{id}")
+    public ResponseEntity<List<UsuarioResponseDTO>> listarIntegrantesDoProjeto(@PathVariable @Positive int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarIntegrantesDoProjeto(id));
+    }
+
     @PutMapping("/atualizar")
     public ResponseEntity<Void> atualizar(@RequestBody @Valid UsuarioUpdateDTO data) {
         usuarioService.atualizaUsuario(data);

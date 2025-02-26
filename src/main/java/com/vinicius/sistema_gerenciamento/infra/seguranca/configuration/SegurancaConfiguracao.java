@@ -36,6 +36,7 @@ public class SegurancaConfiguracao {
                     //Rotas protegidas de requisições para Usuario
                     .requestMatchers(HttpMethod.POST, "api/usuarios/registrar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "api/usuarios/listar").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "api/usuarios/listar/integrantes/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "api/usuarios/deletar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "api/usuarios/atualizar/{id}").hasRole("ADMIN")
 

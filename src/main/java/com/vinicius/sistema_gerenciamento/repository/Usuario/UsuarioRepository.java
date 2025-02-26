@@ -16,6 +16,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("SELECT u FROM Usuario u WHERE u.desativado = false")
     List<Usuario> findAllAtivado();
 
+    @Query("SELECT obj FROM Usuario obj " +
+    "JOIN UsuarioProjeto up ON obj.id = up.usuario.id " +
+    "WHERE up.projeto.id = :projetoId " +
+    "AND obj.desativado = false")
+    List<Usuario> findIntegrantesByProjeto(@Param("projetoId") int projetoId);
+
     @Query("SELECT COUNT(obj) > 0 FROM Usuario obj WHERE obj.id = :id AND obj.desativado = false")
     Boolean existsByIdAndAtivado(@Param("id") int usuarioId);
     

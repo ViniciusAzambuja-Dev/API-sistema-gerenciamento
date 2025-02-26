@@ -84,6 +84,13 @@ public class UsuarioService {
                                 .collect(Collectors.toList());
     }
 
+    public List<UsuarioResponseDTO> listarIntegrantesDoProjeto(int id) {
+        return usuarioRepository.findIntegrantesByProjeto(id)
+            .stream()
+            .map(usuario -> mapper.paraDTO(usuario))
+            .collect(Collectors.toList());
+    }
+
     public void atualizaUsuario(UsuarioUpdateDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuarioId())
             .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
