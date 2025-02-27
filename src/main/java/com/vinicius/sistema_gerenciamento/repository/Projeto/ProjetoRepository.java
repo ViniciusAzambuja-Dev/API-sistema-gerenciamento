@@ -14,6 +14,11 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
     @Query("SELECT obj FROM Projeto obj JOIN FETCH obj.usuario_responsavel WHERE obj.desativado = false")
     List<Projeto> findAllAtivado();
 
+    @Query("SELECT obj FROM Projeto obj " +
+        "JOIN UsuarioProjeto up ON obj.id = up.projeto.id " +
+        "WHERE up.usuario.id = :id AND obj.desativado = false")
+    List<Projeto> findByUsuarioId(@Param("id") int usuarioId);
+
     @Query("SELECT COUNT(obj) > 0 FROM Projeto obj WHERE obj.id = :id AND obj.desativado = false")
     Boolean existsByIdAndAtivado(@Param("id") int projetoId);
 

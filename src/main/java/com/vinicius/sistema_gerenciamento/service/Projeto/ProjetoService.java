@@ -56,6 +56,13 @@ public class ProjetoService {
             .collect(Collectors.toList());
     }
 
+    public List<ProjetoResponseDTO> listarPorUsuario(int id) {
+        return projetoRepository.findByUsuarioId(id)
+            .stream()
+            .map(projeto -> projetoMapper.paraDTO(projeto))
+            .collect(Collectors.toList());
+    }
+
     public void softDeleteProjeto(int id) {
         if (!projetoRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);
