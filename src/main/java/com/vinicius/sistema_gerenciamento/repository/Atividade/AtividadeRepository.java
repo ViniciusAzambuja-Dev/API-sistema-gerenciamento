@@ -22,7 +22,7 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
 
     @Query("SELECT obj FROM Atividade obj " +
         "JOIN UsuarioAtividade ua ON obj.id = ua.atividade.id " +
-        "WHERE ua.usuario.id = :id")
+        "WHERE ua.usuario.id = :id AND obj.desativado = false")
     List<Atividade> findByUsuarioId(@Param("id") int usuarioId);
     
     @Query("SELECT COUNT(obj) > 0 FROM Atividade obj WHERE obj.id = :id AND obj.desativado = false")
