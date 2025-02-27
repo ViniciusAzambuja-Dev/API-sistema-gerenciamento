@@ -6,17 +6,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
-import com.vinicius.sistema_gerenciamento.dto.mapper.HorasMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
-import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
-import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
 import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
 import com.vinicius.sistema_gerenciamento.service.SoftDelete.SoftDeleteService;
@@ -27,9 +24,7 @@ public class AtividadeService {
     private final AtividadeRepository atividadeRepository;
     private final UsuarioRepository usuarioRepository;
     private final ProjetoRepository projetoRepository;
-    private final HorasRepository horaRepository;
     private final UsuarioAtividadeService usuarioAtividadeService;
-    private final HorasMapper horasMapper;
     private final AtividadeMapper mapper;
     private final SoftDeleteService softDeleteService;
 
@@ -39,17 +34,13 @@ public class AtividadeService {
         AtividadeMapper mapper, 
         UsuarioRepository usuarioRepository, 
         ProjetoRepository projetoRepository, 
-        HorasRepository horaRepository, 
-        HorasMapper horasMapper,
         SoftDeleteService softDeleteService
     ) {
         this.usuarioAtividadeService = usuarioAtividadeService;
         this.atividadeRepository = atividadeRepository;
         this.usuarioRepository = usuarioRepository;
         this.projetoRepository = projetoRepository;
-        this.horaRepository = horaRepository;
         this.softDeleteService = softDeleteService;
-        this.horasMapper = horasMapper;
         this.mapper = mapper;
     }
 
@@ -82,13 +73,6 @@ public class AtividadeService {
         return atividadeRepository.findByProjetoId(id)
             .stream()
             .map(atividade -> mapper.paraDTO(atividade))
-            .collect(Collectors.toList());
-    }
-
-    public List<HorasResponseDTO> listarHoras(int id) {
-        return horaRepository.findByAtividadeId(id)
-            .stream()
-            .map(hora -> horasMapper.paraDTO(hora))
             .collect(Collectors.toList());
     }
 

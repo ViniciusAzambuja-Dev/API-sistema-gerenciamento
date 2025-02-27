@@ -10,7 +10,9 @@ import org.springframework.data.repository.query.Param;
 import com.vinicius.sistema_gerenciamento.model.Horas.LancamentoHora;
 
 public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{  
-    List<LancamentoHora> findByAtividadeId(int id); 
+    @Query("SELECT obj FROM LancamentoHora obj " +
+        "WHERE obj.atividade.id = :id AND obj.desativado = false")
+    List<LancamentoHora> findByAtividadeId(@Param("id") int atividadeId); 
 
     @Query("SELECT obj FROM LancamentoHora obj " +
     "JOIN FETCH obj.usuario_responsavel " +

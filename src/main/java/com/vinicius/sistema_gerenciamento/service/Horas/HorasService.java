@@ -59,6 +59,13 @@ public class HorasService {
             .collect(Collectors.toList());
     }
 
+    public List<HorasResponseDTO> listarPorAtividade(int id) {
+        return horasRepository.findByAtividadeId(id)
+            .stream()
+            .map(hora -> mapper.paraDTO(hora))
+            .collect(Collectors.toList());
+    }
+
     public void softDeleteHora(int id) {
         if (!horasRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);
