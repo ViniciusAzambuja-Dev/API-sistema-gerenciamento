@@ -71,6 +71,13 @@ public class AtividadeService {
             .collect(Collectors.toList());
     }
 
+    public List<AtividadeResponseDTO> listarPorUsuario(int id) {
+        return atividadeRepository.findByUsuarioId(id)
+            .stream()
+            .map(atividade -> mapper.paraDTO(atividade))
+            .collect(Collectors.toList());
+    }
+
     public List<HorasResponseDTO> listarHoras(int id) {
         return horaRepository.findByAtividadeId(id)
             .stream()

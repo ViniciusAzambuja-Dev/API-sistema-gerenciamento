@@ -18,6 +18,10 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
        "WHERE obj.desativado = false")
     List<Atividade> findAllAtivado();
 
+    @Query("SELECT obj FROM Atividade obj " +
+        "JOIN UsuarioAtividade ua ON obj.id = ua.atividade.id " +
+        "WHERE ua.usuario.id = :id")
+    List<Atividade> findByUsuarioId(@Param("id") int usuarioId);
     
     @Query("SELECT COUNT(obj) > 0 FROM Atividade obj WHERE obj.id = :id AND obj.desativado = false")
     Boolean existsByIdAndAtivado(@Param("id") int atividadeId);
