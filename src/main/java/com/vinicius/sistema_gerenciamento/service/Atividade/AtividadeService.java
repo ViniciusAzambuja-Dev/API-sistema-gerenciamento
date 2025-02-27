@@ -78,6 +78,13 @@ public class AtividadeService {
             .collect(Collectors.toList());
     }
 
+    public List<AtividadeResponseDTO> listarPorProjeto(int id) {
+        return atividadeRepository.findByProjetoId(id)
+            .stream()
+            .map(atividade -> mapper.paraDTO(atividade))
+            .collect(Collectors.toList());
+    }
+
     public List<HorasResponseDTO> listarHoras(int id) {
         return horaRepository.findByAtividadeId(id)
             .stream()

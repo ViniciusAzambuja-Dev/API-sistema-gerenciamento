@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
-import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.mapper.ProjetoMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoUpdateDTO;
@@ -19,7 +17,6 @@ import com.vinicius.sistema_gerenciamento.repository.Usuario.UsuarioRepository;
 import com.vinicius.sistema_gerenciamento.service.SoftDelete.SoftDeleteService;
 import com.vinicius.sistema_gerenciamento.service.UsuarioProjeto.UsuarioProjetoService;
 
-import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 
 @Service
 public class ProjetoService {
@@ -27,25 +24,19 @@ public class ProjetoService {
     private final UsuarioProjetoService usuarioProjetoService;
     private final ProjetoRepository projetoRepository;
     private final UsuarioRepository usuarioRepository;
-    private final AtividadeRepository atividadeRepository;
     private final ProjetoMapper projetoMapper;
-    private final AtividadeMapper atividadeMapper;
     private final SoftDeleteService softDeleteService;
 
     public ProjetoService(
         ProjetoRepository projetoRepository,
         UsuarioRepository usuarioRepository,
         ProjetoMapper projetoMapper,
-        AtividadeMapper atividadeMapper, 
-        AtividadeRepository atividadeRepository,
         UsuarioProjetoService usuarioProjetoService,
         SoftDeleteService softDeleteService
     ) {
         this.projetoRepository = projetoRepository;
         this.usuarioRepository = usuarioRepository;
-        this.atividadeRepository = atividadeRepository;
         this.projetoMapper = projetoMapper;
-        this.atividadeMapper = atividadeMapper;
         this.usuarioProjetoService  = usuarioProjetoService;
         this.softDeleteService = softDeleteService;
     }
@@ -62,13 +53,6 @@ public class ProjetoService {
         return projetoRepository.findAllAtivado()
             .stream()
             .map(projeto -> projetoMapper.paraDTO(projeto))
-            .collect(Collectors.toList());
-    }
-
-    public List<AtividadeResponseDTO> listarAtividades(int id) {
-        return atividadeRepository.findByProjetoId(id)
-            .stream()
-            .map(atividade -> atividadeMapper.paraDTO(atividade))
             .collect(Collectors.toList());
     }
 

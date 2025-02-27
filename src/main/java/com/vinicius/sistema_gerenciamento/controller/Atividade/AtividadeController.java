@@ -52,6 +52,11 @@ public class AtividadeController {
         return ResponseEntity.status(HttpStatus.OK).body(atividadeService.listarPorUsuario(id));
     }
 
+    @GetMapping("/listar/projeto/{id}")
+    public ResponseEntity<List<AtividadeResponseDTO>> listarAtividadesPorProjeto(@PathVariable @Positive int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(atividadeService.listarPorProjeto(id));
+    }
+
     @PutMapping("/atualizar")
     public ResponseEntity<Void> atualizar(@RequestBody @Valid AtividadeUpdateDTO data) {
         atividadeService.atualizarAtividades(data);
