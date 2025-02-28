@@ -59,6 +59,7 @@ public class SegurancaConfiguracao {
                     .requestMatchers(HttpMethod.POST, "api/horas/registrar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "api/horas/listar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "api/horas/listar/atividade/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "api/horas/listar/usuario/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "api/horas/deletar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "api/horas/atualizar/{id}").hasRole("ADMIN")
 
