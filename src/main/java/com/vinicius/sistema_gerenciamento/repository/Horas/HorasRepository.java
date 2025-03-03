@@ -27,6 +27,11 @@ public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{
     @Query("SELECT COUNT(obj) > 0 FROM LancamentoHora obj WHERE obj.id = :id AND obj.desativado = false")
     Boolean existsByIdAndAtivado(@Param("id") int horaLancadaId);
 
+    @Query("SELECT SUM(TIMESTAMPDIFF(MINUTE, data_inicio, data_fim)) / 60 " +
+        "FROM LancamentoHora obj WHERE MONTH(obj.data_registro) = :mes " +
+        "AND obj.desativado = false")
+    Double sumTotalHorasPorMes(@Param("mes") int mes);
+
     @Modifying
     @Query("UPDATE LancamentoHora obj SET obj.desativado = true WHERE obj.id = :id")
     void deleteHoraById(@Param("id") int horaLancadaId);

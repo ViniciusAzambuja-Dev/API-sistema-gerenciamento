@@ -25,6 +25,12 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
         "WHERE ua.usuario.id = :id AND obj.desativado = false")
     List<Atividade> findByUsuarioId(@Param("id") int usuarioId);
     
+    @Query("SELECT COUNT(obj) FROM Atividade obj WHERE obj.status = :status " +
+        "AND (MONTH(obj.data_inicio) = :mes " +
+        "OR MONTH(obj.data_fim) = :mes) " +
+        "AND obj.desativado = false " )
+    Integer countByStatus(@Param("status") String status, @Param("mes") int mes);
+
     @Query("SELECT COUNT(obj) > 0 FROM Atividade obj WHERE obj.id = :id AND obj.desativado = false")
     Boolean existsByIdAndAtivado(@Param("id") int atividadeId);
 
