@@ -56,6 +56,11 @@ public class HorasController {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarPorUsuario(id));
     }
 
+    @GetMapping("/listar/mes/usuario/{id}")
+    public ResponseEntity<List<HorasResponseDTO>> listarPorMesUsuario(@PathVariable @Positive int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(horasService.listarPorMesUsuario(id));
+    }
+
     @PutMapping("/atualizar")
     public ResponseEntity<Void> atualizar(@RequestBody @Valid HorasUpdateDTO data) {
         horasService.atualizarHoras(data);

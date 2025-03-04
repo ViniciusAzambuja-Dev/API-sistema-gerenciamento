@@ -60,12 +60,13 @@ public class SegurancaConfiguracao {
                     .requestMatchers(HttpMethod.GET, "api/horas/listar").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "api/horas/listar/atividade/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "api/horas/listar/usuario/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "api/horas/listar/mes/usuario/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "api/horas/deletar/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "api/horas/atualizar/{id}").hasRole("ADMIN")
 
                     //Rotas protegidas de requisições para Dashboard
                     .requestMatchers(HttpMethod.GET, "/api/dashboard/dados/admin").hasRole("ADMIN")
-
+                    .requestMatchers(HttpMethod.GET, "/api/dashboard/dados/gerais/{id}").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 )
                 .addFilterBefore(segurancaFiltro, UsernamePasswordAuthenticationFilter.class)

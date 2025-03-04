@@ -33,6 +33,13 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
     @Query("SELECT COUNT(obj) FROM Projeto obj WHERE obj.status = :status " +
     "AND obj.desativado = false")
     Integer countByStatus(@Param("status") String status);
+
+    @Query("SELECT COUNT(obj) FROM Projeto obj JOIN UsuarioProjeto up " + 
+        "ON obj.id = up.projeto.id " + 
+        "WHERE up.usuario.id = :id " + 
+        "AND obj.status = :status " +
+        "AND obj.desativado = false")
+    Integer countByStatusAndUsuario(@Param("status") String status, @Param("id") int usuarioId);
     
     @Query("SELECT COUNT(obj) > 0 FROM Projeto obj WHERE obj.id = :id AND obj.desativado = false")
     Boolean existsByIdAndAtivado(@Param("id") int projetoId);

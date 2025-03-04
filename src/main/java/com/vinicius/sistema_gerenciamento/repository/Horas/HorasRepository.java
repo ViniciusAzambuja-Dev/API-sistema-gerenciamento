@@ -21,6 +21,15 @@ public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{
     List<LancamentoHora> findAllAtivado();
 
     @Query("SELECT obj FROM LancamentoHora obj " +
+    "JOIN FETCH obj.usuario_responsavel " +
+    "JOIN FETCH obj.atividade " +
+    "WHERE obj.usuario_responsavel.id = :id " + 
+    "AND MONTH(obj.data_registro) = :mes " + 
+    "AND obj.desativado = false " + 
+    "ORDER BY obj.data_registro DESC")
+    List<LancamentoHora> findAllPorMesAndUsuario(@Param("mes") int mes, @Param("id") int usuarioId);
+
+    @Query("SELECT obj FROM LancamentoHora obj " +
     "WHERE obj.usuario_responsavel.id = :id AND obj.desativado = false")
     List<LancamentoHora> findByUsuarioId(@Param("id") int usuarioId);
 
@@ -31,6 +40,13 @@ public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{
         "FROM LancamentoHora obj WHERE MONTH(obj.data_registro) = :mes " +
         "AND obj.desativado = false")
     Double sumTotalHorasPorMes(@Param("mes") int mes);
+
+    @Query("SELECT SUM(TIMESTAMPDIFF(MINUTE, data_inicio, data_fim)) / 60 " +
+        "FROM LancamentoHora obj " +
+        "WHERE obj.usuario_responsavel.id = :id " + 
+        "AND MONTH(obj.data_registro) = :mes " +
+        "AND obj.desativado = false")
+    Double sumHorasPorMesAndUsuario(@Param("mes") int mes, @Param("id") int usuarioId);
 
     @Modifying
     @Query("UPDATE LancamentoHora obj SET obj.desativado = true WHERE obj.id = :id")

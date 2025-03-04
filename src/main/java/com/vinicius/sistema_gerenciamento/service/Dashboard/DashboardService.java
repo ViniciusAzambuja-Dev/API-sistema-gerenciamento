@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.DashboardAdminDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.DashboardGeneralDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ChartDatasDTO;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
@@ -61,5 +62,16 @@ public class DashboardService {
             totalHoras, 
             chartDatas
         );
+    }
+
+    public DashboardGeneralDTO buscarMetricasGerais(int id) {
+        int mesAtual = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        int projetosPendentes = projetoRepository.countByStatusAndUsuario("EM_ANDAMENTO", id);
+        int atividadesPendentes = atividadeRepository.countByStatusAndUsuario("EM_ANDAMENTO", id);
+        
+        Double somaHoras = horasRepository.sumHorasPorMesAndUsuario(mesAtual, id);
+        int totalHoras = somaHoras == null ? 0 : somaHoras.intValue();
+
+        return new DashboardGeneralDTO(projetosPendentes, atividadesPendentes, totalHoras);
     }
 }
