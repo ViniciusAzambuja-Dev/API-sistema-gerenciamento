@@ -6,6 +6,7 @@ public record HorasResponseDTO(
     String descricao,
     String data_inicio,
     String data_fim,
+    String data_registro,
     String nomeUsuario,
     String nomeAtividade
 ) {

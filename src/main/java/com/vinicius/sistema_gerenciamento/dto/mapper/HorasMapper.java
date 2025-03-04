@@ -24,12 +24,14 @@ public class HorasMapper {
 
         String dataInicioFormatada = horaLancada.formataData(horaLancada.getData_inicio());
         String dataFimFormatada = horaLancada.formataData(horaLancada.getData_fim());
+        String dataRegistroFormatada = horaLancada.formataDataRegistro();
 
         return new HorasResponseDTO(
             horaLancada.getId(),
             horaLancada.getDescricao(), 
             dataInicioFormatada, 
             dataFimFormatada, 
+            dataRegistroFormatada,
             horaLancada.getUsuario_responsavel().getNome(), 
             horaLancada.getAtividade().getNome());
     }
