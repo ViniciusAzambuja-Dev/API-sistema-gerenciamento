@@ -46,7 +46,8 @@ public class DashboardService {
 
         int usuariosAtivos = usuarioRepository.countUsuariosAtivos();
 
-        int totalHoras = horasRepository.sumTotalHorasPorMes(mesAtual).intValue();
+        Double somaHoras = horasRepository.sumTotalHorasPorMes(mesAtual);
+        int totalHoras = somaHoras == null ? 0 : somaHoras.intValue();
         List<ChartDatasDTO> chartDatas = projetoRepository.sumHorasPorProjeto();
 
         return new DashboardAdminDTO(
