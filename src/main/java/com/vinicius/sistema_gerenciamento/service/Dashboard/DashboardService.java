@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.DashboardAdminDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.DashboardGeneralDTO;
-import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ChartDatasDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.GraficoBarrasDTO;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
@@ -48,7 +48,7 @@ public class DashboardService {
 
         Double somaHoras = horasRepository.sumTotalHorasPorMes(mesAtual);
         int totalHoras = somaHoras == null ? 0 : somaHoras.intValue();
-        List<ChartDatasDTO> chartDatas = projetoRepository.sumHorasPorProjeto();
+        List<GraficoBarrasDTO> chartDatas = horasRepository.sumHorasPorProjeto();
 
         return new DashboardAdminDTO(
             projetosConcluidos,

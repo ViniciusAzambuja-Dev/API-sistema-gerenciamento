@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ChartDatasDTO;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 
 public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
@@ -19,16 +18,6 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
         "JOIN UsuarioProjeto up ON obj.id = up.projeto.id " +
         "WHERE up.usuario.id = :id AND obj.desativado = false")
     List<Projeto> findByUsuarioId(@Param("id") int usuarioId);
-
-    @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ChartDatasDTO(obj.id, obj.nome, SUM(TIMESTAMPDIFF(MINUTE, lh.data_inicio, lh.data_fim)) / 60) " +
-        "FROM Projeto obj " +
-        "JOIN Atividade a ON obj.id = a.projeto.id " +
-        "JOIN LancamentoHora lh ON a.id = lh.atividade.id " +
-        "WHERE obj.desativado = false " +
-        "AND a.desativado = false " +
-        "AND lh.desativado = false " +
-        "GROUP BY obj.id, obj.nome")
-    List<ChartDatasDTO> sumHorasPorProjeto();
 
     @Query("SELECT COUNT(obj) FROM Projeto obj WHERE obj.status = :status " +
     "AND obj.desativado = false")
