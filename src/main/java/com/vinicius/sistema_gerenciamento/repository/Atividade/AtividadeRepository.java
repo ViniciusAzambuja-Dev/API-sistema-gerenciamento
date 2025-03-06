@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.AtividadePorStatusDTO;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 
 import java.util.List;
@@ -37,6 +38,14 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
         "AND obj.status = :status " +
         "AND obj.desativado = false")
     Integer countByStatusAndUsuario(@Param("status") String status, @Param("id") int usuarioId);
+
+    @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Dashboard.AtividadePorStatusDTO(obj.status, COUNT(obj)) " +
+        "FROM Atividade obj " +
+        "JOIN UsuarioAtividade ua ON obj.id = ua.atividade.id " +
+        "WHERE ua.usuario.id = :id " +
+        "AND obj.desativado = false " +
+        "GROUP BY obj.status")
+    List<AtividadePorStatusDTO> countByStatusAndUsuario(@Param("id") int usuarioId);
 
     @Query("SELECT COUNT(obj) > 0 FROM Atividade obj WHERE obj.id = :id AND obj.desativado = false")
     Boolean existsByIdAndAtivado(@Param("id") int atividadeId);

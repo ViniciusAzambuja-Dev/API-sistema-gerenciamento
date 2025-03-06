@@ -13,6 +13,6 @@ public record DashboardAdminDTO(
     int atividadesPausadas,
     int usuariosAtivos,
     int totalHorasPorMes,
-    List<GraficoBarrasDTO> chartDatas
+    List<GraficoBarrasDTO> dadosGraficoBarras
 ) {
 }

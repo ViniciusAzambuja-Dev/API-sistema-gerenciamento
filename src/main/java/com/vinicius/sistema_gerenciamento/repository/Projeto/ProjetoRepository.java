@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ProjetoPorPrioridadeDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ProjetoPorStatusDTO;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 
 public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
@@ -29,6 +31,22 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
         "AND obj.status = :status " +
         "AND obj.desativado = false")
     Integer countByStatusAndUsuario(@Param("status") String status, @Param("id") int usuarioId);
+
+    @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ProjetoPorStatusDTO(obj.status, COUNT(obj)) " +
+        "FROM Projeto obj " +
+        "JOIN UsuarioProjeto up ON obj.id = up.projeto.id " +
+        "WHERE up.usuario.id = :id " +
+        "AND obj.desativado = false " +
+        "GROUP BY obj.status")
+    List<ProjetoPorStatusDTO> countByStatusAndUsuario(@Param("id") int usuarioId);
+
+    @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ProjetoPorPrioridadeDTO(obj.prioridade, COUNT(obj)) " +
+        "FROM Projeto obj " +
+        "JOIN UsuarioProjeto up ON obj.id = up.projeto.id " +
+        "WHERE up.usuario.id = :id " +
+        "AND obj.desativado = false " +
+        "GROUP BY obj.prioridade")
+    List<ProjetoPorPrioridadeDTO> countByPrioridadeAndUsuario(@Param("id") int usuarioId);
     
     @Query("SELECT COUNT(obj) > 0 FROM Projeto obj WHERE obj.id = :id AND obj.desativado = false")
     Boolean existsByIdAndAtivado(@Param("id") int projetoId);
