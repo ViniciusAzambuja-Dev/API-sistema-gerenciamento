@@ -5,12 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.AtividadePorStatusDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.DashboardAdminDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.DashboardGeneralDTO;
-import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ProjetoPorPrioridadeDTO;
-import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ProjetoPorStatusDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoBarrasDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoDoughnutDTO;
 import com.vinicius.sistema_gerenciamento.repository.Atividade.AtividadeRepository;
 import com.vinicius.sistema_gerenciamento.repository.Horas.HorasRepository;
 import com.vinicius.sistema_gerenciamento.repository.Projeto.ProjetoRepository;
@@ -73,9 +71,9 @@ public class DashboardService {
         int projetosPendentes = projetoRepository.countByStatusAndUsuario("EM_ANDAMENTO", id);
         int atividadesPendentes = atividadeRepository.countByStatusAndUsuario("EM_ANDAMENTO", id);
         
-        List<ProjetoPorPrioridadeDTO> projPorPrioridade = projetoRepository.countByPrioridadeAndUsuario(id);
-        List<ProjetoPorStatusDTO> projPorStatus = projetoRepository.countByStatusAndUsuario(id);
-        List<AtividadePorStatusDTO> ativPorStatus = atividadeRepository.countByStatusAndUsuario(id);
+        List<GraficoDoughnutDTO> projPorPrioridade = projetoRepository.countByPrioridadeAndUsuario(id);
+        List<GraficoDoughnutDTO> projPorStatus = projetoRepository.countByStatusAndUsuario(id);
+        List<GraficoDoughnutDTO> ativPorStatus = atividadeRepository.countByStatusAndUsuario(id);
 
         Double somaHoras = horasRepository.sumHorasPorMesAndUsuario(mesAtual, id);
         int totalHoras = somaHoras == null ? 0 : somaHoras.intValue();

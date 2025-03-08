@@ -2,12 +2,14 @@ package com.vinicius.sistema_gerenciamento.dto.response.Dashboard;
 
 import java.util.List;
 
+import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoDoughnutDTO;
+
 public record DashboardGeneralDTO(
     int projetosPendentes,
     int atividadesPendentes,
     int totalHorasPorMes,
-    List<ProjetoPorPrioridadeDTO> projPorPrioridade,
-    List<ProjetoPorStatusDTO> projPorStatus,
-    List<AtividadePorStatusDTO> ativPorStatus
+    List<GraficoDoughnutDTO> projPorPrioridade,
+    List<GraficoDoughnutDTO> projPorStatus,
+    List<GraficoDoughnutDTO> ativPorStatus
 ) {
 }
