@@ -9,6 +9,7 @@ import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoDoughnutDT
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.AtividadeDetalhesDTO;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,16 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
         "JOIN UsuarioAtividade ua ON obj.id = ua.atividade.id " +
         "WHERE ua.usuario.id = :id AND obj.desativado = false")
     List<Atividade> findByUsuarioId(@Param("id") int usuarioId);
+
+    @Query("SELECT obj FROM Atividade obj WHERE " +
+        "obj.data_inicio >= :periodoInicial  " +
+        "AND obj.data_fim <= :periodoFinal " +
+        "AND obj.desativado = false " +
+        "ORDER BY obj.data_inicio")
+    List<Atividade> findByPeriodo(
+        @Param("periodoInicial") LocalDate periodoInicial,
+        @Param("periodoFinal") LocalDate periodoFinal
+    );
 
     @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.AtividadeDetalhesDTO( " +
        "obj.id, obj.nome, obj.data_inicio, obj.data_fim, obj.status, " +

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.RelatorioAtividadeDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.RelatorioProjetoDTO;
@@ -45,5 +46,10 @@ public class RelatorioController {
     @GetMapping("/periodo/projetos")
     public ResponseEntity<List<ProjetoResponseDTO>> filtrarProjPorPeriodo(@RequestParam LocalDate periodoInicial, @RequestParam LocalDate periodoFinal) {
         return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarProjPorPeriodo(periodoInicial, periodoFinal));
+    }
+
+    @GetMapping("/periodo/atividades")
+    public ResponseEntity<List<AtividadeResponseDTO>> filtrarAtivPorPeriodo(@RequestParam LocalDate periodoInicial, @RequestParam LocalDate periodoFinal) {
+        return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarAtivPorPeriodo(periodoInicial, periodoFinal));
     }
 }

@@ -50,4 +50,8 @@ public class RelatorioService {
     public List<ProjetoResponseDTO> filtrarProjPorPeriodo(LocalDate periodoInicial, LocalDate periodoFinal) {
       return projetoService.listarPorPeriodo(periodoInicial, periodoFinal);
     }
+
+    public List<AtividadeResponseDTO> filtrarAtivPorPeriodo(LocalDate periodoInicial, LocalDate periodoFinal) {
+      return atividadeService.listarPorPeriodo(periodoInicial, periodoFinal);
+    }
 }

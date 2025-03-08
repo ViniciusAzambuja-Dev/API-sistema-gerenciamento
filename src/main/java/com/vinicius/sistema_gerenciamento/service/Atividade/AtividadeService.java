@@ -1,5 +1,6 @@
 package com.vinicius.sistema_gerenciamento.service.Atividade;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,6 +81,13 @@ public class AtividadeService {
      public AtividadeDetalhesDTO listarDetalhes(int id) {
         return atividadeRepository.findAtividadeDetalhes(id)
             .orElseThrow(() -> new RecordNotFoundException(id));
+    }
+
+    public List<AtividadeResponseDTO> listarPorPeriodo(LocalDate periodoInicial, LocalDate periodoFinal) {
+        return atividadeRepository.findByPeriodo(periodoInicial, periodoFinal)
+            .stream()
+            .map(atividade -> mapper.paraDTO(atividade))
+            .collect(Collectors.toList());
     }
 
     public void atualizarAtividades(AtividadeUpdateDTO data) {
