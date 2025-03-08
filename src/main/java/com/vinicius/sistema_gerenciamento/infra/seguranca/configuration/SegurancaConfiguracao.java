@@ -67,6 +67,9 @@ public class SegurancaConfiguracao {
                     //Rotas protegidas de requisições para Dashboard
                     .requestMatchers(HttpMethod.GET, "/api/dashboard/dados/admin").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/api/dashboard/dados/gerais/{id}").hasRole("ADMIN")
+                    
+                    .requestMatchers(HttpMethod.GET, "/api/relatorio/projetos/{id}").hasRole("ADMIN")
+
                     .anyRequest().authenticated()
                 )
                 .addFilterBefore(segurancaFiltro, UsernamePasswordAuthenticationFilter.class)

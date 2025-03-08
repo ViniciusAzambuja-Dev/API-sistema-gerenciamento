@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.GraficoBarrasDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoBarrasDTO;
 import com.vinicius.sistema_gerenciamento.model.Horas.LancamentoHora;
 
 public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{  
@@ -42,7 +42,7 @@ public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{
         "AND obj.desativado = false")
     Double sumTotalHorasPorMes(@Param("mes") int mes);
 
-    @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Dashboard.GraficoBarrasDTO(p.id, p.nome, SUM(TIMESTAMPDIFF(MINUTE, obj.data_inicio, obj.data_fim)) / 60) " +
+    @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoBarrasDTO(p.id, p.nome, SUM(TIMESTAMPDIFF(MINUTE, obj.data_inicio, obj.data_fim)) / 60) " +
         "FROM LancamentoHora obj " +
         "JOIN obj.atividade a " +
         "JOIN a.projeto p " +
@@ -51,6 +51,18 @@ public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{
         "AND obj.desativado = false " +
         "GROUP BY p.id, p.nome")
     List<GraficoBarrasDTO> sumHorasPorProjeto();
+
+    @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoBarrasDTO( " +
+        "a.id, a.nome, SUM(TIMESTAMPDIFF(MINUTE, obj.data_inicio, obj.data_fim)) / 60) " +
+        "FROM LancamentoHora obj " +
+        "JOIN obj.atividade a " +
+        "JOIN a.projeto p " +
+        "WHERE p.desativado = false " +
+        "AND a.desativado = false " +
+        "AND obj.desativado = false " +
+        "AND p.id = :id " +
+        "GROUP BY a.id, a.nome")
+    List<GraficoBarrasDTO> sumHorasPorAtividade(@Param("id") int projetoId);
 
     @Query("SELECT SUM(TIMESTAMPDIFF(MINUTE, data_inicio, data_fim)) / 60 " +
         "FROM LancamentoHora obj " +

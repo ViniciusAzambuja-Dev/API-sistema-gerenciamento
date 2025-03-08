@@ -2,6 +2,8 @@ package com.vinicius.sistema_gerenciamento.dto.response.Dashboard;
 
 import java.util.List;
 
+import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoBarrasDTO;
+
 public record DashboardAdminDTO(
     int projetosConcluidos,
     int projetosPendentes,

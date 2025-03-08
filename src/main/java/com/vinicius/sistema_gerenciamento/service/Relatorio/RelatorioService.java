@@ -1,0 +1,37 @@
+package com.vinicius.sistema_gerenciamento.service.Relatorio;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoBarrasDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.ProjetoDetalhesDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.RelatorioProjetoDTO;
+import com.vinicius.sistema_gerenciamento.service.Atividade.AtividadeService;
+import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
+import com.vinicius.sistema_gerenciamento.service.Projeto.ProjetoService;
+
+@Service
+public class RelatorioService {
+    private final ProjetoService projetoService;
+    private final AtividadeService atividadeService;
+    private final HorasService horasService;
+
+    public RelatorioService(
+      ProjetoService projetoService, 
+      AtividadeService atividadeService,
+      HorasService horasService) {
+       this.projetoService = projetoService;
+       this.atividadeService = atividadeService;
+       this.horasService = horasService;
+    }
+
+    public RelatorioProjetoDTO filtrarProjetos(int id) {
+      List<AtividadeResponseDTO> atividades = atividadeService.listarPorProjeto(id);
+      ProjetoDetalhesDTO detalhes = projetoService.listarDetalhes(id);
+      List<GraficoBarrasDTO> dadosGraficoBarras = horasService.somaHorasPorAtividade(id);
+      
+      return new RelatorioProjetoDTO(atividades, dadosGraficoBarras, detalhes);
+    }
+}

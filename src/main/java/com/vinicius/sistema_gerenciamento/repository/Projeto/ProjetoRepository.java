@@ -1,6 +1,7 @@
 package com.vinicius.sistema_gerenciamento.repository.Projeto;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ProjetoPorPrioridadeDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.ProjetoPorStatusDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.ProjetoDetalhesDTO;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 
 public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
@@ -24,6 +26,24 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
     @Query("SELECT COUNT(obj) FROM Projeto obj WHERE obj.status = :status " +
     "AND obj.desativado = false")
     Integer countByStatus(@Param("status") String status);
+
+    @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.ProjetoDetalhesDTO( " +
+       "obj.id, obj.nome, obj.data_inicio, obj.data_fim, " +
+       "COUNT(DISTINCT up.usuario.id), " +
+       "SUM(CASE WHEN lh.desativado = false THEN TIMESTAMPDIFF(MINUTE, lh.data_inicio, lh.data_fim) / 60 END), " +
+       "COUNT(DISTINCT CASE WHEN a.desativado = false THEN a.id END), " +
+       "COUNT(DISTINCT CASE WHEN a.desativado = false AND a.status = 'CONCLUIDA' THEN a.id END), " +
+       "COUNT(DISTINCT CASE WHEN a.desativado = false AND a.status = 'EM_ANDAMENTO' THEN a.id END), " +
+       "COUNT(DISTINCT CASE WHEN a.desativado = false AND a.status = 'ABERTA' THEN a.id END), " +
+       "COUNT(DISTINCT CASE WHEN a.desativado = false AND a.status = 'PAUSADA' THEN a.id END)) " +
+       "FROM Projeto obj " +
+       "LEFT JOIN Atividade a ON obj.id = a.projeto.id " +
+       "LEFT JOIN LancamentoHora lh ON a.id = lh.atividade.id " +
+       "LEFT JOIN UsuarioProjeto up ON obj.id = up.projeto.id " +
+       "WHERE obj.id = :id " +
+       "AND obj.desativado = false " +
+       "GROUP BY obj.id")
+    Optional<ProjetoDetalhesDTO> findProjetoDetalhes(@Param("id") int projetoId); 
 
     @Query("SELECT COUNT(obj) FROM Projeto obj JOIN UsuarioProjeto up " + 
         "ON obj.id = up.projeto.id " + 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.vinicius.sistema_gerenciamento.dto.mapper.HorasMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasUpdateDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoBarrasDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
@@ -101,5 +102,9 @@ public class HorasService {
         }
                 
         horasRepository.save(mapper.atualizaParaEntity(horaLancada, data));
+    }
+
+    public List<GraficoBarrasDTO> somaHorasPorAtividade(int id) {
+        return horasRepository.sumHorasPorAtividade(id);
     }
 }

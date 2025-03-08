@@ -9,6 +9,7 @@ import com.vinicius.sistema_gerenciamento.dto.mapper.ProjetoMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.ProjetoDetalhesDTO;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
@@ -61,6 +62,11 @@ public class ProjetoService {
             .stream()
             .map(projeto -> projetoMapper.paraDTO(projeto))
             .collect(Collectors.toList());
+    }
+
+    public ProjetoDetalhesDTO listarDetalhes(int id) {
+        return projetoRepository.findProjetoDetalhes(id)
+            .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public void softDeleteProjeto(int id) {
