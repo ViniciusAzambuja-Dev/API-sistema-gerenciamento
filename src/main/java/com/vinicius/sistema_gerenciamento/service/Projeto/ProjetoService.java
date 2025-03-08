@@ -1,5 +1,6 @@
 package com.vinicius.sistema_gerenciamento.service.Projeto;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +60,13 @@ public class ProjetoService {
 
     public List<ProjetoResponseDTO> listarPorUsuario(int id) {
         return projetoRepository.findByUsuarioId(id)
+            .stream()
+            .map(projeto -> projetoMapper.paraDTO(projeto))
+            .collect(Collectors.toList());
+    }
+
+    public List<ProjetoResponseDTO> listarPorPeriodo(LocalDate periodoInicial, LocalDate periodoFinal) {
+        return projetoRepository.findByPeriodo(periodoInicial, periodoFinal)
             .stream()
             .map(projeto -> projetoMapper.paraDTO(projeto))
             .collect(Collectors.toList());

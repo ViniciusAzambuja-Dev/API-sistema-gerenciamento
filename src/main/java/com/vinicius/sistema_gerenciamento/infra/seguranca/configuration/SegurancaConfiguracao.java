@@ -68,8 +68,10 @@ public class SegurancaConfiguracao {
                     .requestMatchers(HttpMethod.GET, "/api/dashboard/dados/admin").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/api/dashboard/dados/gerais/{id}").hasRole("ADMIN")
                     
+                    //Rotas protegidas de requisições para Relatorio
                     .requestMatchers(HttpMethod.GET, "/api/relatorio/projetos/{id}").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/api/relatorio/atividades/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/api/relatorio/periodo/projetos").hasRole("ADMIN")
 
                     .anyRequest().authenticated()
                 )

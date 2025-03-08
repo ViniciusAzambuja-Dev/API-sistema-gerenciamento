@@ -1,5 +1,6 @@
 package com.vinicius.sistema_gerenciamento.repository.Projeto;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,16 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
        "AND obj.desativado = false " +
        "GROUP BY obj.id")
     Optional<ProjetoDetalhesDTO> findProjetoDetalhes(@Param("id") int projetoId); 
+
+    @Query("SELECT obj FROM Projeto obj WHERE " +
+        "obj.data_inicio >= :periodoInicial  " +
+        "AND obj.data_fim <= :periodoFinal " +
+        "AND obj.desativado = false " +
+        "ORDER BY obj.data_inicio")
+    List<Projeto> findByPeriodo(
+        @Param("periodoInicial") LocalDate periodoInicial,
+        @Param("periodoFinal") LocalDate periodoFinal
+    );
 
     @Query("SELECT COUNT(obj) FROM Projeto obj JOIN UsuarioProjeto up " + 
         "ON obj.id = up.projeto.id " + 

@@ -1,11 +1,16 @@
 package com.vinicius.sistema_gerenciamento.controller.Relatorio;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.RelatorioAtividadeDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.RelatorioProjetoDTO;
 import com.vinicius.sistema_gerenciamento.service.Relatorio.RelatorioService;
@@ -35,5 +40,10 @@ public class RelatorioController {
     @GetMapping("/atividades/{id}")
     public ResponseEntity<RelatorioAtividadeDTO> filtrarAtividades(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarAtividades(id));
+    }
+
+    @GetMapping("/periodo/projetos")
+    public ResponseEntity<List<ProjetoResponseDTO>> filtrarProjPorPeriodo(@RequestParam LocalDate periodoInicial, @RequestParam LocalDate periodoFinal) {
+        return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarProjPorPeriodo(periodoInicial, periodoFinal));
     }
 }

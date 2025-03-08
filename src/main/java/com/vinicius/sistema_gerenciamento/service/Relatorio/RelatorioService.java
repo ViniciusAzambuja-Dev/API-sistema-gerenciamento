@@ -1,5 +1,6 @@
 package com.vinicius.sistema_gerenciamento.service.Relatorio;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoBarrasDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.AtividadeDetalhesDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.RelatorioAtividadeDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.ProjetoDetalhesDTO;
@@ -43,5 +45,9 @@ public class RelatorioService {
       AtividadeDetalhesDTO detalhes = atividadeService.listarDetalhes(id);
       
       return new RelatorioAtividadeDTO(horas, detalhes);
+    }
+
+    public List<ProjetoResponseDTO> filtrarProjPorPeriodo(LocalDate periodoInicial, LocalDate periodoFinal) {
+      return projetoService.listarPorPeriodo(periodoInicial, periodoFinal);
     }
 }
