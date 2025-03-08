@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoBarrasDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.AtividadeDetalhesDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.RelatorioAtividadeDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.ProjetoDetalhesDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.RelatorioProjetoDTO;
 import com.vinicius.sistema_gerenciamento.service.Atividade.AtividadeService;
@@ -33,5 +36,12 @@ public class RelatorioService {
       List<GraficoBarrasDTO> dadosGraficoBarras = horasService.somaHorasPorAtividade(id);
       
       return new RelatorioProjetoDTO(atividades, dadosGraficoBarras, detalhes);
+    }
+
+    public RelatorioAtividadeDTO filtrarAtividades(int id) {
+      List<HorasResponseDTO> horas = horasService.listarPorAtividade(id);
+      AtividadeDetalhesDTO detalhes = atividadeService.listarDetalhes(id);
+      
+      return new RelatorioAtividadeDTO(horas, detalhes);
     }
 }

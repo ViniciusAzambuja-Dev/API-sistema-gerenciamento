@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.vinicius.sistema_gerenciamento.dto.response.Grafico.GraficoDoughnutDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.AtividadeDetalhesDTO;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
     @Query("SELECT obj FROM Atividade obj " +
@@ -25,6 +27,18 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
         "JOIN UsuarioAtividade ua ON obj.id = ua.atividade.id " +
         "WHERE ua.usuario.id = :id AND obj.desativado = false")
     List<Atividade> findByUsuarioId(@Param("id") int usuarioId);
+
+    @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.AtividadeDetalhesDTO( " +
+       "obj.id, obj.nome, obj.data_inicio, obj.data_fim, obj.status, " +
+       "COUNT(DISTINCT ua.usuario.id), " +
+       "SUM(CASE WHEN lh.desativado = false THEN TIMESTAMPDIFF(MINUTE, lh.data_inicio, lh.data_fim) / 60 END)) " +
+       "FROM Atividade obj " +
+       "LEFT JOIN LancamentoHora lh ON obj.id = lh.atividade.id " +
+       "LEFT JOIN UsuarioAtividade ua ON obj.id = ua.atividade.id " +
+       "WHERE obj.id = :id " +
+       "AND obj.desativado = false " +
+       "GROUP BY obj.id")
+    Optional<AtividadeDetalhesDTO> findAtividadeDetalhes(@Param("id") int atividadeId); 
     
     @Query("SELECT COUNT(obj) FROM Atividade obj WHERE obj.status = :status " +
         "AND (MONTH(obj.data_inicio) = :mes " +

@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.RelatorioAtividadeDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.RelatorioProjetoDTO;
 import com.vinicius.sistema_gerenciamento.service.Relatorio.RelatorioService;
 
@@ -29,5 +30,10 @@ public class RelatorioController {
     @GetMapping("/projetos/{id}")
     public ResponseEntity<RelatorioProjetoDTO> filtrarProjetos(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarProjetos(id));
+    }
+
+    @GetMapping("/atividades/{id}")
+    public ResponseEntity<RelatorioAtividadeDTO> filtrarAtividades(@PathVariable @Positive int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarAtividades(id));
     }
 }

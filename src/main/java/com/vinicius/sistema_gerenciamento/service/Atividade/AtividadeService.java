@@ -9,6 +9,7 @@ import com.vinicius.sistema_gerenciamento.dto.mapper.AtividadeMapper;
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.request.Atividade.AtividadeUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Atividade.AtividadeResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.AtividadeDetalhesDTO;
 import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Atividade.Atividade;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
@@ -74,6 +75,11 @@ public class AtividadeService {
             .stream()
             .map(atividade -> mapper.paraDTO(atividade))
             .collect(Collectors.toList());
+    }
+
+     public AtividadeDetalhesDTO listarDetalhes(int id) {
+        return atividadeRepository.findAtividadeDetalhes(id)
+            .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public void atualizarAtividades(AtividadeUpdateDTO data) {
