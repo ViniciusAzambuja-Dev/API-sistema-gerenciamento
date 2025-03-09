@@ -1,5 +1,6 @@
 package com.vinicius.sistema_gerenciamento.repository.Horas;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,6 +34,18 @@ public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{
     @Query("SELECT obj FROM LancamentoHora obj " +
     "WHERE obj.usuario_responsavel.id = :id AND obj.desativado = false")
     List<LancamentoHora> findByUsuarioId(@Param("id") int usuarioId);
+
+    @Query("SELECT obj FROM LancamentoHora obj WHERE " +
+        "obj.data_registro >= :periodoInicial  " +
+        "AND obj.data_registro <= :periodoFinal " +
+        "AND (:id IS NULL OR obj.usuario_responsavel.id = :id) " +
+        "AND obj.desativado = false " +
+        "ORDER BY obj.data_registro")
+    List<LancamentoHora> findByPeriodo(
+        @Param("periodoInicial") LocalDateTime periodoInicial,
+        @Param("periodoFinal") LocalDateTime periodoFinal,
+        @Param("id") Integer usuarioId
+    );
 
     @Query("SELECT COUNT(obj) > 0 FROM LancamentoHora obj WHERE obj.id = :id AND obj.desativado = false")
     Boolean existsByIdAndAtivado(@Param("id") int horaLancadaId);

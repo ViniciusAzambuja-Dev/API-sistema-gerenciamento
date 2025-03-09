@@ -1,5 +1,6 @@
 package com.vinicius.sistema_gerenciamento.service.Horas;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,6 +79,13 @@ public class HorasService {
     public List<HorasResponseDTO> listarPorMesUsuario(int id) {
         int mesAtual = Calendar.getInstance().get(Calendar.MONTH) + 1;
         return horasRepository.findAllPorMesAndUsuario(mesAtual, id)
+            .stream()
+            .map(hora -> mapper.paraDTO(hora))
+            .collect(Collectors.toList());
+    }
+
+    public List<HorasResponseDTO> listarPorPeriodo(LocalDateTime dataInicial, LocalDateTime dataFinal, Integer usuarioId) {
+        return horasRepository.findByPeriodo(dataInicial, dataFinal, usuarioId)
             .stream()
             .map(hora -> mapper.paraDTO(hora))
             .collect(Collectors.toList());

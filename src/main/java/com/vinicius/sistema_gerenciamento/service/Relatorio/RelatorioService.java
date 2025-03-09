@@ -1,6 +1,8 @@
 package com.vinicius.sistema_gerenciamento.service.Relatorio;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -53,5 +55,12 @@ public class RelatorioService {
 
     public List<AtividadeResponseDTO> filtrarAtivPorPeriodo(LocalDate periodoInicial, LocalDate periodoFinal) {
       return atividadeService.listarPorPeriodo(periodoInicial, periodoFinal);
+    }
+
+    public List<HorasResponseDTO> filtrarHorasPorPeriodo(LocalDate periodoInicial, LocalDate periodoFinal, Integer usuarioId) {
+      LocalDateTime dataInicial = periodoInicial.atStartOfDay();
+      LocalDateTime dataFinal = periodoFinal.atTime(LocalTime.MAX);
+
+      return horasService.listarPorPeriodo(dataInicial, dataFinal, usuarioId);
     }
 }
