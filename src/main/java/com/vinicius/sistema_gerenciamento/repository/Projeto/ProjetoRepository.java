@@ -28,7 +28,7 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
     Integer countByStatus(@Param("status") String status);
 
     @Query("SELECT new com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.ProjetoDetalhesDTO( " +
-       "obj.id, obj.nome, obj.data_inicio, obj.data_fim, " +
+       "obj.id, obj.nome, obj.data_inicio, obj.data_fim, obj.status, " +
        "COUNT(DISTINCT up.usuario.id), " +
        "SUM(CASE WHEN lh.desativado = false THEN TIMESTAMPDIFF(MINUTE, lh.data_inicio, lh.data_fim) / 60 END), " +
        "COUNT(DISTINCT CASE WHEN a.desativado = false THEN a.id END), " +

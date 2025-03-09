@@ -11,6 +11,7 @@ public record ProjetoDetalhesDTO(
     LocalDate data_inicio,
     @JsonFormat(pattern = "dd/MM/yyyy")
     LocalDate data_fim,
+    String status,
     Long quantidadeIntegrantes,
     Long totalHoras,
     Long totalAtividades,
