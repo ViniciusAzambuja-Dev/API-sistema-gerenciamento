@@ -15,18 +15,23 @@ import java.util.Optional;
 
 public interface AtividadeRepository extends JpaRepository<Atividade, Integer>{
     @Query("SELECT obj FROM Atividade obj " +
-        "WHERE obj.projeto.id = :id AND obj.desativado = false")
+        "WHERE obj.projeto.id = :id " +
+        "AND obj.desativado = false " +
+        "ORDER BY obj.data_criacao DESC")
     List<Atividade> findByProjetoId(@Param("id") int projetoId);
 
     @Query("SELECT obj FROM Atividade obj " +
        "JOIN FETCH obj.usuario_responsavel " +
        "JOIN FETCH obj.projeto " +
-       "WHERE obj.desativado = false")
+       "WHERE obj.desativado = false " +
+       "ORDER BY obj.data_criacao DESC")
     List<Atividade> findAllAtivado();
 
     @Query("SELECT obj FROM Atividade obj " +
         "JOIN UsuarioAtividade ua ON obj.id = ua.atividade.id " +
-        "WHERE ua.usuario.id = :id AND obj.desativado = false")
+        "WHERE ua.usuario.id = :id " + 
+        "AND obj.desativado = false " + 
+        "ORDER BY obj.data_criacao DESC")
     List<Atividade> findByUsuarioId(@Param("id") int usuarioId);
 
     @Query("SELECT obj FROM Atividade obj WHERE " +

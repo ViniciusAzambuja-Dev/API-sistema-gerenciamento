@@ -13,7 +13,9 @@ import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     UserDetails findByEmail(String email);
 
-    @Query("SELECT u FROM Usuario u WHERE u.desativado = false")
+    @Query("SELECT obj FROM Usuario obj " + 
+    "WHERE obj.desativado = false " +
+    "ORDER BY obj.ultimo_login DESC")
     List<Usuario> findAllAtivado();
 
     @Query("SELECT obj FROM Usuario obj " +

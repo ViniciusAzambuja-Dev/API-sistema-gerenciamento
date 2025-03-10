@@ -13,13 +13,16 @@ import com.vinicius.sistema_gerenciamento.model.Horas.LancamentoHora;
 
 public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{  
     @Query("SELECT obj FROM LancamentoHora obj " +
-        "WHERE obj.atividade.id = :id AND obj.desativado = false")
+        "WHERE obj.atividade.id = :id " + 
+        "AND obj.desativado = false " +
+        "ORDER BY obj.data_registro DESC")
     List<LancamentoHora> findByAtividadeId(@Param("id") int atividadeId); 
 
     @Query("SELECT obj FROM LancamentoHora obj " +
     "JOIN FETCH obj.usuario_responsavel " +
     "JOIN FETCH obj.atividade " +
-    "WHERE obj.desativado = false")
+    "WHERE obj.desativado = false " +
+    "ORDER BY obj.data_registro DESC")
     List<LancamentoHora> findAllAtivado();
 
     @Query("SELECT obj FROM LancamentoHora obj " +
@@ -32,7 +35,9 @@ public interface HorasRepository extends JpaRepository<LancamentoHora, Integer>{
     List<LancamentoHora> findAllPorMesAndUsuario(@Param("mes") int mes, @Param("id") int usuarioId);
 
     @Query("SELECT obj FROM LancamentoHora obj " +
-    "WHERE obj.usuario_responsavel.id = :id AND obj.desativado = false")
+    "WHERE obj.usuario_responsavel.id = :id " + 
+    "AND obj.desativado = false " +
+    "ORDER BY obj.data_registro DESC")
     List<LancamentoHora> findByUsuarioId(@Param("id") int usuarioId);
 
     @Query("SELECT obj FROM LancamentoHora obj WHERE " +

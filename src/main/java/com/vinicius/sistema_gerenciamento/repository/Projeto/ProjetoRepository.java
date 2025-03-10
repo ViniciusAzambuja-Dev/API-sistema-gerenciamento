@@ -15,12 +15,17 @@ import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 
 public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
 
-    @Query("SELECT obj FROM Projeto obj JOIN FETCH obj.usuario_responsavel WHERE obj.desativado = false")
+    @Query("SELECT obj FROM Projeto obj " +
+        "JOIN FETCH obj.usuario_responsavel " +
+        "WHERE obj.desativado = false " + 
+        "ORDER BY obj.data_criacao DESC")
     List<Projeto> findAllAtivado();
 
     @Query("SELECT obj FROM Projeto obj " +
         "JOIN UsuarioProjeto up ON obj.id = up.projeto.id " +
-        "WHERE up.usuario.id = :id AND obj.desativado = false")
+        "WHERE up.usuario.id = :id "+ 
+        "AND obj.desativado = false " +
+        "ORDER BY obj.data_criacao DESC")
     List<Projeto> findByUsuarioId(@Param("id") int usuarioId);
 
     @Query("SELECT COUNT(obj) FROM Projeto obj WHERE obj.status = :status " +
