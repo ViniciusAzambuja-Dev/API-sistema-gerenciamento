@@ -30,6 +30,14 @@ public class SegurancaConfiguracao {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
 
+                    .requestMatchers(
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/swagger-resources/**",
+                        "/swagger-resources"
+                    ).permitAll()
+
                     //Rota de Login
                     .requestMatchers(HttpMethod.POST, "/api/usuarios/auth/login").permitAll()
                     
