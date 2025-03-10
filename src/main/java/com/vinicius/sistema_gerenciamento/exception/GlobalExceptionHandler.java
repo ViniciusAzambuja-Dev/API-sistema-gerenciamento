@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<String> handleEmailAlreadyExistsException(EmailAlreadyExistsException exception){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

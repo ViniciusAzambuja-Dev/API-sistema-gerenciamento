@@ -8,6 +8,9 @@ import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Validated
 @RestController
 @RequestMapping("/api/horas")
+@Tag(name = "Lançamento de Horas", description = "Controlador para salvar, listar, deletar e atualizar dados de Horas trabalhadas")
 public class HorasController {
 
     private final HorasService horasService;
@@ -35,6 +39,10 @@ public class HorasController {
     }
     
     @PostMapping("/registrar")
+    @Operation(summary = "Realiza lançamento de horas", description = "Método para lançar horas")
+    @ApiResponse(responseCode = "201", description = "Hora lançada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Atividade ou usuário não encontrado")
+    @ApiResponse(responseCode = "400", description = "Campos incorretos")
     public ResponseEntity<Void> registrar(@RequestBody @Valid HorasRequestDTO data) {
         horasService.registrarHoras(data);
 
@@ -42,26 +50,41 @@ public class HorasController {
     }
 
     @GetMapping("/listar")
+    @Operation(summary = "Lista horas lançadas", description = "Método para listar todas as horas ativas")
+    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso")
     public ResponseEntity<List<HorasResponseDTO>> listar() {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarHoras());
     }
 
     @GetMapping("/listar/atividade/{id}")
+    @Operation(summary = "Lista horas lançadas de uma atividade", description = "Método para listar horas através do Id de uma atividade")
+    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
     public ResponseEntity<List<HorasResponseDTO>> listarHorasPorAtividade(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarPorAtividade(id));
     }
 
     @GetMapping("/listar/usuario/{id}")
+    @Operation(summary = "Lista horas lançadas de um usuário", description = "Método para listar horas através do Id de um usuário")
+    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
     public ResponseEntity<List<HorasResponseDTO>> listarHorasPorUsuario(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarPorUsuario(id));
     }
 
     @GetMapping("/listar/mes/usuario/{id}")
+    @Operation(summary = "Lista horas lançadas de um usuário no mês", description = "Método para listar horas de um usuário no mês")
+    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
     public ResponseEntity<List<HorasResponseDTO>> listarPorMesUsuario(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarPorMesUsuario(id));
     }
 
     @PutMapping("/atualizar")
+    @Operation(summary = "Atualiza dados de horas", description = "Método para atualizar horas lançadas")
+    @ApiResponse(responseCode = "204", description = "Hora atualizada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Hora ou atividade não encontrada")
+    @ApiResponse(responseCode = "400", description = "Campos incorretos")
     public ResponseEntity<Void> atualizar(@RequestBody @Valid HorasUpdateDTO data) {
         horasService.atualizarHoras(data);
 
@@ -69,6 +92,10 @@ public class HorasController {
     }
 
     @DeleteMapping("/deletar/{id}")
+    @Operation(summary = "Deleta dados de horas", description = "Método deletar um lançamento de hora")
+    @ApiResponse(responseCode = "204", description = "Hora lançada deletada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Hora lançada não encontrada")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
     public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
         horasService.softDeleteHora(id);
 

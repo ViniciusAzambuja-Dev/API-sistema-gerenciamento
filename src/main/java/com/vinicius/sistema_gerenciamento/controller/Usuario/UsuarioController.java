@@ -10,6 +10,9 @@ import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Usuario.UsuarioService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Validated
 @RestController
 @RequestMapping("api/usuarios")
+@Tag(name = "Usuario", description = "Controlador para salvar, listar, deletar e atualizar dados do Usuário")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -37,6 +41,9 @@ public class UsuarioController {
     }   
 
     @PostMapping("/auth/login")
+    @Operation(summary = "Realiza login de Usuário", description = "Método para realizar login do usuário")
+    @ApiResponse(responseCode = "200", description = "Usuário logado com sucesso")
+    @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO data) {
         var token = usuarioService.realizarLogin(data);
 
@@ -44,6 +51,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/registrar")
+    @Operation(summary = "Realiza cadastro de Usuário", description = "Método para salvar dados do usuário")
+    @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso")
+    @ApiResponse(responseCode = "401", description = "Email em uso!")
+    @ApiResponse(responseCode = "400", description = "Campos incorretos")
     public ResponseEntity<Void> registrar(@RequestBody @Valid UsuarioRequestDTO data) {
         usuarioService.registrarUsuario(data);
 
@@ -51,16 +62,26 @@ public class UsuarioController {
     }
 
     @GetMapping("/listar")
+    @Operation(summary = "Lista dados dos usuários", description = "Método para listar todos os usuários ativos")
+    @ApiResponse(responseCode = "200", description = "Usuários listados com sucesso")
     public ResponseEntity<List<UsuarioResponseDTO>> listar() {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarUsuarios());
     }
 
     @GetMapping("/listar/integrantes/{id}")
+    @Operation(summary = "Lista integrantes de um Projeto", description = "Método para listar integrantes através do Id de um Projeto")
+    @ApiResponse(responseCode = "200", description = "Integrantes listados com sucesso")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
     public ResponseEntity<List<UsuarioResponseDTO>> listarIntegrantesDoProjeto(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarIntegrantesDoProjeto(id));
     }
 
     @PutMapping("/atualizar")
+    @Operation(summary = "Atualiza dados do usuário", description = "Método para atualizar dados de um usuário")
+    @ApiResponse(responseCode = "204", description = "Usuário atualizado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    @ApiResponse(responseCode = "401", description = "Email em uso!")
+    @ApiResponse(responseCode = "400", description = "Campos inválidos!")
     public ResponseEntity<Void> atualizar(@RequestBody @Valid UsuarioUpdateDTO data) {
         usuarioService.atualizaUsuario(data);
 
@@ -68,6 +89,10 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/deletar/{id}")
+    @Operation(summary = "Deleta dados do usuário", description = "Método deletar dados de um usuário")
+    @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
     public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
         usuarioService.softDeleteUsuario(id);
 

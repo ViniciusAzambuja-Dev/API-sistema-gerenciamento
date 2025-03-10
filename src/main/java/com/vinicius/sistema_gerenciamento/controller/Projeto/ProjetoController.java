@@ -8,6 +8,9 @@ import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Projeto.ProjetoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Validated
 @RestController
 @RequestMapping("/api/projetos")
+@Tag(name = "Projeto", description = "Controlador para salvar, listar, deletar e atualizar dados do Projeto")
 public class ProjetoController {
 
     private final ProjetoService projetoService;
@@ -34,6 +38,10 @@ public class ProjetoController {
     }
     
     @PostMapping("/registrar")
+    @Operation(summary = "Realiza cadastro de projeto", description = "Método para salvar dados do projeto")
+    @ApiResponse(responseCode = "201", description = "Projeto cadastrado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    @ApiResponse(responseCode = "400", description = "Campos incorretos")
     public ResponseEntity<Void> registrar(@RequestBody @Valid ProjetoRequestDTO data) {
         projetoService.registrarProjeto(data);
 
@@ -41,16 +49,25 @@ public class ProjetoController {
     }
 
     @GetMapping("/listar")
+    @Operation(summary = "Lista dados dos projetos", description = "Método para listar todos os projetos ativos")
+    @ApiResponse(responseCode = "200", description = "Projetos listados com sucesso")
     public ResponseEntity<List<ProjetoResponseDTO>> listar() {
        return ResponseEntity.status(HttpStatus.OK).body(projetoService.listarProjetos());
     }
 
     @GetMapping("/listar/usuario/{id}")
+    @Operation(summary = "Lista projetos de um usuário", description = "Método para listar projetos através do Id de um usuário")
+    @ApiResponse(responseCode = "200", description = "Projetos listados com sucesso")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
     public ResponseEntity<List<ProjetoResponseDTO>> listarProjetosPorUsuario(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(projetoService.listarPorUsuario(id));
     }
 
     @PutMapping("/atualizar")
+    @Operation(summary = "Atualiza dados do projeto", description = "Método para atualizar dados de um projeto")
+    @ApiResponse(responseCode = "204", description = "Projeto atualizado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Projeto ou usuário não encontrado")
+    @ApiResponse(responseCode = "400", description = "Campos incorretos")
     public ResponseEntity<Void> atualizar(@RequestBody @Valid ProjetoUpdateDTO data) {
         projetoService.atualizarProjeto(data);
 
@@ -58,6 +75,10 @@ public class ProjetoController {
     }
 
     @DeleteMapping("/deletar/{id}")
+    @Operation(summary = "Deleta dados do projeto", description = "Método deletar dados de um projeto")
+    @ApiResponse(responseCode = "204", description = "Projeto deletado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Projeto não encontrado")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
      public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
         projetoService.softDeleteProjeto(id);
 

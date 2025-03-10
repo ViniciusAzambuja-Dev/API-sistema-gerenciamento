@@ -17,6 +17,10 @@ import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Atividade.Relat
 import com.vinicius.sistema_gerenciamento.dto.response.Relatorio.Projeto.RelatorioProjetoDTO;
 import com.vinicius.sistema_gerenciamento.service.Relatorio.RelatorioService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Validated
 @RestController
 @RequestMapping("api/relatorio")
+@Tag(name = "Relatório", description = "Controlador para listar dados do relatório")
 public class RelatorioController {
 
     private final RelatorioService relatorioService;
@@ -35,30 +40,49 @@ public class RelatorioController {
     }
 
     @GetMapping("/projetos/{id}")
+    @Operation(summary = "Filtra um projeto", description = "Método para listar detalhes um projeto")
+    @ApiResponse(responseCode = "200", description = "Detalhes do projeto listados com sucesso")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
     public ResponseEntity<RelatorioProjetoDTO> filtrarProjetos(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarProjetos(id));
     }
 
     @GetMapping("/atividades/{id}")
+    @Operation(summary = "Filtra uma atividade", description = "Método para listar detalhes uma atividade")
+    @ApiResponse(responseCode = "200", description = "Detalhes da atividade listados com sucesso")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
     public ResponseEntity<RelatorioAtividadeDTO> filtrarAtividades(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarAtividades(id));
     }
 
     @GetMapping("/periodo/projetos")
-    public ResponseEntity<List<ProjetoResponseDTO>> filtrarProjPorPeriodo(@RequestParam LocalDate periodoInicial, @RequestParam LocalDate periodoFinal) {
+    @Operation(summary = "Filtra projeto(s) por período", description = "Método para listar projeto(s) por período")
+    @ApiResponse(responseCode = "200", description = "Projeto(s) listado(s) com sucesso")
+    @ApiResponse(responseCode = "400", description = "Datas incorretas")
+    public ResponseEntity<List<ProjetoResponseDTO>> filtrarProjPorPeriodo(
+        @RequestParam @NotNull LocalDate periodoInicial, 
+        @RequestParam @NotNull LocalDate periodoFinal) {
         return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarProjPorPeriodo(periodoInicial, periodoFinal));
     }
 
     @GetMapping("/periodo/atividades")
-    public ResponseEntity<List<AtividadeResponseDTO>> filtrarAtivPorPeriodo(@RequestParam LocalDate periodoInicial, @RequestParam LocalDate periodoFinal) {
+    @Operation(summary = "Filtra atividade(s) por período", description = "Método para listar atividade(s) por período")
+    @ApiResponse(responseCode = "200", description = "Atividade(s) listada(s) com sucesso")
+    @ApiResponse(responseCode = "400", description = "Datas incorretas")
+    public ResponseEntity<List<AtividadeResponseDTO>> filtrarAtivPorPeriodo(
+        @RequestParam @NotNull LocalDate periodoInicial, 
+        @RequestParam @NotNull LocalDate periodoFinal) {
         return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarAtivPorPeriodo(periodoInicial, periodoFinal));
     }
 
     @GetMapping("/periodo/horas")
+    @Operation(summary = "Filtra hora(s) por período", description = "Método para listar hora(s) por período com opcional de pesquisar por usuário")
+    @ApiResponse(responseCode = "200", description = "Hora(s) listada(s) com sucesso")
+    @ApiResponse(responseCode = "400", description = "Datas incorretas ou Id negativo")
     public ResponseEntity<List<HorasResponseDTO>> filtrarHorasPorPeriodo(
-        @RequestParam LocalDate periodoInicial,
-        @RequestParam LocalDate periodoFinal, 
-        @RequestParam(required = false) Integer usuarioId) {
+        @RequestParam @NotNull LocalDate periodoInicial,
+        @RequestParam @NotNull LocalDate periodoFinal, 
+        @RequestParam(required = false) @Positive Integer usuarioId) {
         return ResponseEntity.status(HttpStatus.OK).body(relatorioService.filtrarHorasPorPeriodo(periodoInicial, periodoFinal, usuarioId));
     }
 }

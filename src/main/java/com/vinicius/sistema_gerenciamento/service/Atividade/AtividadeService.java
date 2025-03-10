@@ -101,8 +101,8 @@ public class AtividadeService {
             atividade.setUsuario_responsavel(usuario);
         }
         if (atividade.getProjeto().getId() != data.projetoId()) {
-            Projeto projeto = projetoRepository.findById(data.atividadeId())
-                .orElseThrow(() -> new RecordNotFoundException(data.atividadeId()));
+            Projeto projeto = projetoRepository.findById(data.projetoId())
+                .orElseThrow(() -> new RecordNotFoundException(data.projetoId()));
             
             atividade.setProjeto(projeto);
         }
