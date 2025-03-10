@@ -31,42 +31,42 @@ public class SegurancaConfiguracao {
                 .authorizeHttpRequests(authorize -> authorize
 
                     //Rota de Login
-                    .requestMatchers(HttpMethod.POST, "api/usuarios/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/usuarios/auth/login").permitAll()
                     
                     //Rotas protegidas de requisições para Usuario
-                    .requestMatchers(HttpMethod.POST, "api/usuarios/registrar").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/usuarios/listar").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/usuarios/listar/integrantes/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.DELETE, "api/usuarios/deletar/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.PUT, "api/usuarios/atualizar/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/usuarios/registrar").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/api/usuarios/listar").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/api/usuarios/listar/integrantes/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/usuarios/deletar/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/usuarios/atualizar").hasRole("ADMIN")
 
                      //Rotas protegidas de requisições para Projetos
-                    .requestMatchers(HttpMethod.POST, "api/projetos/registrar").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/projetos/listar").hasAnyRole("ADMIN", "USUARIO")
-                    .requestMatchers(HttpMethod.GET, "api/projetos/listar/usuario/{id}").hasAnyRole("ADMIN", "USUARIO")
-                    .requestMatchers(HttpMethod.DELETE, "api/projetos/deletar/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.PUT, "api/projetos/atualizar/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/projetos/registrar").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/api/projetos/listar").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.GET, "/api/projetos/listar/usuario/{id}").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.DELETE, "/api/projetos/deletar/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/projetos/atualizar").hasRole("ADMIN")
 
                     //Rotas protegidas de requisições para Atividades
-                    .requestMatchers(HttpMethod.POST, "api/atividades/registrar").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/atividades/listar").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/atividades/listar/usuario/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/atividades/listar/projeto/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.DELETE, "api/atividades/deletar/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.PUT, "api/atividades/atualizar/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/atividades/registrar").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/api/atividades/listar").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.GET, "/api/atividades/listar/usuario/{id}").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.GET, "/api/atividades/listar/projeto/{id}").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.DELETE, "/api/atividades/deletar/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/atividades/atualizar").hasRole("ADMIN")
 
                     //Rotas protegidas de requisições para Horas lançadas
-                    .requestMatchers(HttpMethod.POST, "api/horas/registrar").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/horas/listar").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/horas/listar/atividade/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/horas/listar/usuario/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "api/horas/listar/mes/usuario/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.DELETE, "api/horas/deletar/{id}").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.PUT, "api/horas/atualizar/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/horas/registrar").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.GET, "/api/horas/listar").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.GET, "/api/horas/listar/atividade/{id}").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.GET, "/api/horas/listar/usuario/{id}").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.GET, "/api/horas/listar/mes/usuario/{id}").hasAnyRole("ADMIN", "USUARIO")
+                    .requestMatchers(HttpMethod.DELETE, "/api/horas/deletar/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/horas/atualizar").hasAnyRole("ADMIN", "USUARIO")
 
                     //Rotas protegidas de requisições para Dashboard
                     .requestMatchers(HttpMethod.GET, "/api/dashboard/dados/admin").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "/api/dashboard/dados/gerais/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/api/dashboard/dados/gerais/{id}").hasAnyRole("ADMIN", "USUARIO")
                     
                     //Rotas protegidas de requisições para Relatorio
                     .requestMatchers(HttpMethod.GET, "/api/relatorio/projetos/{id}").hasRole("ADMIN")
