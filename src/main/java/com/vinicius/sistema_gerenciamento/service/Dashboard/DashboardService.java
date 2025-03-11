@@ -71,9 +71,9 @@ public class DashboardService {
         int projetosPendentes = projetoRepository.countByStatusAndUsuario("EM_ANDAMENTO", id);
         int atividadesPendentes = atividadeRepository.countByStatusAndUsuario("EM_ANDAMENTO", id);
         
-        List<GraficoDoughnutDTO> projPorPrioridade = projetoRepository.countByPrioridadeAndUsuario(id);
-        List<GraficoDoughnutDTO> projPorStatus = projetoRepository.countByStatusAndUsuario(id);
-        List<GraficoDoughnutDTO> ativPorStatus = atividadeRepository.countByStatusAndUsuario(id);
+        List<GraficoDoughnutDTO> projPorPrioridade = projetoRepository.findByPrioridadeAndUsuario(id);
+        List<GraficoDoughnutDTO> projPorStatus = projetoRepository.findByStatusAndUsuario(id);
+        List<GraficoDoughnutDTO> ativPorStatus = atividadeRepository.findByStatusAndUsuario(id);
 
         Double somaHoras = horasRepository.sumHorasPorMesAndUsuario(mesAtual, id);
         int totalHoras = somaHoras == null ? 0 : somaHoras.intValue();
