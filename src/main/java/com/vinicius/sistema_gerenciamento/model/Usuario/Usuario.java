@@ -41,6 +41,7 @@ public class Usuario implements UserDetails {
 
     @NotNull
     @NotBlank
+    @Pattern(regexp = "^[\\w]+@workflow\\.com$")
     @Column(nullable = false, unique = true)
     private String email;
 

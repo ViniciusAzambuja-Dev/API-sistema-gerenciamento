@@ -2,6 +2,7 @@ package com.vinicius.sistema_gerenciamento.dto.request.Usuario;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UsuarioRequestDTO(
@@ -12,6 +13,7 @@ public record UsuarioRequestDTO(
 
     @NotNull 
     @NotBlank
+    @Pattern(regexp = "^[\\w]+@workflow\\.com$")
     String email,
 
     @Size(max = 15) 
