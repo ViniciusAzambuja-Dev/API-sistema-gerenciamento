@@ -25,15 +25,12 @@ public class AtividadeMapper {
             return null;
         }
 
-        String dataInicioFormatada = atividade.formataData(atividade.getData_inicio());
-        String dataFimFormatada = atividade.formataData(atividade.getData_fim());
-
         return new AtividadeResponseDTO(
             atividade.getId(),
             atividade.getNome(),
             atividade.getDescricao(), 
-            dataInicioFormatada, 
-            dataFimFormatada, 
+            atividade.getData_inicio(), 
+            atividade.getData_fim(), 
             atividade.getStatus(),
             atividade.getProjeto().getNome(),
             atividade.getUsuario_responsavel().getNome()

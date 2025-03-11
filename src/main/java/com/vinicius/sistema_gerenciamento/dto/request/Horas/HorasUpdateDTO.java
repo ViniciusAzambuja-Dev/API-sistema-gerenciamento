@@ -4,6 +4,7 @@ import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -18,10 +19,12 @@ public record HorasUpdateDTO(
 
     @NotNull
     @JsonFormat(pattern = "HH:mm")
+    @Schema(type = "string", format = "time", example = "12:30")
     LocalTime data_inicio, 
 
     @NotNull
     @JsonFormat(pattern = "HH:mm")
+    @Schema(type = "string", format = "time", example = "15:30")
     LocalTime data_fim, 
 
     @NotNull

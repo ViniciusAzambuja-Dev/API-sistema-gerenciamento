@@ -2,7 +2,6 @@ package com.vinicius.sistema_gerenciamento.model.Projeto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,11 +97,6 @@ public class Projeto {
         this.status = status;
         this.prioridade = prioridade;
         this.usuario_responsavel = usuario_responsavel;
-    }
-
-    public String formataData(LocalDate dataProjeto) {
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return formato.format(dataProjeto);
     }
 }
 

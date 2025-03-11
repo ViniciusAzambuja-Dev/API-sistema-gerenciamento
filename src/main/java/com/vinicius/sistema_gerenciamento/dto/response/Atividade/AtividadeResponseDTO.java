@@ -1,5 +1,10 @@
 package com.vinicius.sistema_gerenciamento.dto.response.Atividade;
 
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public record AtividadeResponseDTO(
     int id, 
@@ -8,9 +13,13 @@ public record AtividadeResponseDTO(
 
     String descricao, 
 
-    String data_inicio, 
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Schema(type = "string", format = "date", example = "15/03/2025")
+    LocalDate data_inicio, 
 
-    String data_fim, 
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Schema(type = "string", format = "date", example = "15/03/2025")
+    LocalDate data_fim, 
 
     String status,
 

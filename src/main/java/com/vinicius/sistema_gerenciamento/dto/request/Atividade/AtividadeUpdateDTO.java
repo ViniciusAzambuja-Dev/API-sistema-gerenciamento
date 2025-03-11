@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -22,10 +23,12 @@ public record AtividadeUpdateDTO(
 
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @Schema(type = "string", format = "date", example = "15/03/2025")
     LocalDate data_inicio, 
 
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @Schema(type = "string", format = "date", example = "15/03/2025")
     LocalDate data_fim, 
 
     @NotNull
