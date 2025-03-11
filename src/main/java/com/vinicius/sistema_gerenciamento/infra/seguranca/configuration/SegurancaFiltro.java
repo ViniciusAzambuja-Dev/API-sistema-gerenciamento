@@ -16,6 +16,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Filtro de segurança personalizado que valida tokens JWT e autentica o usuário em cada requisição.
+ */
 @Component
 public class SegurancaFiltro extends OncePerRequestFilter {
 
@@ -27,6 +30,16 @@ public class SegurancaFiltro extends OncePerRequestFilter {
         this.usuarioRepository = usuarioRepository;
     }
 
+    /**
+     * Método principal do filtro, executado em cada requisição.
+     * Valida o token JWT presente no cabeçalho da requisição e autentica o usuário no contexto de segurança.
+     *
+     * @param request Requisição HTTP.
+     * @param response Resposta HTTP.
+     * @param filterChain Cadeia de filtros a ser executada.
+     * @throws ServletException Se ocorrer um erro durante o processamento da requisição.
+     * @throws IOException Se ocorrer um erro de I/O durante o processamento da requisição.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recuperarToken(request);
@@ -40,6 +53,12 @@ public class SegurancaFiltro extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Recupera o token JWT do cabeçalho "Authorization" da requisição.
+     *
+     * @param request Requisição HTTP.
+     * @return Token JWT (sem o prefixo "Bearer") ou null se o cabeçalho não estiver presente.
+     */
     private String recuperarToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
         if (authHeader == null) return null;
