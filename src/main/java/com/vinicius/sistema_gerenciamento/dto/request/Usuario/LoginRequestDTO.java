@@ -1,4 +1,4 @@
-package com.vinicius.sistema_gerenciamento.infra.seguranca.dto;
+package com.vinicius.sistema_gerenciamento.dto.request.Usuario;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

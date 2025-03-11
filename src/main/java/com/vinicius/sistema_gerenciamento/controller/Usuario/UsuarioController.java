@@ -3,12 +3,12 @@ package com.vinicius.sistema_gerenciamento.controller.Usuario;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vinicius.sistema_gerenciamento.dto.request.Usuario.LoginRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.request.Usuario.UsuarioUpdateDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Error.ErrorResponseDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Usuario.LoginResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Usuario.UsuarioResponseDTO;
-import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginRequestDTO;
-import com.vinicius.sistema_gerenciamento.infra.seguranca.dto.LoginResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Usuario.UsuarioService;
 
 import io.swagger.v3.oas.annotations.Operation;
