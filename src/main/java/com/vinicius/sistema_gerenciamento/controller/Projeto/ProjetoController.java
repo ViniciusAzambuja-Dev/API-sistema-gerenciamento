@@ -5,10 +5,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.request.Projeto.ProjetoUpdateDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Error.ErrorResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Projeto.ProjetoResponseDTO;
+
 import com.vinicius.sistema_gerenciamento.service.Projeto.ProjetoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -40,8 +45,8 @@ public class ProjetoController {
     @PostMapping("/registrar")
     @Operation(summary = "Realiza cadastro de projeto", description = "Método para salvar dados do projeto")
     @ApiResponse(responseCode = "201", description = "Projeto cadastrado com sucesso")
-    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-    @ApiResponse(responseCode = "400", description = "Campos incorretos")
+    @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Campos incorretos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<Void> registrar(@RequestBody @Valid ProjetoRequestDTO data) {
         projetoService.registrarProjeto(data);
 
@@ -50,15 +55,21 @@ public class ProjetoController {
 
     @GetMapping("/listar")
     @Operation(summary = "Lista dados dos projetos", description = "Método para listar todos os projetos ativos")
-    @ApiResponse(responseCode = "200", description = "Projetos listados com sucesso")
+    @ApiResponse(responseCode = "200", description = "Projetos listados com sucesso", content = @Content(
+        mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = ProjetoResponseDTO.class)))
+    )
     public ResponseEntity<List<ProjetoResponseDTO>> listar() {
        return ResponseEntity.status(HttpStatus.OK).body(projetoService.listarProjetos());
     }
 
     @GetMapping("/listar/usuario/{id}")
     @Operation(summary = "Lista projetos de um usuário", description = "Método para listar projetos através do Id de um usuário")
-    @ApiResponse(responseCode = "200", description = "Projetos listados com sucesso")
-    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
+    @ApiResponse(responseCode = "200", description = "Projetos listados com sucesso", content = @Content(
+        mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = ProjetoResponseDTO.class)))
+    )
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<List<ProjetoResponseDTO>> listarProjetosPorUsuario(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(projetoService.listarPorUsuario(id));
     }
@@ -66,8 +77,8 @@ public class ProjetoController {
     @PutMapping("/atualizar")
     @Operation(summary = "Atualiza dados do projeto", description = "Método para atualizar dados de um projeto")
     @ApiResponse(responseCode = "204", description = "Projeto atualizado com sucesso")
-    @ApiResponse(responseCode = "404", description = "Projeto ou usuário não encontrado")
-    @ApiResponse(responseCode = "400", description = "Campos incorretos")
+    @ApiResponse(responseCode = "404", description = "Projeto ou usuário não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Campos incorretos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<Void> atualizar(@RequestBody @Valid ProjetoUpdateDTO data) {
         projetoService.atualizarProjeto(data);
 
@@ -77,8 +88,8 @@ public class ProjetoController {
     @DeleteMapping("/deletar/{id}")
     @Operation(summary = "Deleta dados do projeto", description = "Método deletar dados de um projeto")
     @ApiResponse(responseCode = "204", description = "Projeto deletado com sucesso")
-    @ApiResponse(responseCode = "404", description = "Projeto não encontrado")
-    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
+    @ApiResponse(responseCode = "404", description = "Projeto não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
      public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
         projetoService.softDeleteProjeto(id);
 

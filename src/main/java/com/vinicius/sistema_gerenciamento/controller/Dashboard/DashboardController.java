@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.DashboardAdminDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Dashboard.DashboardGeneralDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Error.ErrorResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Dashboard.DashboardService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
@@ -40,7 +43,7 @@ public class DashboardController {
     @GetMapping("/dados/gerais/{id}")
     @Operation(summary = "Lista métricas gerais", description = "Método para listar métricas gerais através do id do usuário logado")
     @ApiResponse(responseCode = "200", description = "Métricas gerais do usuário logado listadas com sucesso")
-    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<DashboardGeneralDTO> buscarMetricasGerais(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(dashboardService.buscarMetricasGerais(id));
     }

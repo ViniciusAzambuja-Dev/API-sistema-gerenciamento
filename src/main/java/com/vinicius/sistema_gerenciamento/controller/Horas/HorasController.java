@@ -5,10 +5,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasRequestDTO;
 import com.vinicius.sistema_gerenciamento.dto.request.Horas.HorasUpdateDTO;
+import com.vinicius.sistema_gerenciamento.dto.response.Error.ErrorResponseDTO;
 import com.vinicius.sistema_gerenciamento.dto.response.Horas.HorasResponseDTO;
 import com.vinicius.sistema_gerenciamento.service.Horas.HorasService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -41,8 +45,8 @@ public class HorasController {
     @PostMapping("/registrar")
     @Operation(summary = "Realiza lançamento de horas", description = "Método para lançar horas")
     @ApiResponse(responseCode = "201", description = "Hora lançada com sucesso")
-    @ApiResponse(responseCode = "404", description = "Atividade ou usuário não encontrado")
-    @ApiResponse(responseCode = "400", description = "Campos incorretos")
+    @ApiResponse(responseCode = "404", description = "Atividade ou usuário não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Campos incorretos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<Void> registrar(@RequestBody @Valid HorasRequestDTO data) {
         horasService.registrarHoras(data);
 
@@ -51,31 +55,43 @@ public class HorasController {
 
     @GetMapping("/listar")
     @Operation(summary = "Lista horas lançadas", description = "Método para listar todas as horas ativas")
-    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso")
+    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso", content = @Content(
+        mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = HorasResponseDTO.class)))
+    )
     public ResponseEntity<List<HorasResponseDTO>> listar() {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarHoras());
     }
 
     @GetMapping("/listar/atividade/{id}")
     @Operation(summary = "Lista horas lançadas de uma atividade", description = "Método para listar horas através do Id de uma atividade")
-    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso")
-    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
+    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso", content = @Content(
+        mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = HorasResponseDTO.class)))
+    )
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<List<HorasResponseDTO>> listarHorasPorAtividade(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarPorAtividade(id));
     }
 
     @GetMapping("/listar/usuario/{id}")
     @Operation(summary = "Lista horas lançadas de um usuário", description = "Método para listar horas através do Id de um usuário")
-    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso")
-    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
+    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso", content = @Content(
+        mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = HorasResponseDTO.class)))
+    )
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<List<HorasResponseDTO>> listarHorasPorUsuario(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarPorUsuario(id));
     }
 
     @GetMapping("/listar/mes/usuario/{id}")
     @Operation(summary = "Lista horas lançadas de um usuário no mês", description = "Método para listar horas de um usuário no mês")
-    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso")
-    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
+    @ApiResponse(responseCode = "200", description = "Horas lançadas listadas com sucesso", content = @Content(
+        mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = HorasResponseDTO.class)))
+    )
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<List<HorasResponseDTO>> listarPorMesUsuario(@PathVariable @Positive int id) {
         return ResponseEntity.status(HttpStatus.OK).body(horasService.listarPorMesUsuario(id));
     }
@@ -83,8 +99,8 @@ public class HorasController {
     @PutMapping("/atualizar")
     @Operation(summary = "Atualiza dados de horas", description = "Método para atualizar horas lançadas")
     @ApiResponse(responseCode = "204", description = "Hora atualizada com sucesso")
-    @ApiResponse(responseCode = "404", description = "Hora ou atividade não encontrada")
-    @ApiResponse(responseCode = "400", description = "Campos incorretos")
+    @ApiResponse(responseCode = "404", description = "Hora ou atividade não encontrada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Campos incorretos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<Void> atualizar(@RequestBody @Valid HorasUpdateDTO data) {
         horasService.atualizarHoras(data);
 
@@ -94,8 +110,8 @@ public class HorasController {
     @DeleteMapping("/deletar/{id}")
     @Operation(summary = "Deleta dados de horas", description = "Método deletar um lançamento de hora")
     @ApiResponse(responseCode = "204", description = "Hora lançada deletada com sucesso")
-    @ApiResponse(responseCode = "404", description = "Hora lançada não encontrada")
-    @ApiResponse(responseCode = "400", description = "Id deve ser positivo")
+    @ApiResponse(responseCode = "404", description = "Hora lançada não encontrada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Id deve ser positivo", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<Void> deletar(@PathVariable @Positive int id) {
         horasService.softDeleteHora(id);
 
