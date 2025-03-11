@@ -46,6 +46,12 @@ public class AtividadeService {
         this.mapper = mapper;
     }
 
+    /**
+     * Registra uma nova atividade no sistema.
+     *
+     * @param data DTO contendo os dados da atividade, o ID do usuário responsável e o ID do projeto.
+     * @throws RecordNotFoundException Se o usuário ou o projeto não forem encontrados.
+     */
     public void registrarAtividade(AtividadeRequestDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuarioId())
             .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
@@ -57,6 +63,11 @@ public class AtividadeService {
         usuarioAtividadeService.registrar(atividade, data.integrantesIds());
     }
 
+    /**
+     * Retorna uma lista de todas as atividades ativas.
+     *
+     * @return Lista de DTOs contendo os dados das atividades ativas.
+     */
     public List<AtividadeResponseDTO> listarAtividades() {
         return atividadeRepository.findAllAtivado()
             .stream()
@@ -64,6 +75,12 @@ public class AtividadeService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna uma lista de atividades associadas a um usuário.
+     *
+     * @param id ID do usuário.
+     * @return Lista de DTOs contendo os dados das atividades do usuário.
+     */
     public List<AtividadeResponseDTO> listarPorUsuario(int id) {
         return atividadeRepository.findByUsuarioId(id)
             .stream()
@@ -71,6 +88,12 @@ public class AtividadeService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna uma lista de atividades associadas a um projeto.
+     *
+     * @param id ID do projeto.
+     * @return Lista de DTOs contendo os dados das atividades do projeto.
+     */
     public List<AtividadeResponseDTO> listarPorProjeto(int id) {
         return atividadeRepository.findByProjetoId(id)
             .stream()
@@ -78,11 +101,25 @@ public class AtividadeService {
             .collect(Collectors.toList());
     }
 
-     public AtividadeDetalhesDTO listarDetalhes(int id) {
+    /**
+     * Retorna os detalhes de uma atividade específica(Relatório).
+     *
+     * @param id ID da atividade.
+     * @return DTO contendo os detalhes da atividade.
+     * @throws RecordNotFoundException Se a atividade não for encontrada.
+     */
+    public AtividadeDetalhesDTO listarDetalhes(int id) {
         return atividadeRepository.findAtividadeDetalhes(id)
             .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    /**
+     * Retorna uma lista de atividades ativas dentro de um período específico
+     *
+     * @param periodoInicial Data inicial do período.
+     * @param periodoFinal Data final do período.
+     * @return Lista de DTOs contendo os dados das atividades no período.
+     */
     public List<AtividadeResponseDTO> listarPorPeriodo(LocalDate periodoInicial, LocalDate periodoFinal) {
         return atividadeRepository.findByPeriodo(periodoInicial, periodoFinal)
             .stream()
@@ -90,6 +127,12 @@ public class AtividadeService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Atualiza os dados de uma atividade existente.
+     *
+     * @param data DTO contendo os novos dados da atividade.
+     * @throws RecordNotFoundException Se a atividade, o usuário ou o projeto não forem encontrados.
+     */
     public void atualizarAtividades(AtividadeUpdateDTO data) {
         Atividade atividade = atividadeRepository.findById(data.atividadeId())
             .orElseThrow(() -> new RecordNotFoundException(data.atividadeId()));
@@ -109,6 +152,12 @@ public class AtividadeService {
         atividadeRepository.save(mapper.atualizaParaEntity(atividade, data));
     }
 
+    /**
+     * Realiza a exclusão lógica de uma atividade.
+     *
+     * @param id ID da atividade a ser desativada.
+     * @throws RecordNotFoundException Se a atividade não for encontrada ou já estiver desativada.
+     */
     public void softDeleteAtividade(int id) {
         if (!atividadeRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);

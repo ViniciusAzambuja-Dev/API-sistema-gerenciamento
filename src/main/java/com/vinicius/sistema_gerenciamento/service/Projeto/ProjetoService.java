@@ -43,6 +43,12 @@ public class ProjetoService {
         this.softDeleteService = softDeleteService;
     }
 
+    /**
+     * Registra um novo projeto no sistema.
+     *
+     * @param data DTO contendo os dados do projeto e o ID do usuário responsável.
+     * @throws RecordNotFoundException Se o usuário responsável não for encontrado.
+     */
     public void registrarProjeto(ProjetoRequestDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuarioId())
             .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
@@ -51,13 +57,24 @@ public class ProjetoService {
         usuarioProjetoService.registrar(projeto, data.integrantesIds());
     }
 
-     public List<ProjetoResponseDTO> listarProjetos() {
+    /**
+     * Retorna uma lista de todos os projetos ativos.
+     *
+     * @return Lista de DTOs contendo os dados dos projetos ativos.
+     */
+    public List<ProjetoResponseDTO> listarProjetos() {
         return projetoRepository.findAllAtivado()
             .stream()
             .map(projeto -> projetoMapper.paraDTO(projeto))
             .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna uma lista de projetos associados a um usuário.
+     *
+     * @param id ID do usuário.
+     * @return Lista de DTOs contendo os dados dos projetos do usuário.
+     */
     public List<ProjetoResponseDTO> listarPorUsuario(int id) {
         return projetoRepository.findByUsuarioId(id)
             .stream()
@@ -65,6 +82,13 @@ public class ProjetoService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna uma lista de projetos ativos dentro de um período específico.
+     *
+     * @param periodoInicial Data inicial do período.
+     * @param periodoFinal Data final do período.
+     * @return Lista de DTOs contendo os dados dos projetos no período.
+     */
     public List<ProjetoResponseDTO> listarPorPeriodo(LocalDate periodoInicial, LocalDate periodoFinal) {
         return projetoRepository.findByPeriodo(periodoInicial, periodoFinal)
             .stream()
@@ -72,18 +96,24 @@ public class ProjetoService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna os detalhes de um projeto específico(Relatório).
+     *
+     * @param id ID do projeto.
+     * @return DTO contendo os detalhes do projeto.
+     * @throws RecordNotFoundException Se o projeto não for encontrado.
+     */
     public ProjetoDetalhesDTO listarDetalhes(int id) {
         return projetoRepository.findProjetoDetalhes(id)
             .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public void softDeleteProjeto(int id) {
-        if (!projetoRepository.existsByIdAndAtivado(id)) {
-            throw new RecordNotFoundException(id);
-        }
-        softDeleteService.softDeleteProjeto(id);
-    }
-
+     /**
+     * Atualiza os dados de um projeto existente.
+     *
+     * @param data DTO contendo os novos dados do projeto.
+     * @throws RecordNotFoundException Se o projeto ou o novo usuário responsável não forem encontrados.
+     */
     public void atualizarProjeto(ProjetoUpdateDTO data) {
         Projeto projeto = projetoRepository.findById(data.projetoId())
             .orElseThrow(() -> new RecordNotFoundException(data.projetoId()));
@@ -95,5 +125,18 @@ public class ProjetoService {
         }
 
         projetoRepository.save(projetoMapper.atualizaParaEntity(projeto, data));
+    }
+
+    /**
+     * Realiza a exclusão lógica de um projeto.
+     *
+     * @param id ID do projeto a ser desativado.
+     * @throws RecordNotFoundException Se o projeto não for encontrado ou já estiver desativado.
+     */
+    public void softDeleteProjeto(int id) {
+        if (!projetoRepository.existsByIdAndAtivado(id)) {
+            throw new RecordNotFoundException(id);
+        }
+        softDeleteService.softDeleteProjeto(id);
     }
 }

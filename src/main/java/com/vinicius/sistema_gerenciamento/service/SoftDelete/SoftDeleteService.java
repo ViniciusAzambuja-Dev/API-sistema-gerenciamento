@@ -29,12 +29,22 @@ public class SoftDeleteService {
         this.horasRepository = horasRepository;
     }
 
+    /**
+     * Realiza a exclusão lógica de um usuário e todas as suas dependências (horas trabalhadas).
+     *
+     * @param id ID do usuário a ser desativado.
+     */
     @Transactional
     public void softDeleteUsuario(int id) {
         horasRepository.deleteByUsuarioId(id);
         usuarioRepository.deleteUsuarioById(id);
     }
 
+    /**
+     * Realiza a exclusão lógica de um projeto e todas as suas dependências (atividades e horas trabalhadas).
+     *
+     * @param id ID do projeto a ser desativado.
+     */
     @Transactional
     public void softDeleteProjeto(int id) {
         horasRepository.deleteByProjetoId(id);
@@ -42,12 +52,22 @@ public class SoftDeleteService {
         projetoRepository.deleteProjetoById(id);
     }
 
+    /**
+     * Realiza a exclusão lógica de uma atividade e todas as suas dependências (horas trabalhadas).
+     *
+     * @param atividadeId ID da atividade a ser desativada.
+     */
     @Transactional
     public void softDeleteAtividade(int atividadeId) {
         horasRepository.deleteByAtividadeId(atividadeId);
         atividadeRepository.deleteAtividadeById(atividadeId);
     }
 
+    /**
+     * Realiza a exclusão lógica de um lançamento de horas.
+     *
+     * @param horaId ID do lançamento de horas a ser desativado.
+     */
     @Transactional
     public void softDeleteHora(int horaId) {
         horasRepository.deleteHoraById(horaId);

@@ -44,7 +44,13 @@ public class HorasService {
         this.mapper = mapper;
         this.softDeleteService = softDeleteService;
     }
-    
+
+    /**
+     * Registra um novo lançamento de horas no sistema.
+     *
+     * @param data DTO contendo os dados do lançamento de horas.
+     * @throws RecordNotFoundException Se o usuário ou a atividade não forem encontrados.
+     */
     public void registrarHoras(HorasRequestDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuarioId())
             .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
@@ -55,6 +61,11 @@ public class HorasService {
         horasRepository.save(mapper.paraEntity(data, usuario, atividade));
     }
 
+    /**
+     * Retorna uma lista de todos os lançamentos de horas ativos.
+     *
+     * @return Lista de DTOs contendo os dados dos lançamentos de horas ativos.
+     */
     public List<HorasResponseDTO> listarHoras() {
         return horasRepository.findAllAtivado()
             .stream()
@@ -62,6 +73,12 @@ public class HorasService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna uma lista de lançamentos de horas associados a uma atividade.
+     *
+     * @param id ID da atividade.
+     * @return Lista de DTOs contendo os dados dos lançamentos de horas da atividade.
+     */
     public List<HorasResponseDTO> listarPorAtividade(int id) {
         return horasRepository.findByAtividadeId(id)
             .stream()
@@ -69,6 +86,12 @@ public class HorasService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna uma lista de lançamentos de horas associados a um usuário.
+     *
+     * @param id ID do usuário.
+     * @return Lista de DTOs contendo os dados dos lançamentos de horas do usuário.
+     */
     public List<HorasResponseDTO> listarPorUsuario(int id) {
         return horasRepository.findByUsuarioId(id)
             .stream()
@@ -76,6 +99,12 @@ public class HorasService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna uma lista de lançamentos de horas de um usuário no mês atual.
+     *
+     * @param id ID do usuário.
+     * @return Lista de DTOs contendo os dados dos lançamentos de horas do usuário no mês atual.
+     */
     public List<HorasResponseDTO> listarPorMesUsuario(int id) {
         int mesAtual = Calendar.getInstance().get(Calendar.MONTH) + 1;
         return horasRepository.findAllPorMesAndUsuario(mesAtual, id)
@@ -84,6 +113,14 @@ public class HorasService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna uma lista de lançamentos de horas dentro de um período específico, opcionalmente filtrados por usuário.
+     *
+     * @param dataInicial Data inicial do período.
+     * @param dataFinal Data final do período.
+     * @param usuarioId ID do usuário (opcional).
+     * @return Lista de DTOs contendo os dados dos lançamentos de horas no período.
+     */
     public List<HorasResponseDTO> listarPorPeriodo(LocalDateTime dataInicial, LocalDateTime dataFinal, Integer usuarioId) {
         return horasRepository.findByPeriodo(dataInicial, dataFinal, usuarioId)
             .stream()
@@ -91,13 +128,12 @@ public class HorasService {
             .collect(Collectors.toList());
     }
 
-    public void softDeleteHora(int id) {
-        if (!horasRepository.existsByIdAndAtivado(id)) {
-            throw new RecordNotFoundException(id);
-        }
-        softDeleteService.softDeleteHora(id);
-    }
-      
+     /**
+     * Atualiza os dados de um lançamento de horas existente.
+     *
+     * @param data DTO contendo os novos dados do lançamento de horas.
+     * @throws RecordNotFoundException Se o lançamento de horas ou a nova atividade não forem encontrados.
+     */
     public void atualizarHoras(HorasUpdateDTO data) {
         LancamentoHora horaLancada = horasRepository.findById(data.horaId())
             .orElseThrow(() -> new RecordNotFoundException(data.horaId()));
@@ -112,7 +148,26 @@ public class HorasService {
         horasRepository.save(mapper.atualizaParaEntity(horaLancada, data));
     }
 
+    /**
+     * Retorna a soma de horas lançadas por atividade de um projeto específico, encapsulada em um DTO.
+     *
+     * @param id ID do projeto.
+     * @return Lista de DTOs contendo a soma de horas por atividade.
+     */
     public List<GraficoBarrasDTO> somaHorasPorAtividade(int id) {
         return horasRepository.sumHorasPorAtividade(id);
+    }
+ 
+    /**
+     * Realiza a exclusão lógica de um lançamento de horas.
+     *
+     * @param id ID do lançamento de horas a ser desativado.
+     * @throws RecordNotFoundException Se o lançamento de horas não for encontrado ou já estiver desativado.
+     */
+    public void softDeleteHora(int id) {
+        if (!horasRepository.existsByIdAndAtivado(id)) {
+            throw new RecordNotFoundException(id);
+        }
+        softDeleteService.softDeleteHora(id);
     }
 }

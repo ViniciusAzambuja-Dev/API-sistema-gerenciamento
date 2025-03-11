@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.vinicius.sistema_gerenciamento.exception.RecordNotFoundException;
 import com.vinicius.sistema_gerenciamento.model.Projeto.Projeto;
 import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 import com.vinicius.sistema_gerenciamento.model.UsuarioProjeto.UsuarioProjeto;
@@ -22,6 +21,12 @@ public class UsuarioProjetoService {
         this.usuarioRepository = usuarioRepository;
     }
 
+     /**
+     * Registra a associação entre um projeto e uma lista de usuários (integrantes).
+     *
+     * @param projeto Projeto a ser associada.
+     * @param integrantesIds Lista de IDs dos usuários (integrantes) a serem associados ao Projeto.
+     */
     public void registrar(Projeto projeto, List<Integer> integrantesIds) { 
         List<Usuario> integrantes = usuarioRepository.findAllById(integrantesIds);
 

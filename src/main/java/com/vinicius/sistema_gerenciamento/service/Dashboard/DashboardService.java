@@ -33,6 +33,12 @@ public class DashboardService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    /**
+     * Busca métricas para o dashboard de administradores,  
+     * incluindo informações sobre projetos, atividades, usuários e horas trabalhadas.
+     *
+     * @return DTO contendo as métricas do dashboard de administradores.
+     */
     public DashboardAdminDTO buscarMetricasAdmin() {
         int mesAtual = Calendar.getInstance().get(Calendar.MONTH) + 1;
         int projetosConcluidos = projetoRepository.countByStatus("CONCLUIDO");
@@ -66,6 +72,13 @@ public class DashboardService {
         );
     }
 
+    /**
+     * Busca métricas para o dashboard de usuários gerais, 
+     * incluindo informações sobre projetos, atividades e horas trabalhadas.
+     *
+     * @param id ID do usuário.
+     * @return DTO contendo as métricas gerais.
+     */
     public DashboardGeneralDTO buscarMetricasGerais(int id) {
         int mesAtual = Calendar.getInstance().get(Calendar.MONTH) + 1;
         int projetosPendentes = projetoRepository.countByStatusAndUsuario("EM_ANDAMENTO", id);

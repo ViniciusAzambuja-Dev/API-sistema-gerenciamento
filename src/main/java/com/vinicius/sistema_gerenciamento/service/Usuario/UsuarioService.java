@@ -47,6 +47,13 @@ public class UsuarioService {
         this.softDeleteService = softDeleteService;
     }
 
+    /**
+     * Realiza o login de um usuário e retorna um token de autenticação.
+     *
+     * @param data DTO contendo email e senha do usuário.
+     * @return Token de autenticação.
+     * @throws UnauthorizedException Se as credenciais forem inválidas ou o usuário estiver desativado.
+     */
     public String realizarLogin(LoginRequestDTO data) {
         try {
             var usuarioSenha = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
@@ -66,6 +73,12 @@ public class UsuarioService {
         }
     }
 
+    /**
+     * Registra um novo usuário no sistema.
+     *
+     * @param data DTO contendo os dados do usuário.
+     * @throws EmailAlreadyExistsException Se o email já estiver em uso.
+     */
     public void registrarUsuario(UsuarioRequestDTO data) {
         if (this.usuarioRepository.findByEmail(data.email()) != null) {
             throw new EmailAlreadyExistsException();
@@ -77,13 +90,24 @@ public class UsuarioService {
         this.usuarioRepository.save(novoUsuario);
     }
 
+    /**
+     * Retorna uma lista de todos os usuários ativos.
+     *
+     * @return Lista de DTOs contendo os dados dos usuários ativos.
+     */
     public List<UsuarioResponseDTO> listarUsuarios() {
         return usuarioRepository.findAllAtivado()
-                                .stream()
-                                .map(usuario -> mapper.paraDTO(usuario))
-                                .collect(Collectors.toList());
+            .stream()
+            .map(usuario -> mapper.paraDTO(usuario))
+            .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna uma lista de usuários ativos associados a um projeto.
+     *
+     * @param id ID do projeto.
+     * @return Lista de DTOs contendo os dados dos usuários associados ao projeto.
+     */
     public List<UsuarioResponseDTO> listarIntegrantesDoProjeto(int id) {
         return usuarioRepository.findIntegrantesByProjeto(id)
             .stream()
@@ -91,6 +115,13 @@ public class UsuarioService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Atualiza os dados de um usuário existente.
+     *
+     * @param data DTO contendo os novos dados do usuário.
+     * @throws RecordNotFoundException Se o usuário não for encontrado.
+     * @throws EmailAlreadyExistsException Se o novo email já estiver em uso.
+     */
     public void atualizaUsuario(UsuarioUpdateDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuarioId())
             .orElseThrow(() -> new RecordNotFoundException(data.usuarioId()));
@@ -106,6 +137,12 @@ public class UsuarioService {
         usuarioRepository.save(mapper.atualizaParaEntity(usuario, data, hashSenha));
     }
 
+    /**
+     * Realiza a exclusão lógica de um usuário.
+     *
+     * @param id ID do usuário a ser desativado.
+     * @throws RecordNotFoundException Se o usuário não for encontrado ou já estiver desativado.
+     */
     public void softDeleteUsuario(int id) {
         if (!usuarioRepository.existsByIdAndAtivado(id)) {
             throw new RecordNotFoundException(id);

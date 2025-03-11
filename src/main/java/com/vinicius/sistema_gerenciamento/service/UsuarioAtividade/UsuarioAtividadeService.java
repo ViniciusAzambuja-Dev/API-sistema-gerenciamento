@@ -21,6 +21,12 @@ public class UsuarioAtividadeService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    /**
+     * Registra a associação entre uma atividade e uma lista de usuários (integrantes).
+     *
+     * @param atividade Atividade a ser associada.
+     * @param integrantesIds Lista de IDs dos usuários (integrantes) a serem associados à atividade.
+     */
     public void registrar(Atividade atividade, List<Integer> integrantesIds) {
         List<Usuario> integrantes = usuarioRepository.findAllById(integrantesIds);
 
