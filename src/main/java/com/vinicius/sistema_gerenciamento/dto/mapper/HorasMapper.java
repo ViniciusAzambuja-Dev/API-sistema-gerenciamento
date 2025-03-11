@@ -13,11 +13,13 @@ import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 public class HorasMapper {
     
     public LancamentoHora paraEntity(HorasRequestDTO data, Usuario usuario, Atividade atividade) {
-        if (data == null) {
-            return null;
-        }
-
-        return new LancamentoHora(data.descricao(), data.data_inicio(), data.data_fim(), atividade, usuario);
+        return new LancamentoHora(
+            data.descricao(), 
+            data.data_inicio(), 
+            data.data_fim(), 
+            atividade,
+            usuario
+        );
     }
 
     public HorasResponseDTO paraDTO(LancamentoHora horaLancada) {
@@ -28,7 +30,8 @@ public class HorasMapper {
             horaLancada.getData_fim(), 
             horaLancada.getData_registro(),
             horaLancada.getUsuario_responsavel().getNome(), 
-            horaLancada.getAtividade().getNome());
+            horaLancada.getAtividade().getNome()
+        );
     }
 
     public LancamentoHora atualizaParaEntity(LancamentoHora horaLancada, HorasUpdateDTO data) {

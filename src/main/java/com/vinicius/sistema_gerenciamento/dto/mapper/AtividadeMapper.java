@@ -13,18 +13,18 @@ import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 public class AtividadeMapper {
 
     public Atividade paraEntity(AtividadeRequestDTO data, Usuario usuario, Projeto projeto) {
-        if (data == null) {
-            return null;
-        }
-
-        return new Atividade(data.nome(), data.descricao(), data.data_inicio(), data.data_fim(), data.status(), projeto, usuario);
+        return new Atividade(
+            data.nome(), 
+            data.descricao(), 
+            data.data_inicio(), 
+            data.data_fim(), 
+            data.status(), 
+            projeto, 
+            usuario
+        );
     }
 
     public AtividadeResponseDTO paraDTO(Atividade atividade) {
-        if (atividade == null) {
-            return null;
-        }
-
         return new AtividadeResponseDTO(
             atividade.getId(),
             atividade.getNome(),

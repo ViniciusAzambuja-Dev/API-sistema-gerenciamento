@@ -12,10 +12,6 @@ import com.vinicius.sistema_gerenciamento.model.Usuario.Usuario;
 public class ProjetoMapper {
     
     public ProjetoResponseDTO paraDTO(Projeto projeto) {
-        if (projeto == null) {
-            return null;
-        }
-        
         return new ProjetoResponseDTO(
             projeto.getId(),
             projeto.getNome(), 
@@ -28,11 +24,15 @@ public class ProjetoMapper {
     }
 
     public Projeto paraEntity(ProjetoRequestDTO data, Usuario usuario) {
-        if (data == null) {
-            return null;
-        }
-
-        return new Projeto(data.nome(), data.descricao(), data.data_inicio(), data.data_fim(), data.status(), data.prioridade(), usuario);
+        return new Projeto(
+            data.nome(), 
+            data.descricao(), 
+            data.data_inicio(), 
+            data.data_fim(), 
+            data.status(), 
+            data.prioridade(), 
+            usuario
+        );
     }
 
     public Projeto atualizaParaEntity(Projeto projeto, ProjetoUpdateDTO data) {
