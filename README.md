@@ -25,6 +25,21 @@ Este projeto utiliza as seguintes tecnologias:
 - **Frontend:** Angular
 - **Backend:** Java Spring Boot
 - **Banco de Dados:** MySQL
+- **Gerenciamento de pacotes**: Maven
+
+## Dependências
+
+- **Spring Boot Starter Data JPA**  
+- **Spring Boot Starter Security**  
+- **Spring Boot Starter Web**  
+- **Spring Boot DevTools**  
+- **MySQL Connector/J**  
+- **Lombok**  
+- **Spring Boot Starter Test**  
+- **Spring Security Test**  
+- **Spring Boot Starter Validation**  
+- **Java JWT (Auth0)**  
+- **SpringDoc OpenAPI Starter WebMVC UI** 
 
 ## Instalação
 
@@ -52,7 +67,7 @@ cd API-sistema-gerenciamento
 
 Para configurar o banco de dados, você precisará ter: 
 - MySQL instalado na sua máquina.
-- Substituir o root e a senha no arquivo **application.properties**
+- Substituir o root e a senha no arquivo `application.properties`
 - Rodar na porta 3306.
 
 #### 2. Rodar a aplicação
@@ -60,12 +75,15 @@ Para configurar o banco de dados, você precisará ter:
 
 ### **Importante:**
 
-Login ADMIN:
-- Email: 'joao@workflow.com'
-- Senha: 123
+- Login ADMIN:
+    - Email: 'joao@workflow.com'
+    - Senha: 123
 
-Login USUARIO:
-- Email: 'maria@workflow.com'
-- Senha: 123
+- Login USUARIO:
+    - Email: 'maria@workflow.com'
+    - Senha: 123
+
+- Documentação da API: http://localhost:8080/swagger-ui.html
+
 
  **E-mails**, **senhas** e todos os dados pré-cadastrados podem ser encontrados diretamente no arquivo principal que roda a aplicação, localizado em `SistemaGerenciamentoApplication.java`. Se precisar verificar ou alterar as credenciais dos usuários, basta editar as variáveis nesse arquivo.
