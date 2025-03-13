@@ -34,8 +34,8 @@ Siga os passos abaixo para rodar o projeto localmente:
 
 Certifique-se de que você tem as seguintes ferramentas instaladas:
 
-- [Java 17](https://www.oracle.com/br/java/technologies/downloads/)
-- [MySQL](https://dev.mysql.com/downloads/installer/)
+- [Java 11.0.22 ou 17](https://www.oracle.com/br/java/technologies/downloads/)
+- [MySQL 8.0.34](https://dev.mysql.com/downloads/installer/)
 
 ### Configuração do Backend
 
@@ -59,5 +59,13 @@ Para configurar o banco de dados, você precisará ter:
 - Após configurar o Banco de dados, rode a aplicação e automaticamente registros pré-cadastrados serão criados.
 
 ### **Importante:**
+
+Login ADMIN:
+- Email: 'joao@workflow.com'
+- Senha: 123
+
+Login USUARIO:
+- Email: 'maria@workflow.com'
+- Senha: 123
 
  **E-mails**, **senhas** e todos os dados pré-cadastrados podem ser encontrados diretamente no arquivo principal que roda a aplicação, localizado em `SistemaGerenciamentoApplication.java`. Se precisar verificar ou alterar as credenciais dos usuários, basta editar as variáveis nesse arquivo.
